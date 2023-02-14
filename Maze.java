@@ -4,8 +4,16 @@ public class Maze {
     private int moves;
     private Chamber rootChamber;
     private Chamber solutionChamber;
-    Maze(){
-
+    public Maze(String difficulty){
+        if (difficulty.equals("easy")){
+            chambers = new Chamber[4][4][4];
+        }
+        else if (difficulty.equals("medium")){
+            chambers = new Chamber[5][5][5];
+        }
+        else{
+            chambers = new Chamber[5][5][5];
+        }
     }
     public Chamber getChamberAt(Coordinate coord){
 
@@ -20,7 +28,7 @@ public class Maze {
         return solutionChamber;
     }
     public int getMoves(){
-
+        return moves;
     }
     public Chamber setChamber(Coordinate){
 

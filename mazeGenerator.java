@@ -1,7 +1,7 @@
 public class mazeGenerator {
     private String difficulty;
     private Maze generatedMaze;
-    mazeGenerator(String difficulty){
+    public mazeGenerator(String difficulty){
         this.difficulty = difficulty;
         if (difficulty.equals("easy")){
             easy();
