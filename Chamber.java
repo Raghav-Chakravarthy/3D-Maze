@@ -6,7 +6,7 @@ public class Chamber {
     private WallArt wallArt;
     private Coordinate coordinates;
     public Chamber() {
-
+        adjacentChambers = new Chamber[6];
     }
     public Color getWallColor() {
         return wallColor;
