@@ -12,7 +12,7 @@ public class Maze {
             chambers = new Chamber[5][5][5];
         }
         else{
-            chambers = new Chamber[5][5][5];
+            chambers = new Chamber[6][6][6];
         }
     }
     public Chamber getChamberAt(Coordinate coord){
