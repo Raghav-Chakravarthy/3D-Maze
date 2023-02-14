@@ -9,7 +9,7 @@ public class Chamber {
 
     }
     public WallArt getWallArt() {
-
+        return wallArt;
     }
     public void setWallArt(WallArt art) {
         wallArt = art;
