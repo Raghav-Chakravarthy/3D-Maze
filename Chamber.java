@@ -8,6 +8,12 @@ public class Chamber {
     public Chamber() {
 
     }
+    public Color getWallColor() {
+        return wallColor;
+    }
+    public void setWallColor(Color c) {
+        wallColor = c;
+    }
     public WallArt getWallArt() {
         return wallArt;
     }
