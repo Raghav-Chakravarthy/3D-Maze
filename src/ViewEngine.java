@@ -11,6 +11,7 @@ public class ViewEngine{
 
     public void setup(){
         frame = new JFrame();
+        gameView = "mainview";
         //introDisplay = new MenuView();
         mainPanel.setLayout(null);
 		mainPanel.setSize(frame.getSize());
@@ -19,5 +20,49 @@ public class ViewEngine{
 		frame.setLayout(null);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public void changeView(String newView){
+        if(newView.equals("chamberview")){
+            if(gameView.equals("mainview")){
+                mainViewToChamberView();
+            } else if(gameView.equals("mapview")){
+                mapViewToChamberView();
+            }
+        } else if(newView.equals("mapview")){
+            if(gameView.equals("chamberview")){
+                chamberViewToMapView();
+            }
+        } else if(newView.equals("endview")){
+            if(gameView.equals("chamberview")){
+                chamberViewToEndView();
+            }
+        } else if(newView.equals("close")){
+            if(gameView.equals("endview")){
+                endViewToClose();
+            }
+        } 
+    }
+
+    private void mainViewToChamberView(){
+        mainPanel.remove(introDisplay);
+        //chamberView = new ChamberView();
+       // mainPanel.add(chamberView);
+    } 
+
+    private void chamberViewToMapView(){
+
+    }
+
+    private void mapViewToChamberView(){
+        
+    }
+
+    private void chamberViewToEndView(){
+
+    }
+
+    private void endViewToClose(){
+
     }
 }
