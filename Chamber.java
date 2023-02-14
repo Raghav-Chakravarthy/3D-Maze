@@ -38,4 +38,10 @@ public class Chamber {
     public void setChambers (Chamber[] chambers) {
         adjacentChambers = chambers;
     }
+    public Coordinate getCoordinates() {
+        return coordinates;
+    }
+    public void setCoordinates(Coordinate c) {
+        coordinates = c
+    }
 }
