@@ -16,10 +16,10 @@ public class Maze {
         }
     }
     public Chamber getChamberAt(Coordinate coord){
-
+        return chambers[coord.getLevel()][coord.getRow()][coord.getColumn()];
     }
     public Chamber[][] getLevel(int z){
-
+        return chambers[z];
     }
     public Chamber getRootChamber(){
         return rootChamber;
@@ -31,6 +31,6 @@ public class Maze {
         return moves;
     }
     public Chamber setChamber(Coordinate coord){
-
+        
     }
 }
