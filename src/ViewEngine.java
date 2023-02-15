@@ -47,22 +47,27 @@ public class ViewEngine{
     private void mainViewToChamberView(){
         mainPanel.remove(introDisplay);
         //chamberView = new ChamberView();
-       // mainPanel.add(chamberView);
+        //mainPanel.add(chamberView);
     } 
 
     private void chamberViewToMapView(){
-
+        //mainPanel.remove(chamberView);
+        //mapView = new MapView();
+        //mainPanel.add(mapView);
     }
 
     private void mapViewToChamberView(){
-        
+        //mainPanel.remove(mapView);
+        //mainPanel.add(chamberView);
     }
 
     private void chamberViewToEndView(){
-
+        //endView = new EndView();
+        //mainPanel.remove(chamberView);
+        //mainPanel.add(endView);
     }
 
     private void endViewToClose(){
-
+        frame.dispose();
     }
 }
