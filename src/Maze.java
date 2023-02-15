@@ -30,7 +30,7 @@ public class Maze {
     public int getMoves(){
         return moves;
     }
-    public Chamber setChamber(Coordinate coord){
-
+    public void setChamber(Coordinate coord, Chamber chamber){
+        chambers[coord.getLevel()][coord.getRow()][coord.getColumn()] = chamber;
     }
 }
