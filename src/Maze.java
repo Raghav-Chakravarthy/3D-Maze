@@ -31,6 +31,6 @@ public class Maze {
         return moves;
     }
     public Chamber setChamber(Coordinate coord){
-        
+
     }
 }
