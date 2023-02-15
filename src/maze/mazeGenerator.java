@@ -1,3 +1,4 @@
+package maze;
 public class mazeGenerator {
     private String difficulty;
     private Maze generatedMaze;

@@ -1,6 +1,4 @@
 package rendering;
-import java.awt.event.KeyEvent;
-
 public class FreeCamera extends Camera {
 	private float camMoveSpeed = 0.05f;
 	

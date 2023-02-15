@@ -1,3 +1,4 @@
+package maze;
 public class Maze {
     private int mazeSize;
     private Chamber[][][] chambers;

@@ -1,5 +1,11 @@
 package rendering;
 import java.util.ArrayList;
+import maze.Chamber;
+import maze.Coordinate;
+import utils.Direction;
+import java.awt.image.BufferedImage;
+import java.awt.Color;
+import java.awt.Graphics2D;
 
 public class Scene {
 	private ArrayList<SceneObject> objects;
@@ -9,8 +15,47 @@ public class Scene {
 		objects = new ArrayList<SceneObject>();
 		lights = new ArrayList<Light>();
 	}
+
 	
 	//TODO: Alternate chamber constructor
+	public Scene(Chamber[] chambers) {
+		BufferedImage placeholder = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = (Graphics2D) placeholder.getGraphics();
+		g.setColor(Color.ORANGE);
+		g.fillRect(0, 0, 10, 10);
+
+		for(Chamber chamber : chambers) {
+			Coordinate coord = chamber.getCoordinates();
+			
+			Vector3 center = new Vector3(coord);
+
+			for(int dir = 0; dir < 6; dir++) {
+				if(chamber.getAdjacentChamber(dir) == null) {
+					addObject(createWall(dir, center, new ImageTexture(placeholder)));
+				} else {
+					
+				}
+			}
+		}
+	}
+
+	private Quad createWall(int dir, Vector3 center, ImageTexture art) {
+		if(dir == Direction.NORTH) {
+			return new Quad(new Vector3(0,0,-1), center.add(new Vector3(0,0,1)), art, 2, 2);
+		} else if(dir == Direction.SOUTH) {
+			return new Quad(new Vector3(0,0,1), center.add(new Vector3(0,0,-1)), art, 2, 2);
+		} else if(dir == Direction.EAST) {
+			return new Quad(new Vector3(-1,0,0), center.add(new Vector3(1,0,0)), art, 2, 2);
+		} else if(dir == Direction.WEST) {
+			return new Quad(new Vector3(1,0,-1), center.add(new Vector3(-1,0,0)), art, 2, 2);
+		} else if(dir == Direction.UP) {
+			return new Quad(new Vector3(0,-1,0), center.add(new Vector3(0,1,0)), art, 2, 2);
+		} else if(dir == Direction.DOWN) {
+			return new Quad(new Vector3(0,1,0), center.add(new Vector3(0,-1,1)), art, 2, 2);
+		} else {
+			return null;
+		}
+	}
 	
 	public void update(float dt) {
 		for(SceneObject obj : objects) {
