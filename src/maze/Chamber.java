@@ -1,5 +1,6 @@
 package maze;
 import java.awt.Color;
+
 public class Chamber {
     private Color wallColor;
     private boolean visited;
