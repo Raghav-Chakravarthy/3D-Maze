@@ -19,6 +19,9 @@ public class Scene {
 	
 	//TODO: Alternate chamber constructor
 	public Scene(Chamber[] chambers) {
+		objects = new ArrayList<SceneObject>();
+		lights = new ArrayList<Light>();
+
 		BufferedImage placeholder = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = (Graphics2D) placeholder.getGraphics();
 		g.setColor(Color.ORANGE);
@@ -28,13 +31,14 @@ public class Scene {
 			Coordinate coord = chamber.getCoordinates();
 			
 			Vector3 center = new Vector3(coord);
+			System.out.println(center);
+
+			addLight(new PointLight(center, new Vector3(1)));
 
 			for(int dir = 0; dir < 6; dir++) {
-				if(chamber.getAdjacentChamber(dir) == null) {
-					addObject(createWall(dir, center, new ImageTexture(placeholder)));
-				} else {
-					
-				}
+				
+				addObject(createWall(dir, center, new ImageTexture(placeholder)));
+				
 			}
 		}
 	}
@@ -47,11 +51,11 @@ public class Scene {
 		} else if(dir == Direction.EAST) {
 			return new Quad(new Vector3(-1,0,0), center.add(new Vector3(1,0,0)), art, 2, 2);
 		} else if(dir == Direction.WEST) {
-			return new Quad(new Vector3(1,0,-1), center.add(new Vector3(-1,0,0)), art, 2, 2);
+			return new Quad(new Vector3(1,0,0), center.add(new Vector3(-1,0,0)), art, 2, 2);
 		} else if(dir == Direction.UP) {
 			return new Quad(new Vector3(0,-1,0), center.add(new Vector3(0,1,0)), art, 2, 2);
 		} else if(dir == Direction.DOWN) {
-			return new Quad(new Vector3(0,1,0), center.add(new Vector3(0,-1,1)), art, 2, 2);
+			return new Quad(new Vector3(0,1,0), center.add(new Vector3(0,-1,0)), art, 2, 2);
 		} else {
 			return null;
 		}

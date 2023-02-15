@@ -3,12 +3,12 @@ public class Camera {
 	private Vector3 position;
 	private Vector3 direction;
 	private float pitch = 0;
-	private float yaw = 0;
+	private float yaw = 90;
 	private float nearPlane;
 	private Vector3 viewportSize;
 	
 	public Camera() {
-		this.position = new Vector3(0, 0, -2);
+		this.position = new Vector3(0, 0, 0);
 		setRotation(pitch, yaw);
 		this.viewportSize = new Vector3(2*(16f/9), 2, 0);
 		this.nearPlane = 1;
