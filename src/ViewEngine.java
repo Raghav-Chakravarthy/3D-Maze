@@ -44,6 +44,10 @@ public class ViewEngine{
         } 
     }
 
+    public String getGameView(){
+        return gameView;
+    }
+
     private void mainViewToChamberView(){
         mainPanel.remove(introDisplay);
         //chamberView = new ChamberView();
