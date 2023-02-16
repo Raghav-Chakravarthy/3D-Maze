@@ -10,10 +10,10 @@ public class ChamberView extends JPanel {
     private BufferedImage frameImage = new BufferedImage(720,720,BufferedImage.TYPE_INT_RGB);
     private BufferedImage headerImage = new BufferedImage(720,120,BufferedImage.TYPE_INT_ARGB);
     //TODO: everything...
-    public ChamberView(/*Chamber chamber, */BackendEngine backendEngine){
+    public ChamberView(Chamber chamber, BackendEngine backendEngine){
         this.backendEngine = backendEngine;
     }
-    private void setChamber(/*Chamber chamber*/){
+    private void setChamber(Chamber chamber){
 
     }
     private void moveForward(){
@@ -36,7 +36,7 @@ public class ChamberView extends JPanel {
     }
     public void paintComponent(Graphics g){
         //render the current scene stuff
-        //Header.drawHeader(headerImage)
+        Header.drawHeader(headerImage,backendEngine.getMoves(),backendEngine.getChamber().getCoordinates(),backendEngine.getDirection());
         drawArrows(frameImage);
         g.drawImage(frameImage,0,0,null);
         g.drawImage(headerImage,0,0,null);
