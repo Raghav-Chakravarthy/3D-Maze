@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +18,10 @@ public class Test {
     public static void main(String[] args) {
         Chamber chamber = new Chamber();
         chamber.setCoordinates(new Coordinate(0, 0, 0));
+        chamber.setWallColor(Color.PINK);
+        chamber.setChambers(new Chamber[] {
+            null, null, new Chamber(), new Chamber(), null, new Chamber()
+        });
        
         Scene scene = new Scene(new Chamber[] {
             chamber
@@ -28,7 +33,7 @@ public class Test {
         BufferedImage render = new BufferedImage(720,720,BufferedImage.TYPE_INT_RGB);
 
         Renderer.renderTo(scene, cam, render);
-        File out = new File("test.png");
+        File out = new File("out/test.png");
         try {
             ImageIO.write(render, "png", out);
         } catch(IOException e) {
