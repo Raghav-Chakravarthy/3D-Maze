@@ -42,6 +42,6 @@ public class Chamber {
         return coordinates;
     }
     public void setCoordinates(Coordinate c) {
-        coordinates = c
+        coordinates = c;
     }
 }

@@ -1,10 +1,10 @@
 public class BackendEngine {
 
     private ViewEngine viewEngine;
-    private int currentMoves, direction, minMoves, finalScore;
+    private int currentMoves = 0, direction = Direction.EAST, minMoves, finalScore;
     private Maze gameMaze;
     private Chamber currentChamber, solutionChamber;
-    private String gameMode;
+    private String gameMode, difficulty;
 
     public BackendEngine(){
         viewEngine = new ViewEngine();
@@ -21,8 +21,21 @@ public class BackendEngine {
         return direction;
     }
 
-    public void setDirection(int Direction){
-        this.direction = Direction;
+    public Chamber getChamber(){
+        return currentChamber;
+    }
+
+    public String getDifficulty(){
+        return this.difficulty;
+    }
+
+    public void setDifficulty(String difficulty){
+        this.difficulty = difficulty;
+        startMaze(difficulty);
+    }
+
+    public void setDirection(int direction){
+        this.direction = direction;
     }
 
     public void move(int direction){
@@ -30,18 +43,16 @@ public class BackendEngine {
         currentChamber = currentChamber.getAdjacentChamber(direction);
     }
 
-    // Create maze
     public void startMaze(String difficulty){
-        //TODO: Do once generator done
-    }
-
-    public Chamber getChamber(){
-        return currentChamber;
-    }
+        MazeGenerator m = new MazeGenerator(difficulty);
+        this.gameMaze = m.getMaze();
+    } 
 
     public void changeView(String newView){
         if(newView.equals("chamberview")){
             if(viewEngine.getGameView().equals("mainview")){
+                this.viewEngine.setChamberView(new ChamberView(this.gameMaze.getRootChamber(), this));
+                this.viewEngine.changeView("chamberview");
             } else if(viewEngine.getGameView().equals("mapview")){
             }
         } else if(newView.equals("mapview")){

@@ -22,6 +22,14 @@ public class ViewEngine{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    public void setChamberView(ChamberView chamberView){
+        this.chamberDisplay = chamberView;
+    }
+
+    public void setMapView(MapView mapView){
+        this.mapDisplay = mapView;
+    }
+
     public void changeView(String newView){
         if(newView.equals("chamberview")){
             if(gameView.equals("mainview")){
@@ -50,14 +58,12 @@ public class ViewEngine{
 
     private void mainViewToChamberView(){
         mainPanel.remove(introDisplay);
-        //chamberView = new ChamberView();
-        //mainPanel.add(chamberView);
+        mainPanel.add(chamberDisplay);
     } 
 
     private void chamberViewToMapView(){
-        //mainPanel.remove(chamberView);
-        //mapView = new MapView();
-        //mainPanel.add(mapView);
+        mainPanel.remove(chamberDisplay);
+        mainPanel.add(mapDisplay);
     }
 
     private void mapViewToChamberView(){
