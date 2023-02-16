@@ -1,12 +1,31 @@
 public class BackendEngine {
-    private static ViewEngine viewEngine;
-    private static BackendEngine backend;
+    private ViewEngine viewEngine;
+    private int currentMoves, direction;
 
     public BackendEngine(){
         viewEngine = new ViewEngine();
+        currentMoves = 0;
     }
     public static void main(String[] args){
-        backend = new BackendEngine();
+        BackendEngine backend = new BackendEngine();
+    }
+
+    public int getMoves(){
+        return currentMoves;
+    }
+
+    public int getDirection(){
+        return direction;
+    }
+
+    public void setDirection(int newDirection){
+        direction = newDirection;
+    }
+
+    public void move(int direction){
+        currentMoves += 1;
+        setDirection(direction);
+        
     }
 
     public void changeView(String newView){
