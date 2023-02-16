@@ -29,7 +29,7 @@ public class Chamber {
     public Chamber getAdjacentChamber(int index) {
         return adjacentChambers[index];
     }
-    public Chamber setAdjacentChamber(int index, Chamber c) {
+    public void setAdjacentChamber(int index, Chamber c) {
         adjacentChambers[index] = c;
     }
     public Chamber[] getChambers() {
@@ -42,6 +42,6 @@ public class Chamber {
         return coordinates;
     }
     public void setCoordinates(Coordinate c) {
-        coordinates = c
+        coordinates = c;
     }
 }
