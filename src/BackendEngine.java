@@ -1,14 +1,13 @@
 public class BackendEngine {
 
     private ViewEngine viewEngine;
-    private int currentMoves, direction, minMoves, finalScore;
+    private int currentMoves = 0, direction = Direction.EAST, minMoves, finalScore;
     private Maze gameMaze;
     private Chamber currentChamber, solutionChamber;
     private String gameMode;
 
     public BackendEngine(){
         viewEngine = new ViewEngine();
-        currentMoves = 0;
     }
     public static void main(String[] args){
         BackendEngine backend = new BackendEngine();
@@ -22,23 +21,22 @@ public class BackendEngine {
         return direction;
     }
 
-    public void setDirection(int newDirection){
-        direction = newDirection;
+    public void setDirection(int Direction){
+        this.direction = Direction;
     }
 
     public void move(int direction){
         currentMoves += 1;
-        setDirection(direction);
-        
+        currentChamber = currentChamber.getAdjacentChamber(direction);
     }
 
     // Create maze
     public void startMaze(String difficulty){
-
+        //TODO: Do once generator done
     }
 
     public Chamber getChamber(){
-        return null;
+        return currentChamber;
     }
 
     public void changeView(String newView){
