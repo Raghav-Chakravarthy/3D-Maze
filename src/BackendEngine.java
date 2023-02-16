@@ -1,14 +1,13 @@
 public class BackendEngine {
 
     private ViewEngine viewEngine;
-    private int currentMoves, direction, minMoves, finalScore;
+    private int currentMoves = 0, direction = Direction.NORTH, minMoves, finalScore;
     private Maze gameMaze;
     private Chamber currentChamber, solutionChamber;
     private String gameMode;
 
     public BackendEngine(){
         viewEngine = new ViewEngine();
-        currentMoves = 0;
     }
     public static void main(String[] args){
         BackendEngine backend = new BackendEngine();
