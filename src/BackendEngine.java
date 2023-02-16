@@ -1,7 +1,10 @@
 public class BackendEngine {
 
     private ViewEngine viewEngine;
-    private int currentMoves, direction;
+    private int currentMoves, direction, minMoves, finalScore;
+    private Maze gameMaze;
+    private Chamber currentChamber, solutionChamber;
+    private String gameMode;
 
     public BackendEngine(){
         viewEngine = new ViewEngine();
@@ -27,6 +30,15 @@ public class BackendEngine {
         currentMoves += 1;
         setDirection(direction);
         
+    }
+
+    // Create maze
+    public void startMaze(String difficulty){
+
+    }
+
+    public Chamber getChamber(){
+        return null;
     }
 
     public void changeView(String newView){
