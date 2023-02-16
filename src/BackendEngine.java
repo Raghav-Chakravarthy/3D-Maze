@@ -54,15 +54,20 @@ public class BackendEngine {
                 this.viewEngine.setChamberView(new ChamberView(this.gameMaze.getRootChamber(), this));
                 this.viewEngine.changeView("chamberview");
             } else if(viewEngine.getGameView().equals("mapview")){
+                this.viewEngine.changeView("chamberview");
             }
         } else if(newView.equals("mapview")){
             if(viewEngine.getGameView().equals("chamberview")){
+                //this.viewEngine.setMapView(new MapView(this.gameMaze.getRootChamber(), ));
+                this.viewEngine.changeView("mapview");
             }
         } else if(newView.equals("endview")){
             if(viewEngine.getGameView().equals("chamberview")){
+                this.viewEngine.changeView("endview");
             }
         } else if(newView.equals("close")){
             if(viewEngine.getGameView().equals("endview")){
+                this.viewEngine.changeView("close");
             }
         } 
     }
