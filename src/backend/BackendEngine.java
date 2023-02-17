@@ -1,11 +1,8 @@
 package backend;
-import frontend.ChamberView;
-import maze.Maze;
-import utils.Direction;
-import maze.Chamber;
-import maze.MazeGenerator;
 
-
+import frontend.*;
+import maze.*;
+import utils.*;
 
 public class BackendEngine {
 
