@@ -69,6 +69,9 @@ public class MazeGenerator {
                     connections.get(coord.getLevel()).get(coord.getRow()).get(coord.getColumn()).add(
                             new Coordinate(coord.getLevel(), coord.getRow() - 1, coord.getColumn())
                     );
+                    connections.get(coord.getLevel()).get(coord.getRow() - 1).get(coord.getColumn()).add(
+                            new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn())
+                    );
                     hard(new Coordinate(coord.getLevel(), coord.getRow() - 1, coord.getColumn()));
                 }
             }
@@ -76,6 +79,9 @@ public class MazeGenerator {
                 if (coord.getColumn() + 1 < 6 &&!visited[coord.getLevel()][coord.getRow()][coord.getColumn() + 1]){
                     connections.get(coord.getLevel()).get(coord.getRow()).get(coord.getColumn()).add(
                             new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn() + 1)
+                    );
+                    connections.get(coord.getLevel()).get(coord.getRow()).get(coord.getColumn() + 1).add(
+                            new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn())
                     );
                     hard(new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn() + 1));
                 }
@@ -85,6 +91,9 @@ public class MazeGenerator {
                     connections.get(coord.getLevel()).get(coord.getRow()).get(coord.getColumn()).add(
                             new Coordinate(coord.getLevel(), coord.getRow() + 1, coord.getColumn())
                     );
+                    connections.get(coord.getLevel()).get(coord.getRow() + 1).get(coord.getColumn()).add(
+                            new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn())
+                    );
                     hard(new Coordinate(coord.getLevel(), coord.getRow() + 1, coord.getColumn()));
                 }
             }
@@ -93,12 +102,18 @@ public class MazeGenerator {
                     connections.get(coord.getLevel()).get(coord.getRow()).get(coord.getColumn()).add(
                             new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn() - 1)
                     );
+                    connections.get(coord.getLevel()).get(coord.getRow()).get(coord.getColumn() - 1).add(
+                            new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn())
+                    );
                     hard(new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn() - 1));
                 }
             }
             if (directions.get(i) == 'T'){
                 if (coord.getLevel() - 1 >= 0 &&!visited[coord.getLevel() - 1][coord.getRow()][coord.getColumn()]){
                     connections.get(coord.getLevel()).get(coord.getRow()).get(coord.getColumn()).add(
+                            new Coordinate(coord.getLevel() - 1, coord.getRow(), coord.getColumn())
+                    );
+                    connections.get(coord.getLevel() - 1).get(coord.getRow()).get(coord.getColumn()).add(
                             new Coordinate(coord.getLevel() - 1, coord.getRow(), coord.getColumn())
                     );
                     hard(new Coordinate(coord.getLevel() - 1, coord.getRow(), coord.getColumn()));
@@ -109,7 +124,19 @@ public class MazeGenerator {
                     connections.get(coord.getLevel()).get(coord.getRow()).get(coord.getColumn()).add(
                             new Coordinate(coord.getLevel() + 1, coord.getRow(), coord.getColumn())
                     );
+                    connections.get(coord.getLevel() + 1).get(coord.getRow()).get(coord.getColumn()).add(
+                            new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn())
+                    );
                     hard(new Coordinate(coord.getLevel() + 1, coord.getRow(), coord.getColumn()));
+                }
+            }
+        }
+    }
+    public void toMaze(){
+        for (int i = 0; i < 6; i++){
+            for (int j = 0; j < 6; j++) {
+                for (int k = 0; k < 6; k++){
+                    //generatedMaze.setChamber(new Coordinate(i, j, k), );
                 }
             }
         }
