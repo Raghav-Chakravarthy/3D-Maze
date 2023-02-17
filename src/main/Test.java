@@ -20,7 +20,7 @@ public class Test {
         chamber.setCoordinates(new Coordinate(0, 0, 0));
         chamber.setWallColor(Color.PINK);
         chamber.setChambers(new Chamber[] {
-            null, null, new Chamber(), new Chamber(), null, new Chamber()
+            new Chamber(), new Chamber(), null, new Chamber(), null, new Chamber()
         });
        
         Scene scene = new Scene(new Chamber[] {
