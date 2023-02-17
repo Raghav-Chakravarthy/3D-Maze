@@ -32,7 +32,8 @@ public class BackendEngine {
 
     public void setDifficulty(String difficulty){
         this.difficulty = difficulty;
-        startMaze(difficulty);
+        MazeGenerator m = new MazeGenerator(difficulty);
+        this.gameMaze = m.getMaze();
     }
 
     public void setDirection(int direction){
@@ -44,11 +45,6 @@ public class BackendEngine {
         currentChamber = currentChamber.getAdjacentChamber(direction);
     }
 
-    public void startMaze(String difficulty){
-        MazeGenerator m = new MazeGenerator(difficulty);
-        this.gameMaze = m.getMaze();
-    } 
-
     public void changeView(String newView){
         if(newView.equals("chamberview")){
             if(viewEngine.getGameView().equals("mainview")){
@@ -59,7 +55,7 @@ public class BackendEngine {
             }
         } else if(newView.equals("mapview")){
             if(viewEngine.getGameView().equals("chamberview")){
-                this.viewEngine.setMapView(new MapView(this.gameMaze.getLevel(this.currentChamber.getCoordinates().getLevel()), viewEngine.getChamberView()));
+                this.viewEngine.setMapView(new MapView(this.gameMaze.getLevel(this.currentChamber.getCoordinates().getLevel()), this));
                 this.viewEngine.changeView("mapview");
             }
         } else if(newView.equals("endview")){
