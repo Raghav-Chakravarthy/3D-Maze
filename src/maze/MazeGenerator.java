@@ -1,3 +1,7 @@
+<<<<<<< HEAD:src/MazeGenerator.java
+=======
+package maze;
+>>>>>>> 525f5173955354b6602de3c628ecfe78788b125c:src/maze/MazeGenerator.java
 public class MazeGenerator {
     private String difficulty;
     private Maze generatedMaze;

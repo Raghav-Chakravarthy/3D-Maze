@@ -27,8 +27,6 @@ public class Quad extends Plane {
 			float y = v.dot(p.subtract(position()));
 					
 			if(x < width/2f && y < height/2f && x > -width/2f && y > -height/2f) {
-				
-				
 				return p;
 			}
 		}
@@ -60,7 +58,6 @@ public class Quad extends Plane {
 
 	@Override
 	public float shininess() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

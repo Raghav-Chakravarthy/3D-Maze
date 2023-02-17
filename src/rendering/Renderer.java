@@ -107,7 +107,7 @@ public class Renderer {
 	}
 	
 	public void setNumBounce(int n) {
-		this.numBounce = n;
+		numBounce = n;
 	}
 	
 	public int getNumBounce() {
