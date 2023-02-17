@@ -32,7 +32,16 @@ public class ChamberView extends JPanel {
 
     }
     private void drawArrows(BufferedImage image){
-
+        boolean drawForward=false,drawUp=false,drawDown=false;
+        if(backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())!=null){
+            drawForward=true;
+        }
+        if(backendEngine.getChamber().getAdjacentChamber(Direction.UP)!=null){
+            drawUp=true;
+        }
+        if(backendEngine.getChamber().getAdjacentChamber(Direction.DOWN)!=null){
+            drawDown=true;
+        }
     }
     public void paintComponent(Graphics g){
         //render the current scene stuff

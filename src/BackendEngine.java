@@ -5,6 +5,7 @@ public class BackendEngine {
     private Maze gameMaze;
     private Chamber currentChamber, solutionChamber;
     private String gameMode;
+    String difficulty;
 
     public BackendEngine(){
         viewEngine = new ViewEngine();
@@ -31,8 +32,8 @@ public class BackendEngine {
     }
 
     // Create maze
-    public void startMaze(String difficulty){
-        //TODO: Do once generator done
+    public void setDifficulty(String difficulty){
+        this.difficulty = difficulty;
     }
 
     public Chamber getChamber(){
