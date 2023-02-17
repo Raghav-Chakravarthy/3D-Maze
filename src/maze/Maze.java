@@ -17,10 +17,10 @@ public class Maze {
         }
     }
     public Chamber getChamberAt(Coordinate coord){
-
+        return null;
     }
     public Chamber[][] getLevel(int z){
-
+        return null;
     }
     public Chamber getRootChamber(){
         return rootChamber;
@@ -32,6 +32,6 @@ public class Maze {
         return moves;
     }
     public Chamber setChamber(Coordinate coord){
-
+        return null;
     }
 }
