@@ -1,3 +1,8 @@
+package backend;
+
+import frontend.*;
+import maze.*;
+
 public class BackendEngine {
 
     private ViewEngine viewEngine;
