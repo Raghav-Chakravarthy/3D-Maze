@@ -1,4 +1,6 @@
 package backend;
+import frontend.*;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 public class ViewEngine{
