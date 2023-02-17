@@ -1,6 +1,5 @@
 package backend;
-
-import frontend.ChamberView;
+import frontend.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

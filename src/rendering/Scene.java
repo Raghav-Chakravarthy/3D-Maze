@@ -33,7 +33,7 @@ public class Scene {
 			Vector3 center = new Vector3(coord);
 			System.out.println(center);
 
-			addLight(new PointLight(center.add(new Vector3(0,0.5f,0)), new Vector3(1f)));
+			addLight(new PointLight(center.add(new Vector3(0,0.75f,0)), new Vector3(1f)));
 
 			for(int dir = 0; dir < 6; dir++) {
 				if(chamber.getAdjacentChamber(dir) == null) {
