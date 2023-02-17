@@ -30,6 +30,10 @@ public class ViewEngine{
         this.mapDisplay = mapView;
     }
 
+    public JPanel getChamberView(){
+        return this.chamberDisplay;
+    }
+
     public void changeView(String newView){
         if(newView.equals("chamberview")){
             if(gameView.equals("mainview")){
@@ -67,14 +71,14 @@ public class ViewEngine{
     }
 
     private void mapViewToChamberView(){
-        //mainPanel.remove(mapView);
-        //mainPanel.add(chamberView);
+        mainPanel.remove(mapDisplay);
+        mainPanel.add(chamberDisplay);
     }
 
     private void chamberViewToEndView(){
-        //endView = new EndView();
-        //mainPanel.remove(chamberView);
-        //mainPanel.add(endView);
+        endDisplay = new EndView();
+        mainPanel.remove(chamberDisplay);
+        mainPanel.add(endDisplay);
     }
 
     private void endViewToClose(){

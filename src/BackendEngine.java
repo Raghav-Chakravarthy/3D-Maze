@@ -5,6 +5,7 @@ public class BackendEngine {
     private Maze gameMaze;
     private Chamber currentChamber, solutionChamber;
     private String gameMode, difficulty;
+    private boolean accessMapView = false;
 
     public BackendEngine(){
         viewEngine = new ViewEngine();
@@ -58,7 +59,7 @@ public class BackendEngine {
             }
         } else if(newView.equals("mapview")){
             if(viewEngine.getGameView().equals("chamberview")){
-                //this.viewEngine.setMapView(new MapView(this.gameMaze.getRootChamber(), ));
+                this.viewEngine.setMapView(new MapView(this.gameMaze.getLevel(this.currentChamber.getCoordinates().getLevel()), viewEngine.getChamberView()));
                 this.viewEngine.changeView("mapview");
             }
         } else if(newView.equals("endview")){
