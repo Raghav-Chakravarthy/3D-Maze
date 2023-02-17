@@ -1,5 +1,6 @@
 package main;
 
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -18,7 +19,7 @@ public class Test {
     public static void main(String[] args) {
         Chamber chamber = new Chamber();
         chamber.setCoordinates(new Coordinate(0, 0, 0));
-        chamber.setWallColor(Color.PINK);
+        chamber.setWallColor(Color.ORANGE);
         chamber.setChambers(new Chamber[] {
             new Chamber(), new Chamber(), null, new Chamber(), null, new Chamber()
         });
