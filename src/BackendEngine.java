@@ -4,8 +4,7 @@ public class BackendEngine {
     private int currentMoves = 0, direction = Direction.EAST, minMoves, finalScore;
     private Maze gameMaze;
     private Chamber currentChamber, solutionChamber;
-    private String gameMode;
-    String difficulty;
+    private String gameMode, difficulty;
 
     public BackendEngine(){
         viewEngine = new ViewEngine();
@@ -22,8 +21,22 @@ public class BackendEngine {
         return direction;
     }
 
-    public void setDirection(int Direction){
-        this.direction = Direction;
+    public Chamber getChamber(){
+        return currentChamber;
+    }
+
+    public String getDifficulty(){
+        return this.difficulty;
+    }
+
+    public void setDifficulty(String difficulty){
+        this.difficulty = difficulty;
+        MazeGenerator m = new MazeGenerator(difficulty);
+        this.gameMaze = m.getMaze();
+    }
+
+    public void setDirection(int direction){
+        this.direction = direction;
     }
 
     public void move(int direction){
@@ -31,28 +44,26 @@ public class BackendEngine {
         currentChamber = currentChamber.getAdjacentChamber(direction);
     }
 
-    // Create maze
-    public void setDifficulty(String difficulty){
-        this.difficulty = difficulty;
-    }
-
-    public Chamber getChamber(){
-        return currentChamber;
-    }
-
     public void changeView(String newView){
         if(newView.equals("chamberview")){
             if(viewEngine.getGameView().equals("mainview")){
+                this.viewEngine.setChamberView(new ChamberView(this.gameMaze.getRootChamber(), this));
+                this.viewEngine.changeView("chamberview");
             } else if(viewEngine.getGameView().equals("mapview")){
+                this.viewEngine.changeView("chamberview");
             }
         } else if(newView.equals("mapview")){
             if(viewEngine.getGameView().equals("chamberview")){
+                this.viewEngine.setMapView(new MapView(this.gameMaze.getLevel(this.currentChamber.getCoordinates().getLevel()), this));
+                this.viewEngine.changeView("mapview");
             }
         } else if(newView.equals("endview")){
             if(viewEngine.getGameView().equals("chamberview")){
+                this.viewEngine.changeView("endview");
             }
         } else if(newView.equals("close")){
             if(viewEngine.getGameView().equals("endview")){
+                this.viewEngine.changeView("close");
             }
         } 
     }
