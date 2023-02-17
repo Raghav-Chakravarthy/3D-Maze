@@ -65,7 +65,7 @@ public class MazeGenerator {
         Collections.shuffle(directions);
         for (int i = 0; i < 6; i++){
             if (directions.get(i) == 'N'){
-                if (!visited[coord.getLevel()][coord.getRow() - 1][coord.getColumn()]){
+                if (coord.getRow() - 1 >= 0 &&!visited[coord.getLevel()][coord.getRow() - 1][coord.getColumn()]){
                     connections.get(coord.getLevel()).get(coord.getRow()).get(coord.getColumn()).add(
                             new Coordinate(coord.getLevel(), coord.getRow() - 1, coord.getColumn())
                     );
@@ -73,7 +73,7 @@ public class MazeGenerator {
                 }
             }
             if (directions.get(i) == 'E'){
-                if (!visited[coord.getLevel()][coord.getRow()][coord.getColumn() + 1]){
+                if (coord.getColumn() + 1 < 6 &&!visited[coord.getLevel()][coord.getRow()][coord.getColumn() + 1]){
                     connections.get(coord.getLevel()).get(coord.getRow()).get(coord.getColumn()).add(
                             new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn() + 1)
                     );
@@ -81,7 +81,7 @@ public class MazeGenerator {
                 }
             }
             if (directions.get(i) == 'S'){
-                if (!visited[coord.getLevel()][coord.getRow() + 1][coord.getColumn()]){
+                if (coord.getRow() + 1 < 6 &&!visited[coord.getLevel()][coord.getRow() + 1][coord.getColumn()]){
                     connections.get(coord.getLevel()).get(coord.getRow()).get(coord.getColumn()).add(
                             new Coordinate(coord.getLevel(), coord.getRow() + 1, coord.getColumn())
                     );
@@ -89,7 +89,7 @@ public class MazeGenerator {
                 }
             }
             if (directions.get(i) == 'W'){
-                if (!visited[coord.getLevel()][coord.getRow()][coord.getColumn() - 1]){
+                if (coord.getColumn() - 1 >= 0 &&!visited[coord.getLevel()][coord.getRow()][coord.getColumn() - 1]){
                     connections.get(coord.getLevel()).get(coord.getRow()).get(coord.getColumn()).add(
                             new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn() - 1)
                     );
@@ -97,7 +97,7 @@ public class MazeGenerator {
                 }
             }
             if (directions.get(i) == 'T'){
-                if (!visited[coord.getLevel() - 1][coord.getRow()][coord.getColumn()]){
+                if (coord.getLevel() - 1 >= 0 &&!visited[coord.getLevel() - 1][coord.getRow()][coord.getColumn()]){
                     connections.get(coord.getLevel()).get(coord.getRow()).get(coord.getColumn()).add(
                             new Coordinate(coord.getLevel() - 1, coord.getRow(), coord.getColumn())
                     );
@@ -105,7 +105,7 @@ public class MazeGenerator {
                 }
             }
             if (directions.get(i) == 'B'){
-                if (!visited[coord.getLevel() + 1][coord.getRow()][coord.getColumn()]){
+                if (coord.getLevel() + 1 < 6 && !visited[coord.getLevel() + 1][coord.getRow()][coord.getColumn()]){
                     connections.get(coord.getLevel()).get(coord.getRow()).get(coord.getColumn()).add(
                             new Coordinate(coord.getLevel() + 1, coord.getRow(), coord.getColumn())
                     );
