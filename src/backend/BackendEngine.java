@@ -1,3 +1,11 @@
+import frontend.ChamberView;
+import maze.Maze;
+import utils.Direction;
+import maze.Chamber;
+import maze.MazeGenerator;
+
+package backend;
+
 public class BackendEngine {
 
     private ViewEngine viewEngine;

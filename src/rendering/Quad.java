@@ -4,7 +4,7 @@ public class Quad extends Plane {
 	private float height;
 	private ImageTexture texture;
 	
-	public Quad(Vector3 pos, Vector3 normal, ImageTexture texture, float width, float height) {
+	public Quad(Vector3 normal, Vector3 pos, ImageTexture texture, float width, float height) {
 		super(normal, pos);
 		this.width = width;
 		this.height = height;

@@ -1,8 +1,13 @@
+package frontend;
 import javax.swing.*;
+
+import backend.BackendEngine;
 import rendering.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import maze.Chamber;
+import utils.Direction;
 
 public class ChamberView extends JPanel {
     private BackendEngine backendEngine;
