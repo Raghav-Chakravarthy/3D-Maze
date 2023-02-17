@@ -14,16 +14,18 @@ import java.awt.image.BufferedImage;;
 
 public class ChamberView extends JPanel {
     private BackendEngine backendEngine;
-    private Camera camera;
+    private Camera camera = new Camera();
+    private Scene scene;
     private BufferedImage frameImage = new BufferedImage(720,720,BufferedImage.TYPE_INT_RGB);
     private BufferedImage headerImage = new BufferedImage(720,120,BufferedImage.TYPE_INT_ARGB);
     //TODO: everything...
     public ChamberView(Chamber chamber, BackendEngine backendEngine){
         this.backendEngine = backendEngine;
+        scene = new Scene(new Chamber[]{chamber});
+        camera.setPosition(new Vector3(0,0,-2));
+        this.repaint();
     }
-    private void setChamber(Chamber chamber){
 
-    }
     private void moveForward(){
 
     }
@@ -50,9 +52,10 @@ public class ChamberView extends JPanel {
         if(backendEngine.getChamber().getAdjacentChamber(Direction.DOWN)!=null){
             drawDown=true;
         }
+        //TODO: Draw Arrows
     }
     public void paintComponent(Graphics g){
-        //render the current scene stuff
+        rendering.Renderer.renderTo(scene, camera, frameImage);
         Header.drawHeader(headerImage,backendEngine.getMoves(),backendEngine.getChamber().getCoordinates(),backendEngine.getDirection());
         drawArrows(frameImage);
         g.drawImage(frameImage,0,0,null);
