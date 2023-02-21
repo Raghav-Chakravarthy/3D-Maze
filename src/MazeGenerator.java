@@ -136,6 +136,8 @@ public class MazeGenerator {
         for (int i = 0; i < 6; i++){
             for (int j = 0; j < 6; j++) {
                 for (int k = 0; k < 6; k++){
+                    Chamber curr = new Chamber();
+                    curr.setChambers(connections.get(i).get(j).get(k));
                     //generatedMaze.setChamber(new Coordinate(i, j, k), );
                 }
             }
