@@ -2,8 +2,10 @@ import java.util.*;
 public class MazeGenerator {
     private Maze generatedMaze;
     private boolean[][][] visited;
+    private Coordinate[][][] walk;
     private ArrayList<ArrayList<ArrayList<ArrayList<Coordinate>>>> connections;
     private ArrayList<Character> directions;
+    private Random rand;
     public MazeGenerator(String difficulty){
         generatedMaze = new Maze(difficulty);
         connections = new ArrayList<>();
@@ -14,6 +16,7 @@ public class MazeGenerator {
         directions.add('W');
         directions.add('T');
         directions.add('B');
+        rand = new Random();
         if (difficulty.equals("easy")){
             visited = new boolean[4][4][4];
             for (int i = 0; i < 4; i++){
@@ -29,6 +32,7 @@ public class MazeGenerator {
         }
         else if (difficulty.equals("medium")){
             visited = new boolean[5][5][5];
+            walk = new Coordinate[5][5][5];
             for (int i = 0; i < 5; i++){
                 connections.add(new ArrayList<>());
                 for (int j = 0; j < 5; j++){
@@ -38,15 +42,16 @@ public class MazeGenerator {
                     }
                 }
             }
-            medium(new Coordinate(0, 0, 0));
+            medium(new Coordinate(rand.nextInt(5), rand.nextInt(5), rand.nextInt(5)),
+                    new Coordinate(rand.nextInt(5), rand.nextInt(5), rand.nextInt(5)));
         }
         else{
             visited = new boolean[6][6][6];
-            for (int i = 0; i < 5; i++){
+            for (int i = 0; i < 6; i++){
                 connections.add(new ArrayList<>());
-                for (int j = 0; j < 5; j++){
+                for (int j = 0; j < 6; j++){
                     connections.get(i).add(new ArrayList<>());
-                    for (int k = 0; k < 5; k++){
+                    for (int k = 0; k < 6; k++){
                         connections.get(i).get(j).add(new ArrayList<>());
                     }
                 }
@@ -57,8 +62,8 @@ public class MazeGenerator {
     public void easy(Coordinate coord){
 
     }
-    public void medium(Coordinate coord){
-
+    public void medium(Coordinate coord, Coordinate start){
+        
     }
     public void hard(Coordinate coord){
         visited[coord.getLevel()][coord.getRow()][coord.getColumn()] = true;
