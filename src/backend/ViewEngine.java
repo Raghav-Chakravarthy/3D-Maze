@@ -29,11 +29,10 @@ public class ViewEngine{
         this.chamberDisplay = chamberView;
     }
 
-    /*public void setMapView(MapView mapView){
+    public void setMapView(MapView mapView){
         this.mapDisplay = mapView;
     }
 
-     */
 
     public JPanel getChamberView(){
         return this.chamberDisplay;
@@ -50,13 +49,10 @@ public class ViewEngine{
             if(gameView.equals("chamberview")){
                 chamberViewToMapView();
             }
-            /*
         } else if(newView.equals("endview")){
             if(gameView.equals("chamberview")){
                 chamberViewToEndView();
             }
-
-             */
         } else if(newView.equals("close")){
             if(gameView.equals("endview")){
                 endViewToClose();
@@ -82,7 +78,6 @@ public class ViewEngine{
         mainPanel.remove(mapDisplay);
         mainPanel.add(chamberDisplay);
     }
-    /*
     private void chamberViewToEndView(){
         endDisplay = new EndView();
         mainPanel.remove(chamberDisplay);
@@ -90,7 +85,6 @@ public class ViewEngine{
     }
 
 
-     */
     private void endViewToClose(){
         frame.dispose();
     }
