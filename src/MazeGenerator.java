@@ -114,7 +114,7 @@ public class MazeGenerator {
                             new Coordinate(coord.getLevel() - 1, coord.getRow(), coord.getColumn())
                     );
                     connections.get(coord.getLevel() - 1).get(coord.getRow()).get(coord.getColumn()).add(
-                            new Coordinate(coord.getLevel() - 1, coord.getRow(), coord.getColumn())
+                            new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn())
                     );
                     hard(new Coordinate(coord.getLevel() - 1, coord.getRow(), coord.getColumn()));
                 }
