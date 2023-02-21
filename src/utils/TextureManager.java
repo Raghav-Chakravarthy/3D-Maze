@@ -14,7 +14,18 @@ public class TextureManager {
     private HashMap<String, ImageTexture> textures;
 
     public TextureManager() {
-        
+        textures = new HashMap<String, ImageTexture>();
+        try {
+            loadArtImages();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadArtImages() throws IOException {
+        for(int i = 0; i < 5; i++) {
+            loadTextureFromDisk("assets/art/art"+i+".jpg", "art"+i);
+        }
     }
 
     public void loadTextureFromDisk(String path, String textureName) throws IOException {

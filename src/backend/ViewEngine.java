@@ -2,6 +2,10 @@ package backend;
 import frontend.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+<<<<<<< HEAD
+=======
+import frontend.ChamberView;
+>>>>>>> 6e3ccbd7d7548c8b001edec7b92d157f72bb6f08
 
 public class ViewEngine{
     private JFrame frame;
