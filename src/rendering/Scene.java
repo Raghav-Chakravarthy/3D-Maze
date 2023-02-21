@@ -93,7 +93,8 @@ public class Scene {
 	private ImageTexture createWallTexture(Chamber chamber, int dir) {
 		BufferedImage wallTexture = emptyWallTexture(chamber);
 		Graphics2D g = (Graphics2D) wallTexture.getGraphics();
-		g.drawImage(chamber.getWallArt().getArt(dir).getImage(), TEXTURE_SIZE/4, TEXTURE_SIZE/4, TEXTURE_SIZE/2, TEXTURE_SIZE/2, null);
+		if(chamber.getWallArt().getArt(dir) != null)
+			g.drawImage(chamber.getWallArt().getArt(dir).getImage(), TEXTURE_SIZE/4, TEXTURE_SIZE/4, TEXTURE_SIZE/2, TEXTURE_SIZE/2, null);
 		return new ImageTexture(wallTexture);
 	}
 
