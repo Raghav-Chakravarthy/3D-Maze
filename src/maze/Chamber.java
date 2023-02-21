@@ -23,7 +23,7 @@ public class Chamber {
     }
 
     public void setWallArt(WallArt art) {
-        wallArt = art;
+        this.wallArt = art;
     }
 
     public boolean getVisited() {
