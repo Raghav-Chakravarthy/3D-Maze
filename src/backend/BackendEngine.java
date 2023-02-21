@@ -58,11 +58,12 @@ public class BackendEngine {
             } else if(viewEngine.getGameView().equals("mapview")){
                 this.viewEngine.changeView("chamberview");
             }
-        } else if(newView.equals("mapview")){
+        } /*else if(newView.equals("mapview")){
             if(viewEngine.getGameView().equals("chamberview")){
                 this.viewEngine.setMapView(new MapView(this.gameMaze.getLevel(this.currentChamber.getCoordinates().getLevel()), this));
                 this.viewEngine.changeView("mapview");
             }
+
         } else if(newView.equals("endview")){
             if(viewEngine.getGameView().equals("chamberview")){
                 this.viewEngine.changeView("endview");
@@ -71,6 +72,6 @@ public class BackendEngine {
             if(viewEngine.getGameView().equals("endview")){
                 this.viewEngine.changeView("close");
             }
-        } 
+        } */
     }
 }

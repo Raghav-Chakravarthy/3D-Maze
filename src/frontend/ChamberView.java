@@ -56,9 +56,9 @@ public class ChamberView extends JPanel {
     }
     public void paintComponent(Graphics g){
         rendering.Renderer.renderTo(scene, camera, frameImage);
-        Header.drawHeader(headerImage,backendEngine.getMoves(),backendEngine.getChamber().getCoordinates(),backendEngine.getDirection());
-        drawArrows(frameImage);
+        /*Header.drawHeader(headerImage,backendEngine.getMoves(),backendEngine.getChamber().getCoordinates(),backendEngine.getDirection());
+        drawArrows(frameImage);*/
         g.drawImage(frameImage,0,0,null);
-        g.drawImage(headerImage,0,0,null);
+        //g.drawImage(headerImage,0,0,null);
     }
 }

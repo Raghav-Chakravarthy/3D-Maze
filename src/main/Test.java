@@ -7,7 +7,10 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 
+import backend.BackendEngine;
+import frontend.*;
 import maze.Chamber;
 import maze.Coordinate;
 import rendering.Camera;
@@ -23,22 +26,15 @@ public class Test {
         chamber.setChambers(new Chamber[] {
             new Chamber(), new Chamber(), null, new Chamber(), null, new Chamber()
         });
+        BackendEngine backendEngine = new BackendEngine();
        
-        Scene scene = new Scene(new Chamber[] {
-            chamber
-        });
-        
-        Camera cam = new Camera();
-        cam.setPosition(new Vector3(0,0,-2));
-        System.out.println(scene.getObjects());
-        BufferedImage render = new BufferedImage(720,720,BufferedImage.TYPE_INT_RGB);
+        ChamberView chamberView = new ChamberView(chamber, backendEngine);
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        JFrame frame = new JFrame("Test");
+        frame.setContentPane(chamberView);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
 
-        Renderer.renderTo(scene, cam, render);
-        File out = new File("out/test.png");
-        try {
-            ImageIO.write(render, "png", out);
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
     }
 }
