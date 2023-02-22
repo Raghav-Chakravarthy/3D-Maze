@@ -18,9 +18,9 @@ public class Vector3 {
 	}
 
 	public Vector3(Coordinate coord) {
-		x = coord.getRow()*2;
+		z = coord.getRow()*2;
 		y = coord.getLevel()*2;
-		z = coord.getColumn()*2;
+		x = coord.getColumn()*2;
 	}
 	
 	public Vector3 add(Vector3 other) {

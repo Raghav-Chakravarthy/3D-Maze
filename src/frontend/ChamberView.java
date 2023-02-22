@@ -46,12 +46,17 @@ public class ChamberView extends JPanel {
         });
 
         centerChamber();
+
+        //camera.translate(new Vector3(0,2,0));
     }
 
 
     private void moveForward(){
         //renders the new scene
-        scene = new Scene(new Chamber[]{backendEngine.getChamber(),backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())});
+       
+        scene = new Scene(new Chamber[]{backendEngine.getChamber(), backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())});
+        
+        System.out.println(backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection()));
         //rendering loop
         final Timer frameTimer = new Timer(1000 / 60, null);
         frameTimer.addActionListener(new ActionListener() {
@@ -93,16 +98,16 @@ public class ChamberView extends JPanel {
     private void centerChamber(){
         scene = new Scene(new Chamber[]{backendEngine.getChamber()});
         if(backendEngine.getDirection()==Direction.NORTH){
-            camera.setPosition(new Vector3(backendEngine.getChamber().getCoordinates()).add(new Vector3(0,0,0)));
+            camera.setPosition(new Vector3(backendEngine.getChamber().getCoordinates()));
             camera.setRotation(0,90);
         }else if(backendEngine.getDirection()==Direction.SOUTH){
-            camera.setPosition(new Vector3(backendEngine.getChamber().getCoordinates()).add(new Vector3(0,0,0)));
+            camera.setPosition(new Vector3(backendEngine.getChamber().getCoordinates()));
             camera.setRotation(0,270);
         }else if(backendEngine.getDirection()==Direction.EAST){
-            camera.setPosition(new Vector3(backendEngine.getChamber().getCoordinates()).add(new Vector3(0,0,0)));
+            camera.setPosition(new Vector3(backendEngine.getChamber().getCoordinates()));
             camera.setRotation(0,0);
         }else if(backendEngine.getDirection()==Direction.WEST){
-            camera.setPosition(new Vector3(backendEngine.getChamber().getCoordinates()).add(new Vector3(0,0,0)));
+            camera.setPosition(new Vector3(backendEngine.getChamber().getCoordinates()));
             camera.setRotation(0,180);
         }
         repaint();
