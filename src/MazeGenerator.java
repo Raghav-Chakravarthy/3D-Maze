@@ -63,7 +63,7 @@ public class MazeGenerator {
 
     }
     public void medium(Coordinate coord, Coordinate start){
-        
+
     }
     public void hard(Coordinate coord){
         visited[coord.getLevel()][coord.getRow()][coord.getColumn()] = true;
@@ -138,17 +138,76 @@ public class MazeGenerator {
         }
     }
     public void toMaze(){
-        for (int i = 0; i < 6; i++){
-            for (int j = 0; j < 6; j++) {
-                for (int k = 0; k < 6; k++){
-                    Chamber curr = new Chamber();
-                    curr.setChambers(connections.get(i).get(j).get(k));
-                    //generatedMaze.setChamber(new Coordinate(i, j, k), );
+        int size = connections.size();
+        //store all of the chambers in 1d array, access location with getCoord method
+        Chamber[][][] chambers = new Chamber[size][size][size];
+        for (int i = 0; i < size; i++) {
+            for (int k = 0; k < size; k++) {
+                for (int c = 0; c < size; c++) {
+                    Chamber toPlace = new Chamber();
+                    //set coords of new chamber
+                    toPlace.setCoordinates(new Coordinate(i,k,c));
+                    //place chamber in 3d array
+                    chambers[i][k][c] = toPlace;
+                }
+            }
+        }
+        //set adjacency data
+        for (int i = 0; i < size; i++) {
+            for (int k = 0; k < size; k++) {
+                for (int c = 0; c < size; c++) {
+                    for (Coordinate other : connections.get(i).get(k).get(c)) {
+                        int z = other.getLevel();
+                        int y = other.getRow();
+                        int x = other.getColumn();
+                        //The stuff here down to the 2nd print is all just to make sure we're good
+                        if (Math.abs(z-i) > 1 || Math.abs(y-k) > 1 || Math.abs(x-c) > 1) {
+                            System.out.println("Uh oh, the difference between these is >1");
+                        };
+                        int diffCount = 0;
+                        if (z != i) {
+                            diffCount++;
+                        }
+                        if (y != k) {
+                            diffCount++;
+                        }
+                        if (x != c) {
+                            diffCount++;
+                        }
+                        if (diffCount >1) {
+                            System.out.println("Uh oh, coordinates differ in >1 dimension");
+                        }
+                        //actual filling in data down here
+                        int dir = -1;
+                        if (z > i) {
+                            dir = Direction.DOWN;
+                        } else if (z < i) {
+                            dir = Direction.UP;
+                        } else if (y > k) {
+                            dir = Direction.SOUTH;
+                        } else if (y < k) {
+                            dir = Direction.NORTH;
+                        } else if (x > c) {
+                            dir = Direction.EAST;
+                        } else if (x < c) {
+                            dir = Direction.WEST;
+                        }
+                        chambers[i][k][c].setAdjacentChamber(dir, chambers[z][y][x]);
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < size; i++) {
+            for (int k = 0; k < size; k++) {
+                for (int c = 0; c < size; c++) {
+                    Coordinate loc = new Coordinate(i,k,c);
+                    generatedMaze.setChamber(loc, chambers[i][k][c]);
                 }
             }
         }
     }
     public Maze getMaze(){
+        toMaze();
         return generatedMaze;
     }
 }
