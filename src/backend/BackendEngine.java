@@ -32,6 +32,10 @@ public class BackendEngine {
         return currentChamber;
     }
 
+    public void setChamber(Chamber chamber){
+        currentChamber = chamber;
+    }
+
     public String getDifficulty(){
         return this.difficulty;
     }

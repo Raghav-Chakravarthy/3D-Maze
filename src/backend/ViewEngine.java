@@ -8,15 +8,17 @@ public class ViewEngine{
     private JFrame frame;
     private JPanel mainPanel, currentPanel, introDisplay, chamberDisplay, mapDisplay, endDisplay;
     private String gameView;
-
+    /*
     public ViewEngine(){
         setup();
     }
 
+     */
+
     public void setup(){
         frame = new JFrame();
         gameView = "mainview";
-        introDisplay = new Menu();
+        //introDisplay = new Menu();
         mainPanel.setLayout(null);
 		mainPanel.setSize(frame.getSize());
         mainPanel.add(introDisplay);

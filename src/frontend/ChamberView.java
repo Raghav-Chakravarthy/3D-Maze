@@ -9,35 +9,39 @@ import javax.swing.*;
 import rendering.*;
 
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;;
 
 
 public class ChamberView extends JPanel {
     private BackendEngine backendEngine;
-    private Camera camera = new Camera();
+    private Camera camera = new Camera(new Vector3(0,0,0),new Vector3(1,0,0));
     private Scene scene;
-    private BufferedImage frameImage = new BufferedImage(720,720,BufferedImage.TYPE_INT_RGB);
+    private BufferedImage frameImage = new BufferedImage(360,360,BufferedImage.TYPE_INT_RGB);
     private BufferedImage headerImage = new BufferedImage(720,120,BufferedImage.TYPE_INT_ARGB);
     //TODO: everything...
     public ChamberView(Chamber chamber, BackendEngine backendEngine){
+        this.setFocusable(true);
         this.backendEngine = backendEngine;
+        camera.setNearPlane(0.5F);
         scene = new Scene(new Chamber[]{chamber});
-        camera.setPosition(new Vector3(0,0,-2));
         this.repaint();
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+                turnLeft();
             }
         });
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                super.keyPressed(e);
+                if(e.getKeyCode()==KeyEvent.VK_SPACE){
+                    moveForward();
+                } else if (e.getKeyCode()==KeyEvent.VK_LEFT) {
+                    turnLeft();
+                } else if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
+                    turnRight();
+                }
             }
         });
     }
@@ -46,38 +50,58 @@ public class ChamberView extends JPanel {
     private void moveForward(){
         //renders the new scene
         scene = new Scene(new Chamber[]{backendEngine.getChamber(),backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())});
-        double distanceRemaining = 2;
-        double lastTime = System.nanoTime();
         //rendering loop
-        while(distanceRemaining>0){
-            double currentTime = System.nanoTime();
-            //how far to move off of time since last frame, idk how to VSync but whatever
-            double distanceMoved = (currentTime-lastTime)/500000000;
-            distanceRemaining-=distanceMoved;
-            //move
-            if(backendEngine.getDirection()==Direction.NORTH){
-                camera.translate(new Vector3(0,0,(float) distanceMoved));
-            }else if(backendEngine.getDirection()==Direction.SOUTH){
-                camera.translate(new Vector3(0,0,(float)(distanceMoved * -1)));
-            }else if(backendEngine.getDirection()==Direction.EAST){
-                camera.translate(new Vector3((float)distanceMoved,0,0));
-            }else if(backendEngine.getDirection()==Direction.WEST){
-                camera.translate(new Vector3((float)(distanceMoved*-1),0,0));
+        final Timer frameTimer = new Timer(1000 / 60, null);
+        frameTimer.addActionListener(new ActionListener() {
+            double distanceRemaining = 2;
+            double lastTime = System.nanoTime();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double currentTime = System.nanoTime();
+                //how far to move off of time since last frame, idk how to VSync but whatever
+
+                double distanceMoved = (currentTime- lastTime)/500000000;
+                distanceRemaining -= distanceMoved;
+                //move
+
+                if(distanceRemaining<=0){
+                    frameTimer.stop();
+                    centerChamber();
+                }else{
+                    if(backendEngine.getDirection()==Direction.NORTH){
+                        camera.translate(new Vector3(0,0,(float) distanceMoved));
+                    }else if(backendEngine.getDirection()==Direction.SOUTH){
+                        camera.translate(new Vector3(0,0,(float)distanceMoved*-1));
+                    }else if(backendEngine.getDirection()==Direction.EAST){
+                        camera.translate(new Vector3((float)distanceMoved,0,0));
+                    }else if(backendEngine.getDirection()==Direction.WEST){
+                        camera.translate(new Vector3((float)distanceMoved*-1,0,0));
+                    }
+                    repaint();
+                    lastTime = currentTime;
+                }
+
             }
-            repaint();
-            lastTime=currentTime;
-        }
-        //resets to a situation where there's only one scene
+        });
+        frameTimer.start();
         backendEngine.move(backendEngine.getDirection());
+
+        //resets to a situation where there's only one scene
+    }
+    private void centerChamber(){
         scene = new Scene(new Chamber[]{backendEngine.getChamber()});
         if(backendEngine.getDirection()==Direction.NORTH){
-            camera.setPosition(new Vector3(0,0,-1));
+            camera.setPosition(new Vector3(backendEngine.getChamber().getCoordinates()).add(new Vector3(0,0,0)));
+            camera.setRotation(0,90);
         }else if(backendEngine.getDirection()==Direction.SOUTH){
-            camera.setPosition(new Vector3(0,0,1));
+            camera.setPosition(new Vector3(backendEngine.getChamber().getCoordinates()).add(new Vector3(0,0,0)));
+            camera.setRotation(0,270);
         }else if(backendEngine.getDirection()==Direction.EAST){
-            camera.setPosition(new Vector3(-1,0,0));
+            camera.setPosition(new Vector3(backendEngine.getChamber().getCoordinates()).add(new Vector3(0,0,0)));
+            camera.setRotation(0,0);
         }else if(backendEngine.getDirection()==Direction.WEST){
-            camera.setPosition(new Vector3(1,0,0));
+            camera.setPosition(new Vector3(backendEngine.getChamber().getCoordinates()).add(new Vector3(0,0,0)));
+            camera.setRotation(0,180);
         }
         repaint();
     }
@@ -88,10 +112,107 @@ public class ChamberView extends JPanel {
 
     }
     private void turnLeft(){
+        final Timer frameTimer = new Timer(1000 / 60, null);
+        frameTimer.addActionListener(new ActionListener() {
+            double angleRemaining = 90;
+            //double xRemaining = 1; double yRemaining = 1;
+            double lastTime = System.nanoTime();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double currentTime = System.nanoTime();
+                //how far to move off of time since last frame, idk how to VSync but whatever
 
+                //double distanceMoved = (currentTime- lastTime)/1000000000;
+                double angleMoved = (currentTime - lastTime)*90/1000000000;
+
+                //xRemaining -= distanceMoved;
+                //yRemaining -= distanceMoved;
+                angleRemaining -= angleMoved;
+                //move
+                if(angleRemaining<=0){
+                    frameTimer.stop();
+                    if(backendEngine.getDirection()==Direction.NORTH){
+                        backendEngine.setDirection(Direction.WEST);
+                    }else if(backendEngine.getDirection()==Direction.SOUTH){
+                        backendEngine.setDirection(Direction.EAST);
+                    }else if(backendEngine.getDirection()==Direction.EAST){
+                        backendEngine.setDirection(Direction.NORTH);
+                    }else if(backendEngine.getDirection()==Direction.WEST){
+                        backendEngine.setDirection(Direction.SOUTH);
+                    }
+                    centerChamber();
+                }else{
+                    /*
+                    if(backendEngine.getDirection()==Direction.NORTH){
+                        camera.translate(new Vector3((float)distanceMoved,0,(float) distanceMoved));
+                    }else if(backendEngine.getDirection()==Direction.SOUTH){
+                        camera.translate(new Vector3((float)distanceMoved*-1,0,(float)distanceMoved*-1));
+                    }else if(backendEngine.getDirection()==Direction.EAST){
+                        camera.translate(new Vector3((float)distanceMoved,0,(float)distanceMoved*-1));
+                    }else if(backendEngine.getDirection()==Direction.WEST){
+                        camera.translate(new Vector3((float)distanceMoved*-1,0,(float)distanceMoved));
+                    }
+
+                     */
+                    camera.setRotation((float) 0, (float) (camera.getYaw()+angleMoved));
+                    repaint();
+                    lastTime = currentTime;
+                }
+            }
+        });
+        frameTimer.start();
     }
     private void turnRight(){
+        final Timer frameTimer = new Timer(1000 / 60, null);
+        frameTimer.addActionListener(new ActionListener() {
+            double angleRemaining = 90;
+            //double xRemaining = 1; double yRemaining = 1;
+            double lastTime = System.nanoTime();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double currentTime = System.nanoTime();
+                //how far to move off of time since last frame, idk how to VSync but whatever
 
+                //double distanceMoved = (currentTime- lastTime)/1000000000;
+                double angleMoved = (currentTime - lastTime)*90/1000000000;
+
+                //xRemaining -= distanceMoved;
+                //yRemaining -= distanceMoved;
+                angleRemaining -= angleMoved;
+                //move
+
+                if(angleRemaining<=0){
+                    frameTimer.stop();
+                    if(backendEngine.getDirection()==Direction.NORTH){
+                        backendEngine.setDirection(Direction.EAST);
+                    }else if(backendEngine.getDirection()==Direction.SOUTH){
+                        backendEngine.setDirection(Direction.WEST);
+                    }else if(backendEngine.getDirection()==Direction.EAST){
+                        backendEngine.setDirection(Direction.SOUTH);
+                    }else if(backendEngine.getDirection()==Direction.WEST){
+                        backendEngine.setDirection(Direction.NORTH);
+                    }
+                    centerChamber();
+                }else{
+                    /*
+                    if(backendEngine.getDirection()==Direction.NORTH){
+                        camera.translate(new Vector3((float)distanceMoved*-1,0,(float) distanceMoved));
+                    }else if(backendEngine.getDirection()==Direction.SOUTH){
+                        camera.translate(new Vector3((float)distanceMoved,0,(float)distanceMoved*-1));
+                    }else if(backendEngine.getDirection()==Direction.EAST){
+                        camera.translate(new Vector3((float)distanceMoved,0,(float)distanceMoved));
+                    }else if(backendEngine.getDirection()==Direction.WEST){
+                        camera.translate(new Vector3((float)distanceMoved*-1,0,(float)distanceMoved*-1));
+                    }
+
+                     */
+                    camera.setRotation((float) 0, (float) (camera.getYaw()-angleMoved));
+                    repaint();
+                    lastTime = currentTime;
+                }
+            }
+        });
+        frameTimer.start();
     }
     private void drawArrows(BufferedImage image){
         Graphics g = image.getGraphics();
@@ -110,9 +231,9 @@ public class ChamberView extends JPanel {
     }
     public void paintComponent(Graphics g){
         rendering.Renderer.renderTo(scene, camera, frameImage);
-        Header.drawHeader(headerImage,backendEngine.getMoves(),backendEngine.getChamber().getCoordinates(),backendEngine.getDirection());
-        drawArrows(frameImage);
-        g.drawImage(frameImage,0,0,null);
-        g.drawImage(headerImage,0,0,null);
+        //Header.drawHeader(headerImage,backendEngine.getMoves(),backendEngine.getChamber().getCoordinates(),backendEngine.getDirection());
+        //drawArrows(frameImage);
+        g.drawImage(frameImage,0,0,720,720,null);
+        //g.drawImage(headerImage,0,0,null);
     }
 }

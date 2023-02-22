@@ -8,10 +8,10 @@ public class Renderer {
 	
 	private static final float EPSILON = 0.01f;
 
-	public static void renderTo(Scene scene, Camera cam, BufferedImage frameBuffer) {
+	public static void renderTo(final Scene scene, final Camera cam, final BufferedImage frameBuffer) {
 		for(int t = 0; t < NUM_THREADS; t++) {
-			int startPixelIdx = (frameBuffer.getWidth()/NUM_THREADS)*t;
-			int endPixelIdx;
+			final int startPixelIdx = (frameBuffer.getWidth()/NUM_THREADS)*t;
+			final int endPixelIdx;
 			
 			if(t == NUM_THREADS-1)
 				endPixelIdx = frameBuffer.getWidth();
