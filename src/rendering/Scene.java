@@ -33,11 +33,11 @@ public class Scene {
 			Vector3 center = new Vector3(coord);
 			System.out.println(center);
 
-			addLight(new PointLight(center.add(new Vector3(0,0.75f,0)), new Vector3(1f)));
+			addLight(new PointLight(center.add(new Vector3(0,0.5f,0)), new Vector3(0.7f)));
 
 			for(int dir = 0; dir < 6; dir++) {
 				if(chamber.getAdjacentChamber(dir) == null) {
-					addObject(createWall(dir, center, createWallTexture(chamber)));
+					addObject(createWall(dir, center, createWallTexture(chamber, dir)));
 				} else {
 					if(dir == Direction.UP) {
 						addObject(createHatch(center, chamber));
@@ -90,8 +90,12 @@ public class Scene {
 		return img;
 	}
 
-	private ImageTexture createWallTexture(Chamber chamber) {
-		return new ImageTexture(emptyWallTexture(chamber));
+	private ImageTexture createWallTexture(Chamber chamber, int dir) {
+		BufferedImage wallTexture = emptyWallTexture(chamber);
+		Graphics2D g = (Graphics2D) wallTexture.getGraphics();
+		if(chamber.getWallArt().getArt(dir) != null)
+			g.drawImage(chamber.getWallArt().getArt(dir).getImage(), TEXTURE_SIZE/4, TEXTURE_SIZE/4, TEXTURE_SIZE/2, TEXTURE_SIZE/2, null);
+		return new ImageTexture(wallTexture);
 	}
 
 	private ImageTexture createDoorTexture(Chamber chamber) {

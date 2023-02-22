@@ -1,8 +1,9 @@
 package backend;
-import frontend.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import frontend.ChamberView;
+
 public class ViewEngine{
     private JFrame frame;
     private JPanel mainPanel, currentPanel, introDisplay, chamberDisplay, mapDisplay, endDisplay;
@@ -15,10 +16,10 @@ public class ViewEngine{
     public void setup(){
         frame = new JFrame();
         gameView = "mainview";
-        //introDisplay = new MenuView();
+        introDisplay = new Menu();
         mainPanel.setLayout(null);
 		mainPanel.setSize(frame.getSize());
-        //mainPanel.add(introDisplay);
+        mainPanel.add(introDisplay);
 		frame.add(mainPanel);
 		frame.setLayout(null);
 		frame.setVisible(true);
