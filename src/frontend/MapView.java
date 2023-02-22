@@ -1,5 +1,5 @@
 package frontend;
 
-public class Main {
+public class MapView {
     
 }
