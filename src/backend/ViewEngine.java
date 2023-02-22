@@ -2,7 +2,8 @@ package backend;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import frontend.ChamberView;
+import java.awt.Dimension;
+import frontend.*;
 
 public class ViewEngine{
     private JFrame frame;
@@ -15,14 +16,18 @@ public class ViewEngine{
 
     public void setup(){
         frame = new JFrame();
+        mainPanel = new JPanel();
         gameView = "mainview";
+		mainPanel.setPreferredSize(new Dimension(720,720));
         introDisplay = new Menu();
-        mainPanel.setLayout(null);
-		mainPanel.setSize(frame.getSize());
         mainPanel.add(introDisplay);
-		frame.add(mainPanel);
+        introDisplay.setSize(720,720);
+		frame.setContentPane(mainPanel);
 		frame.setLayout(null);
+        frame.setTitle("3D Maze");
+        frame.pack();
 		frame.setVisible(true);
+        frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
