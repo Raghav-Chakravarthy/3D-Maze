@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;;
 
 public class ChamberView extends JPanel {
     private BackendEngine backendEngine;
-    private Camera camera = new Camera(new Vector3(0,0,0),new Vector3(1,0,0));
+    private Camera camera = new Camera(new Vector3(0,0,0),0, 90);
     private Scene scene;
     private BufferedImage frameImage = new BufferedImage(360,360,BufferedImage.TYPE_INT_RGB);
     private BufferedImage headerImage = new BufferedImage(720,120,BufferedImage.TYPE_INT_ARGB);
@@ -44,6 +44,8 @@ public class ChamberView extends JPanel {
                 }
             }
         });
+
+        centerChamber();
     }
 
 
@@ -86,7 +88,7 @@ public class ChamberView extends JPanel {
         frameTimer.start();
         backendEngine.move(backendEngine.getDirection());
 
-        //resets to a situation where there's only one scene
+        //resets to a situation where there's only one moveFor
     }
     private void centerChamber(){
         scene = new Scene(new Chamber[]{backendEngine.getChamber()});
@@ -154,8 +156,8 @@ public class ChamberView extends JPanel {
                     }
 
                      */
-                    System.out.println(camera.getYaw());
-                    camera.setRotation((float) 0, (float) (camera.getYaw()+angleMoved));
+                    System.out.println(angleMoved);
+                    camera.setRotation((float) camera.getPitch(), (float) (camera.getYaw()+angleMoved));
                     System.out.println(camera.getYaw());
                     repaint();
                     lastTime = currentTime;
