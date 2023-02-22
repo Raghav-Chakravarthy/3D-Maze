@@ -60,7 +60,7 @@ public class BackendEngine {
             }
         } else if(newView.equals("mapview")){
             if(viewEngine.getGameView().equals("chamberview")){
-                this.viewEngine.setMapView(new MapView(this.gameMaze.getLevel(this.currentChamber.getCoordinates().getLevel()), this));
+                //this.viewEngine.setMapView(new MapView(this.gameMaze.getLevel(this.currentChamber.getCoordinates().getLevel()), this));
                 this.viewEngine.changeView("mapview");
             }
 
