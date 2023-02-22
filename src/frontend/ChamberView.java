@@ -23,7 +23,7 @@ public class ChamberView extends JPanel {
     public ChamberView(Chamber chamber, BackendEngine backendEngine){
         this.setFocusable(true);
         this.backendEngine = backendEngine;
-        camera.setNearPlane(0.5F);
+        camera.setNearPlane(0.33F);
         scene = new Scene(new Chamber[]{chamber});
         this.repaint();
         this.addMouseListener(new MouseAdapter() {
@@ -154,7 +154,9 @@ public class ChamberView extends JPanel {
                     }
 
                      */
+                    System.out.println(camera.getYaw());
                     camera.setRotation((float) 0, (float) (camera.getYaw()+angleMoved));
+                    System.out.println(camera.getYaw());
                     repaint();
                     lastTime = currentTime;
                 }
@@ -206,7 +208,9 @@ public class ChamberView extends JPanel {
                     }
 
                      */
+                    System.out.println(camera.getYaw());
                     camera.setRotation((float) 0, (float) (camera.getYaw()-angleMoved));
+                    System.out.println(camera.getYaw());
                     repaint();
                     lastTime = currentTime;
                 }
