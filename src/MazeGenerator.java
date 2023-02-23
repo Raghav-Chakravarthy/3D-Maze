@@ -104,7 +104,7 @@ public class MazeGenerator {
             do{
                 start = new Coordinate(rand.nextInt(5), rand.nextInt(5), rand.nextInt(5));
             }
-            while (!visited[start.getLevel()][start.getRow()][start.getColumn()]);
+            while (visited[start.getLevel()][start.getRow()][start.getColumn()]);
             walk(start);
             while (!visited[start.getLevel()][start.getRow()][start.getColumn()]){
                 visited[start.getLevel()][start.getRow()][start.getColumn()] = true;
@@ -130,14 +130,14 @@ public class MazeGenerator {
                 }
             }
             if (directions.get(i) == 'E'){
-                if (coord.getColumn() + 1 < 6){
+                if (coord.getColumn() + 1 < 5){
                     walk[coord.getLevel()][coord.getRow()][coord.getColumn()] = 'E';
                     walk(new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn() + 1));
                     found = true;
                 }
             }
             if (directions.get(i) == 'S'){
-                if (coord.getRow() + 1 < 6){
+                if (coord.getRow() + 1 < 5){
                     walk[coord.getLevel()][coord.getRow()][coord.getColumn()] = 'S';
                     walk(new Coordinate(coord.getLevel(), coord.getRow() + 1, coord.getColumn()));
                     found = true;
@@ -158,7 +158,7 @@ public class MazeGenerator {
                 }
             }
             if (directions.get(i) == 'B') {
-                if (coord.getLevel() + 1 < 6) {
+                if (coord.getLevel() + 1 < 5) {
                     walk[coord.getLevel()][coord.getRow()][coord.getColumn()] = 'B';
                     walk(new Coordinate(coord.getLevel() + 1, coord.getRow(), coord.getColumn()));
                     found = true;
