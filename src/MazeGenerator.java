@@ -102,7 +102,7 @@ public class MazeGenerator {
         Coordinate start;
         while (unvisited > 0){
             do{
-                start = new Coordinate(rand.nextInt(6), rand.nextInt(6), rand.nextInt(6));
+                start = new Coordinate(rand.nextInt(5), rand.nextInt(5), rand.nextInt(5));
             }
             while (!visited[start.getLevel()][start.getRow()][start.getColumn()]);
             walk(start);
@@ -111,6 +111,7 @@ public class MazeGenerator {
                 addConnections(start, walk[start.getLevel()][start.getRow()][start.getColumn()]);
                 start = connections.get(start.getLevel()).get(start.getRow()).get(start.getColumn()).
                         get(connections.size() - 1);
+                unvisited--;
             }
         }
     }
