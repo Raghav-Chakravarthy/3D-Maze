@@ -2,34 +2,24 @@ package main;
 
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import javax.swing.JFrame;
 
 import backend.BackendEngine;
-import frontend.*;
+import frontend.ChamberView;
 import maze.Chamber;
 import maze.Coordinate;
-import rendering.Camera;
+import rendering.ColorUtils;
 import rendering.ImageWallArt;
-import rendering.Renderer;
-import rendering.Scene;
-import rendering.Vector3;
 import utils.TextureManager;
 
 public class Test {
     public static void main(String[] args) {
         Chamber chamber = new Chamber();
         chamber.setCoordinates(new Coordinate(0, 0, 0));
-        chamber.setWallColor(Color.ORANGE);
+        chamber.setWallColor(ColorUtils.randomChamberColor());
         chamber.setWallArt(new ImageWallArt(new BufferedImage[] {
                 TextureManager.main.getTexture("art1"), TextureManager.main.getTexture("art0"),null,TextureManager.main.getTexture("art2"),null, null
         }));

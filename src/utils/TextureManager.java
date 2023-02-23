@@ -10,6 +10,7 @@ import java.io.IOException;
 public class TextureManager {
     public static final TextureManager main = new TextureManager();
     private HashMap<String, BufferedImage> textures;
+    private int artCounter = 0;
 
     public TextureManager() {
         textures = new HashMap<String, BufferedImage>();
@@ -18,6 +19,19 @@ public class TextureManager {
         } catch(IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public BufferedImage nextArt() {
+        BufferedImage image = getTexture("art"+artCounter);
+        artCounter++;
+
+        if(image == null) System.err.println("TextureManager: Ran out of unique wall art!");
+
+        return image;
+    }
+
+    public int getArtCounter() {
+        return artCounter;
     }
 
     private void loadArtImages() throws IOException {
