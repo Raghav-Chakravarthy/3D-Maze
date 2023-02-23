@@ -19,7 +19,7 @@ public class Vector3 {
 
 	public Vector3(Coordinate coord) {
 		z = coord.getRow()*2;
-		y = coord.getLevel()*2;
+		y = -coord.getLevel()*2;
 		x = coord.getColumn()*2;
 	}
 	
