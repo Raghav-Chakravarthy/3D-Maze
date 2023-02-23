@@ -41,22 +41,21 @@ public class ChamberView extends JPanel {
                     turnLeft();
                 } else if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
                     turnRight();
+                } else if (e.getKeyCode()==KeyEvent.VK_UP) {
+                    moveUp();
+                } else if (e.getKeyCode()==KeyEvent.VK_DOWN) {
+                    moveDown();
                 }
             }
         });
-
         centerChamber();
-
         //camera.translate(new Vector3(0,2,0));
     }
 
 
     private void moveForward(){
         //renders the new scene
-       
         scene = new Scene(new Chamber[]{backendEngine.getChamber(), backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())});
-        
-        System.out.println(backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection()));
         //rendering loop
         final Timer frameTimer = new Timer(1000 / 60, null);
         frameTimer.addActionListener(new ActionListener() {
@@ -113,10 +112,70 @@ public class ChamberView extends JPanel {
         repaint();
     }
     private void moveUp(){
+        //renders the new scene
+        scene = new Scene(new Chamber[]{backendEngine.getChamber(), backendEngine.getChamber().getAdjacentChamber(Direction.UP)});
+        //rendering loop
+        final Timer frameTimer = new Timer(1000 / 60, null);
+        frameTimer.addActionListener(new ActionListener() {
+            double distanceRemaining = 2;
+            double lastTime = System.nanoTime();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double currentTime = System.nanoTime();
+                //how far to move off of time since last frame, idk how to VSync but whatever
 
+                double distanceMoved = (currentTime- lastTime)/500000000;
+                distanceRemaining -= distanceMoved;
+                //move
+
+                if(distanceRemaining<=0){
+                    frameTimer.stop();
+                    centerChamber();
+                }else{
+                    camera.translate(new Vector3(0,(float) distanceMoved,0));
+                    repaint();
+                    lastTime = currentTime;
+                }
+
+            }
+        });
+        frameTimer.start();
+        backendEngine.move(Direction.UP);
+
+        //resets to a situation where there's only one moveFor
     }
     private void moveDown(){
+        //renders the new scene
+        scene = new Scene(new Chamber[]{backendEngine.getChamber(), backendEngine.getChamber().getAdjacentChamber(Direction.DOWN)});
+        //rendering loop
+        final Timer frameTimer = new Timer(1000 / 60, null);
+        frameTimer.addActionListener(new ActionListener() {
+            double distanceRemaining = 2;
+            double lastTime = System.nanoTime();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double currentTime = System.nanoTime();
+                //how far to move off of time since last frame, idk how to VSync but whatever
 
+                double distanceMoved = (currentTime- lastTime)/500000000;
+                distanceRemaining -= distanceMoved;
+                //move
+
+                if(distanceRemaining<=0){
+                    frameTimer.stop();
+                    centerChamber();
+                }else{
+                    camera.translate(new Vector3(0,(float)distanceMoved*-1,0));
+                    repaint();
+                    lastTime = currentTime;
+                }
+
+            }
+        });
+        frameTimer.start();
+        backendEngine.move(Direction.DOWN);
+
+        //resets to a situation where there's only one moveFor
     }
     private void turnLeft(){
         final Timer frameTimer = new Timer(1000 / 60, null);
@@ -161,9 +220,7 @@ public class ChamberView extends JPanel {
                     }
 
                      */
-                    System.out.println(angleMoved);
                     camera.setRotation((float) camera.getPitch(), (float) (camera.getYaw()+angleMoved));
-                    System.out.println(camera.getYaw());
                     repaint();
                     lastTime = currentTime;
                 }
@@ -215,9 +272,7 @@ public class ChamberView extends JPanel {
                     }
 
                      */
-                    System.out.println(camera.getYaw());
                     camera.setRotation((float) 0, (float) (camera.getYaw()-angleMoved));
-                    System.out.println(camera.getYaw());
                     repaint();
                     lastTime = currentTime;
                 }

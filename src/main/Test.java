@@ -31,18 +31,18 @@ public class Test {
         chamber.setCoordinates(new Coordinate(0, 0, 0));
         chamber.setWallColor(Color.ORANGE);
         chamber.setWallArt(new ImageWallArt(new BufferedImage[] {
-            null, TextureManager.main.getTexture("art0").getImage(),null,null,null, null
+                TextureManager.main.getTexture("art1").getImage(), TextureManager.main.getTexture("art0").getImage(),null,TextureManager.main.getTexture("art2").getImage(),null, null
         }));
 
 
         Chamber chamber2 = new Chamber();
-        chamber2.setCoordinates(new Coordinate(0,1,0));
+        chamber2.setCoordinates(new Coordinate(0,0,1));
         chamber2.setWallColor(Color.green);
         chamber.setChambers(new Chamber[] {
-            null, null, chamber2, null, null, null
+            null, null, null, null, null, chamber2
         });
         chamber2.setChambers(new Chamber[]{
-               null,null,null,chamber,null,null
+               null,null,null,null,chamber,null
         });
         chamber2.setWallArt(new ImageWallArt(new BufferedImage[] {
                 null, null, TextureManager.main.getTexture("art2").getImage(), null, null, null
