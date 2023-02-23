@@ -3,7 +3,7 @@ import java.awt.image.BufferedImage;
 
 public class Renderer {
 	private static int numBounce = 0;
-	private static final int NUM_THREADS = 4;
+	private static final int NUM_THREADS = 2;
 	private static Thread[] renderThreads = new Thread[NUM_THREADS];
 	
 	private static final float EPSILON = 0.01f;
