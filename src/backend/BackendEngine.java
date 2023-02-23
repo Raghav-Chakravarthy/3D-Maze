@@ -32,6 +32,10 @@ public class BackendEngine {
         return currentChamber;
     }
 
+    public void setChamber(Chamber chamber){
+        currentChamber = chamber;
+    }
+
     public String getDifficulty(){
         return this.difficulty;
     }
@@ -61,9 +65,10 @@ public class BackendEngine {
             }
         } else if(newView.equals("mapview")){
             if(viewEngine.getGameView().equals("chamberview")){
-                this.viewEngine.setMapView(new MapView(this.gameMaze.getLevel(this.currentChamber.getCoordinates().getLevel()), this));
+                //this.viewEngine.setMapView(new MapView(this.gameMaze.getLevel(this.currentChamber.getCoordinates().getLevel()), this));
                 this.viewEngine.changeView("mapview");
             }
+
         } else if(newView.equals("endview")){
             if(viewEngine.getGameView().equals("chamberview")){
                 this.viewEngine.changeView("endview");
@@ -72,6 +77,6 @@ public class BackendEngine {
             if(viewEngine.getGameView().equals("endview")){
                 this.viewEngine.changeView("close");
             }
-        } 
+        }
     }
 }
