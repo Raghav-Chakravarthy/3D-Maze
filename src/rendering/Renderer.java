@@ -59,15 +59,11 @@ public class Renderer {
 			
 			for(Light light : scene.getLights()) {
 				Vector3 l = light.lVector(point);
-				Hit shadowHit = intersect(new Ray(point.add(normal.scale(EPSILON)), l), scene);
 				
 				if(light instanceof PointLight) {
-					PointLight p = (PointLight) light;
-					if(shadowHit == null || shadowHit.getDist() >
-							point.subtract(p.getPosition()).magnitude())
-						color = color.add(hit.getObj().diffuseAt(point)
-								.multiply(light.intensity()
-										.scale(Math.max(0, normal.dot(l)))));
+					color = color.add(hit.getObj().diffuseAt(point)
+							.multiply(light.intensity()
+									.scale(Math.max(0, normal.dot(l)))));
 				}
 
 				if(numBounce > 0 && hit.getObj().shininess() > 0) {
