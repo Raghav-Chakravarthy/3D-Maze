@@ -17,10 +17,12 @@ public class ChamberView extends JPanel {
     private BackendEngine backendEngine;
     private Camera camera = new Camera(new Vector3(0,0,0),0, 90);
     private Scene scene;
+    private boolean moving;
     private BufferedImage frameImage = new BufferedImage(360,360,BufferedImage.TYPE_INT_RGB);
+    private BufferedImage arrowImage = new BufferedImage(720,720,BufferedImage.TYPE_INT_ARGB);
     private BufferedImage headerImage = new BufferedImage(720,120,BufferedImage.TYPE_INT_ARGB);
     //TODO: everything...
-    public ChamberView(Chamber chamber, BackendEngine backendEngine){
+    public ChamberView(Chamber chamber, final BackendEngine backendEngine){
         this.setFocusable(true);
         this.backendEngine = backendEngine;
         camera.setNearPlane(0.33F);
@@ -29,22 +31,24 @@ public class ChamberView extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                turnLeft();
+
             }
         });
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode()==KeyEvent.VK_SPACE){
-                    moveForward();
-                } else if (e.getKeyCode()==KeyEvent.VK_LEFT) {
-                    turnLeft();
-                } else if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
-                    turnRight();
-                } else if (e.getKeyCode()==KeyEvent.VK_UP) {
-                    moveUp();
-                } else if (e.getKeyCode()==KeyEvent.VK_DOWN) {
-                    moveDown();
+                if(!moving){
+                    if((e.getKeyCode()==KeyEvent.VK_SPACE)&&(backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())!=null)){
+                        moveForward();
+                    } else if ((e.getKeyCode()==KeyEvent.VK_UP)&&(backendEngine.getChamber().getAdjacentChamber(Direction.UP)!=null)) {
+                        moveUp();
+                    } else if ((e.getKeyCode()==KeyEvent.VK_DOWN)&&(backendEngine.getChamber().getAdjacentChamber(Direction.DOWN)!=null)) {
+                        moveDown();
+                    } else if (e.getKeyCode()==KeyEvent.VK_LEFT) {
+                        turnLeft();
+                    } else if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
+                        turnRight();
+                    }
                 }
             }
         });
@@ -55,6 +59,7 @@ public class ChamberView extends JPanel {
 
     private void moveForward(){
         //renders the new scene
+        moving = true;
         scene = new Scene(new Chamber[]{backendEngine.getChamber(), backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())});
         //rendering loop
         final Timer frameTimer = new Timer(1000 / 60, null);
@@ -110,8 +115,10 @@ public class ChamberView extends JPanel {
             camera.setRotation(0,180);
         }
         repaint();
+        moving = false;
     }
     private void moveUp(){
+        moving = true;
         //renders the new scene
         scene = new Scene(new Chamber[]{backendEngine.getChamber(), backendEngine.getChamber().getAdjacentChamber(Direction.UP)});
         //rendering loop
@@ -145,6 +152,7 @@ public class ChamberView extends JPanel {
         //resets to a situation where there's only one moveFor
     }
     private void moveDown(){
+        moving = true;
         //renders the new scene
         scene = new Scene(new Chamber[]{backendEngine.getChamber(), backendEngine.getChamber().getAdjacentChamber(Direction.DOWN)});
         //rendering loop
@@ -178,6 +186,7 @@ public class ChamberView extends JPanel {
         //resets to a situation where there's only one moveFor
     }
     private void turnLeft(){
+        moving = true;
         final Timer frameTimer = new Timer(1000 / 60, null);
         frameTimer.addActionListener(new ActionListener() {
             double angleRemaining = 90;
@@ -229,6 +238,7 @@ public class ChamberView extends JPanel {
         frameTimer.start();
     }
     private void turnRight(){
+        moving = true;
         final Timer frameTimer = new Timer(1000 / 60, null);
         frameTimer.addActionListener(new ActionListener() {
             double angleRemaining = 90;
@@ -281,25 +291,31 @@ public class ChamberView extends JPanel {
         frameTimer.start();
     }
     private void drawArrows(BufferedImage image){
-        Graphics g = image.getGraphics();
-        boolean drawForward=false,drawUp=false,drawDown=false;
-        if(backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())!=null){
-            //forward arrow
-            g.drawPolygon(new int[]{360, 375, 345},new int[]{360, (int) (360-(15*Math.sin(Math.PI/3))), (int) (360-(15*Math.sin(Math.PI/3)))},3);
+        Graphics2D g = (Graphics2D) image.getGraphics();
+        g.setBackground(new Color(0,0,0,0));
+        g.clearRect(0,0,720,720);
+        g.setColor(Color.RED);
+        if(!moving){
+            if(backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())!=null){
+                //forward arrow
+                g.fillPolygon(new int[]{360, 405, 315},new int[]{450, (int) (450+(30*Math.sin(Math.PI/3))), (int) (450+(30*Math.sin(Math.PI/3)))},3);
+                g.fillPolygon(new int[]{375,345,330,390},new int[]{(int) (450+(30*Math.sin(Math.PI/3))),(int) (450+(30*Math.sin(Math.PI/3))),530,530},4);
+            }
+            if(backendEngine.getChamber().getAdjacentChamber(Direction.UP)!=null){
+                //up arrow
+            }
+            if(backendEngine.getChamber().getAdjacentChamber(Direction.DOWN)!=null){
+                //down arrow
+            }
+            //right and left arrows
         }
-        if(backendEngine.getChamber().getAdjacentChamber(Direction.UP)!=null){
-            //up arrow
-        }
-        if(backendEngine.getChamber().getAdjacentChamber(Direction.DOWN)!=null){
-            //down arrow
-        }
-        //right and left arrows
     }
     public void paintComponent(Graphics g){
         rendering.Renderer.renderTo(scene, camera, frameImage);
-        //Header.drawHeader(headerImage,backendEngine.getMoves(),backendEngine.getChamber().getCoordinates(),backendEngine.getDirection());
-        //drawArrows(frameImage);
+        Header.drawHeader(headerImage,backendEngine.getMoves(),backendEngine.getChamber().getCoordinates(),backendEngine.getDirection());
+        drawArrows(arrowImage);
         g.drawImage(frameImage,0,0,720,720,null);
-        //g.drawImage(headerImage,0,0,null);
+        g.drawImage(arrowImage,0,0,null);
+        g.drawImage(headerImage,0,0,null);
     }
 }

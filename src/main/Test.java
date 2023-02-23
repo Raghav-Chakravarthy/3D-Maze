@@ -38,9 +38,18 @@ public class Test {
         Chamber chamber2 = new Chamber();
         chamber2.setCoordinates(new Coordinate(0,0,1));
         chamber2.setWallColor(Color.green);
+        Chamber chamber3 = new Chamber();
+        chamber3.setCoordinates(new Coordinate(0,1,0));
+        chamber3.setWallColor(Color.orange);
         chamber.setChambers(new Chamber[] {
-            null, null, null, null, null, chamber2
+            null, null, chamber3, null, null, chamber2
         });
+        chamber3.setChambers(new Chamber[]{
+                null,null,null,chamber,null,null
+        });
+        chamber3.setWallArt(new ImageWallArt((new BufferedImage[] {
+                null, TextureManager.main.getTexture("art2").getImage(), null, null, null, null
+        })));
         chamber2.setChambers(new Chamber[]{
                null,null,null,null,chamber,null
         });
@@ -53,8 +62,6 @@ public class Test {
         chamberView.setPreferredSize(new Dimension(720,720));
         JFrame.setDefaultLookAndFeelDecorated(true);
         JFrame frame = new JFrame("Test");
-        JPanel contentPane = new JPanel();
-        contentPane.add(chamberView);
         frame.setContentPane(chamberView);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
