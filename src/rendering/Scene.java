@@ -123,7 +123,7 @@ public class Scene {
 	}
 
 	private ImageTexture createHatchTexture(Chamber chamber) {
-		return createHatchTexture(chamber);
+		return createTrapdoorTexture(chamber);
 	}
 	
 	public void update(float dt) {
