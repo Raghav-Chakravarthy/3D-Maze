@@ -31,8 +31,6 @@ public class Scene {
 			Coordinate coord = chamber.getCoordinates();
 			
 			Vector3 center = new Vector3(coord);
-			System.out.println(center);
-
 			addLight(new PointLight(center.add(new Vector3(0,0.5f,0)), new Vector3(0.7f)));
 
 			for(int dir = 0; dir < 6; dir++) {

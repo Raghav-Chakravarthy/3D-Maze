@@ -7,14 +7,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import rendering.ImageTexture;
-
 public class TextureManager {
     public static final TextureManager main = new TextureManager();
-    private HashMap<String, ImageTexture> textures;
+    private HashMap<String, BufferedImage> textures;
 
     public TextureManager() {
-        textures = new HashMap<String, ImageTexture>();
+        textures = new HashMap<String, BufferedImage>();
         try {
             loadArtImages();
         } catch(IOException e) {
@@ -23,8 +21,8 @@ public class TextureManager {
     }
 
     private void loadArtImages() throws IOException {
-        for(int i = 0; i < 5; i++) {
-            loadTextureFromDisk("assets/art/art"+i+".jpg", "art"+i);
+        for(int i = 0; i < 15; i++) {
+            loadTextureFromDisk("assets/wallArt/art"+i+".jpg", "art"+i);
         }
     }
 
@@ -34,10 +32,10 @@ public class TextureManager {
     }
 
     public void loadTexture(BufferedImage source, String textureName) {
-        textures.put(textureName, new ImageTexture(source));
+        textures.put(textureName, source);
     }
 
-    public ImageTexture getTexture(String textureName) {
+    public BufferedImage getTexture(String textureName) {
         return textures.get(textureName);
     }
 }

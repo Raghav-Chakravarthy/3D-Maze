@@ -31,9 +31,8 @@ public class Test {
         chamber.setCoordinates(new Coordinate(0, 0, 0));
         chamber.setWallColor(Color.ORANGE);
         chamber.setWallArt(new ImageWallArt(new BufferedImage[] {
-                TextureManager.main.getTexture("art1").getImage(), TextureManager.main.getTexture("art0").getImage(),null,TextureManager.main.getTexture("art2").getImage(),null, null
+                TextureManager.main.getTexture("art1"), TextureManager.main.getTexture("art0"),null,TextureManager.main.getTexture("art2"),null, null
         }));
-
 
         Chamber chamber2 = new Chamber();
         chamber2.setCoordinates(new Coordinate(0,0,1));
@@ -48,13 +47,13 @@ public class Test {
                 null,null,null,chamber,null,null
         });
         chamber3.setWallArt(new ImageWallArt((new BufferedImage[] {
-                null, TextureManager.main.getTexture("art2").getImage(), null, null, null, null
+                null, TextureManager.main.getTexture("art2"), null, null, null, null
         })));
         chamber2.setChambers(new Chamber[]{
                null,null,null,null,chamber,null
         });
         chamber2.setWallArt(new ImageWallArt(new BufferedImage[] {
-                null, null, TextureManager.main.getTexture("art2").getImage(), null, null, null
+                null, null, TextureManager.main.getTexture("art12"), null, null, null
         }));
         BackendEngine backendEngine = new BackendEngine();
         backendEngine.setChamber(chamber);
@@ -66,7 +65,5 @@ public class Test {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-        System.out.println("Test complete");
-
     }
 }
