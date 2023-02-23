@@ -29,7 +29,7 @@ public class MazeGenerator {
                     }
                 }
             }
-            easy(new Coordinate(0, 0, 0));
+            easy();
         }
         else if (difficulty.equals("medium")){
             unvisited = 124;
@@ -61,12 +61,46 @@ public class MazeGenerator {
             hard(new Coordinate(0, 0, 0));
         }
     }
-    public void easy(Coordinate coord){
-
+    public void easy(){
+        int[][][] color = new int[4][4][4];
+        int currColor = 1;
+        for (int i = 0; i < 4; i++) {
+            for (int k = 0; k < 4; k++) {
+                for (int c = 0; c < 4; c++) {
+                    color[i][k][c] = currColor;
+                    currColor++;
+                }
+            }
+        }
+        Set<Coordinate[]> edges = new HashSet<Coordinate[]>();
+        for (int i = 0; i < 4; i++) {
+            for (int k = 0; k < 4; k++) {
+                for (int c = 0; c < 4; c++) {
+                    Coordinate[] edge = new Coordinate[2];
+                    edge[0] = new Coordinate(i,k,c);
+                    //try each of six neighbors
+                    int[][] offsets = {{1,0,0},{-1,0,0},
+                            {0,1,0},{0,-1,0},{0,0,1},{0,0,-1}};
+                    for (int[] offset : offsets) {
+                        int z = i + offset[0];
+                        int y = k + offset[1];
+                        int x = c + offset[2];
+                        boolean zGood = z <= 4 && z >= 0;
+                        boolean yGood = y <= 4 && y >= 0;
+                        boolean xGood = x <= 4 && x >= 0;
+                        if (zGood && yGood && xGood) {
+                            //fill out second coordinate in edge
+                            edge[1] = new Coordinate(z,y,x);
+                            edges.add(edge);
+                        }
+                    }
+                }
+            }
+        }
     }
     public void medium(){
         Coordinate start;
-        while (unvisited != 0){
+        while (unvisited > 0){
             do{
                 start = new Coordinate(rand.nextInt(6), rand.nextInt(6), rand.nextInt(6));
             }
@@ -81,8 +115,58 @@ public class MazeGenerator {
         }
     }
     private void walk(Coordinate coord){
+        if (visited[coord.getLevel()][coord.getRow()][coord.getColumn()]){
+            return;
+        }
         Collections.shuffle(directions);
-
+        boolean found = false;
+        for (int i = 0; i < 6; i++){
+            if (directions.get(i) == 'N'){
+                if (coord.getRow() - 1 >= 0){
+                    walk[coord.getLevel()][coord.getRow()][coord.getColumn()] = 'N';
+                    walk(new Coordinate(coord.getLevel(), coord.getRow() - 1, coord.getColumn()));
+                    found = true;
+                }
+            }
+            if (directions.get(i) == 'E'){
+                if (coord.getColumn() + 1 < 6){
+                    walk[coord.getLevel()][coord.getRow()][coord.getColumn()] = 'E';
+                    walk(new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn() + 1));
+                    found = true;
+                }
+            }
+            if (directions.get(i) == 'S'){
+                if (coord.getRow() + 1 < 6){
+                    walk[coord.getLevel()][coord.getRow()][coord.getColumn()] = 'S';
+                    walk(new Coordinate(coord.getLevel(), coord.getRow() + 1, coord.getColumn()));
+                    found = true;
+                }
+            }
+            if (directions.get(i) == 'W'){
+                if (coord.getColumn() - 1 >= 0){
+                    walk[coord.getLevel()][coord.getRow()][coord.getColumn()] = 'W';
+                    walk(new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn() - 1));
+                    found = true;
+                }
+            }
+            if (directions.get(i) == 'T'){
+                if (coord.getLevel() - 1 >= 0){
+                    walk[coord.getLevel()][coord.getRow()][coord.getColumn()] = 'T';
+                    walk(new Coordinate(coord.getLevel() - 1, coord.getRow(), coord.getColumn()));
+                    found = true;
+                }
+            }
+            if (directions.get(i) == 'B') {
+                if (coord.getLevel() + 1 < 6) {
+                    walk[coord.getLevel()][coord.getRow()][coord.getColumn()] = 'B';
+                    walk(new Coordinate(coord.getLevel() + 1, coord.getRow(), coord.getColumn()));
+                    found = true;
+                }
+            }
+            if (found){
+                return;
+            }
+        }
     }
     public void hard(Coordinate coord){
         visited[coord.getLevel()][coord.getRow()][coord.getColumn()] = true;
