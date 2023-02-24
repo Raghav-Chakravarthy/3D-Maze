@@ -44,7 +44,7 @@ public class MazeGenerator {
                     }
                 }
             }
-            visited[0][0][0] = true;
+            visited[2][2][2] = true;
             medium();
         }
         else{
@@ -72,12 +72,10 @@ public class MazeGenerator {
                 }
             }
         }
-        Set<Coordinate[]> edges = new HashSet<Coordinate[]>();
+        ArrayList<Coordinate[]> edges = new ArrayList<Coordinate[]>();
         for (int i = 0; i < 4; i++) {
             for (int k = 0; k < 4; k++) {
                 for (int c = 0; c < 4; c++) {
-                    Coordinate[] edge = new Coordinate[2];
-                    edge[0] = new Coordinate(i,k,c);
                     //try each of six neighbors
                     int[][] offsets = {{1,0,0},{-1,0,0},
                             {0,1,0},{0,-1,0},{0,0,1},{0,0,-1}};
@@ -85,13 +83,51 @@ public class MazeGenerator {
                         int z = i + offset[0];
                         int y = k + offset[1];
                         int x = c + offset[2];
-                        boolean zGood = z <= 4 && z >= 0;
-                        boolean yGood = y <= 4 && y >= 0;
-                        boolean xGood = x <= 4 && x >= 0;
+                        boolean zGood = z <= 3 && z >= 0;
+                        boolean yGood = y <= 3 && y >= 0;
+                        boolean xGood = x <= 3 && x >= 0;
                         if (zGood && yGood && xGood) {
                             //fill out second coordinate in edge
+                            Coordinate[] edge = new Coordinate[2];
+                            edge[0] = new Coordinate(i,k,c);
                             edge[1] = new Coordinate(z,y,x);
-                            edges.add(edge);
+                            boolean contained = false;
+                            for (Coordinate[] other : edges) {
+                                if (other[0] == edge[0] && other[1] == edge[1]) {
+                                    contained = true;
+                                }
+                            }
+                            if (!contained) {
+                                edges.add(edge);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        Collections.shuffle(edges);
+        while (edges.size() > 0) {
+            Coordinate[] edge = edges.get(0);
+            edges.remove(0);
+            int z1,y1,x1;
+            int z2,y2,x2;
+            z1 = edge[0].getLevel();
+            y1 = edge[0].getRow();
+            x1 = edge[0].getColumn();
+            z2 = edge[1].getLevel();
+            y2 = edge[1].getRow();
+            x2 = edge[1].getColumn();
+            if (color[z1][y1][x1] != color[z2][y2][x2]) {
+                connections.get(z1).get(y1).get(x1).add(new Coordinate(z2,y2,x2));
+                connections.get(z2).get(y2).get(x2).add(new Coordinate(z1,y1,x1));
+                int oldColor = color[z1][y1][x1];
+                int newColor = color[z2][y2][x2];
+                for (int i = 0; i < 4; i++) {
+                    for (int k = 0; k < 4; k++) {
+                        for (int c = 0; c < 4; c++) {
+                            if (color[i][k][c] == oldColor) {
+                                color[i][k][c] = newColor;
+                            }
                         }
                     }
                 }
@@ -109,8 +145,24 @@ public class MazeGenerator {
             while (!visited[start.getLevel()][start.getRow()][start.getColumn()]){
                 visited[start.getLevel()][start.getRow()][start.getColumn()] = true;
                 addConnections(start, walk[start.getLevel()][start.getRow()][start.getColumn()]);
-                start = connections.get(start.getLevel()).get(start.getRow()).get(start.getColumn()).
-                        get(connections.size() - 1);
+                if (walk[start.getLevel()][start.getRow()][start.getColumn()] == 'N'){
+                    start = new Coordinate(start.getLevel(), start.getRow() - 1, start.getColumn());
+                }
+                if (walk[start.getLevel()][start.getRow()][start.getColumn()] == 'E'){
+                    start = new Coordinate(start.getLevel(), start.getRow(), start.getColumn() + 1);
+                }
+                if (walk[start.getLevel()][start.getRow()][start.getColumn()] == 'S'){
+                    start = new Coordinate(start.getLevel(), start.getRow() + 1, start.getColumn());
+                }
+                if (walk[start.getLevel()][start.getRow()][start.getColumn()] == 'W'){
+                    start = new Coordinate(start.getLevel(), start.getRow(), start.getColumn() - 1);
+                }
+                if (walk[start.getLevel()][start.getRow()][start.getColumn()] == 'T'){
+                    start = new Coordinate(start.getLevel(), start.getRow(), start.getColumn() - 1);
+                }
+                if (walk[start.getLevel()][start.getRow()][start.getColumn()] == 'B'){
+                    start = new Coordinate(start.getLevel(), start.getRow(), start.getColumn() + 1);
+                }
                 unvisited--;
             }
         }
