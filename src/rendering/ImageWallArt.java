@@ -14,9 +14,15 @@ public class ImageWallArt extends WallArt {
 
     public static ImageWallArt generateWallArtFor(Chamber chamber, int amount) {
         BufferedImage[] art = new BufferedImage[4];
+        int placed = 0;
+        
         for(int i = 0; i < 4; i++) {
-            if(i < amount)
-                art[i] = TextureManager.main.nextArt();
+            if(placed < amount) {
+                if(chamber.getAdjacentChamber(i) == null) {
+                    art[i] = TextureManager.main.nextArt();
+                    placed++;
+                }
+            }
         }
 
         return new ImageWallArt(art);

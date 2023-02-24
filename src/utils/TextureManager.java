@@ -11,6 +11,7 @@ public class TextureManager {
     public static final TextureManager main = new TextureManager();
     private HashMap<String, BufferedImage> textures;
     private int artCounter = 0;
+    private final int NUM_WALL_ART = 15; // Update this when new wall art is added
 
     public TextureManager() {
         textures = new HashMap<String, BufferedImage>();
@@ -33,9 +34,13 @@ public class TextureManager {
     public int getArtCounter() {
         return artCounter;
     }
-
+    
+    public int remainingWallArt() {
+        return NUM_WALL_ART-artCounter;
+    }
+    
     private void loadArtImages() throws IOException {
-        for(int i = 0; i < 15; i++) {
+        for(int i = 0; i < NUM_WALL_ART; i++) {
             loadTextureFromDisk("assets/wallArt/art"+i+".jpg", "art"+i);
         }
     }
