@@ -13,7 +13,7 @@ public class Scene {
 	private ArrayList<SceneObject> objects;
 	private ArrayList<Light> lights;
 
-	private final int TEXTURE_SIZE = 720;
+	private final int TEXTURE_SIZE = 500;
 	private final Color PASSAGE_COLOR = new Color(ColorUtils.rgbToHex(new Vector3(0.01f)));
 	private final float CHAMBER_SIZE = 2.01f;
 	
@@ -31,8 +31,6 @@ public class Scene {
 			Coordinate coord = chamber.getCoordinates();
 			
 			Vector3 center = new Vector3(coord);
-			System.out.println(center);
-
 			addLight(new PointLight(center.add(new Vector3(0,0.5f,0)), new Vector3(0.7f)));
 
 			for(int dir = 0; dir < 6; dir++) {
@@ -93,7 +91,7 @@ public class Scene {
 	private ImageTexture createWallTexture(Chamber chamber, int dir) {
 		BufferedImage wallTexture = emptyWallTexture(chamber);
 		Graphics2D g = (Graphics2D) wallTexture.getGraphics();
-		if(chamber.getWallArt().getArt(dir) != null)
+		if(dir < Direction.UP && chamber.getWallArt().getArt(dir) != null)
 			g.drawImage(chamber.getWallArt().getArt(dir).getImage(), TEXTURE_SIZE/4, TEXTURE_SIZE/4, TEXTURE_SIZE/2, TEXTURE_SIZE/2, null);
 		return new ImageTexture(wallTexture);
 	}

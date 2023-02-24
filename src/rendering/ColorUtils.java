@@ -1,5 +1,7 @@
 package rendering;
 
+import java.awt.Color;
+
 public class ColorUtils {
 	public static int rgbToHex(int r, int g, int b) {
 		int hex = (r << 8 << 8) | (g << 8) | b;
@@ -10,5 +12,13 @@ public class ColorUtils {
 		return rgbToHex((int) Math.min((Math.sqrt(color.x())*255), 255),
 				(int) Math.min((Math.sqrt(color.y())*255), 255),
 				(int) Math.min((Math.sqrt(color.z())*255), 255));
+	}
+	
+	public static Color randomChamberColor() {
+		return new Color(rgbToHex(randColorChannel(), randColorChannel(), randColorChannel()));
+	}
+
+	private static int randColorChannel() {
+		return 128+(int) (Math.random()*128);
 	}
 }
