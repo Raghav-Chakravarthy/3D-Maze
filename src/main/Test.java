@@ -20,9 +20,7 @@ public class Test {
         Chamber chamber = new Chamber();
         chamber.setCoordinates(new Coordinate(0, 0, 0));
         chamber.setWallColor(ColorUtils.randomChamberColor());
-        chamber.setWallArt(new ImageWallArt(new BufferedImage[] {
-                TextureManager.main.getTexture("art1"), TextureManager.main.getTexture("art0"),null,TextureManager.main.getTexture("art2"),null, null
-        }));
+        chamber.setWallArt(ImageWallArt.generateWallArtFor(chamber, 3));
 
         Chamber chamber2 = new Chamber();
         chamber2.setCoordinates(new Coordinate(0,0,1));
@@ -36,15 +34,11 @@ public class Test {
         chamber3.setChambers(new Chamber[]{
                 null,null,null,chamber,null,null
         });
-        chamber3.setWallArt(new ImageWallArt((new BufferedImage[] {
-                null, TextureManager.main.getTexture("art2"), null, null, null, null
-        })));
+        chamber3.setWallArt(ImageWallArt.generateWallArtFor(chamber3, 2));
         chamber2.setChambers(new Chamber[]{
                null,null,null,null,chamber,null
         });
-        chamber2.setWallArt(new ImageWallArt(new BufferedImage[] {
-                null, null, TextureManager.main.getTexture("art12"), null, null, null
-        }));
+        chamber2.setWallArt(ImageWallArt.generateWallArtFor(chamber2, 2));
         BackendEngine backendEngine = new BackendEngine();
         backendEngine.setChamber(chamber);
         ChamberView chamberView = new ChamberView(chamber, backendEngine);
