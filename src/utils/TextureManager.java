@@ -40,7 +40,7 @@ public class TextureManager {
     }
     
     private void loadArtImages() throws IOException {
-        for(int i = 0; i < 15; i++) {
+        for(int i = 0; i < NUM_WALL_ART; i++) {
             loadTextureFromDisk("assets/wallArt/art"+i+".jpg", "art"+i);
         }
     }
