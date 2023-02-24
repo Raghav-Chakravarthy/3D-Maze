@@ -13,7 +13,7 @@ public class Scene {
 	private ArrayList<SceneObject> objects;
 	private ArrayList<Light> lights;
 
-	private final int TEXTURE_SIZE = 720;
+	private final int TEXTURE_SIZE = 500;
 	private final Color PASSAGE_COLOR = new Color(ColorUtils.rgbToHex(new Vector3(0.01f)));
 	private final float CHAMBER_SIZE = 2.01f;
 	

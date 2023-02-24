@@ -26,10 +26,10 @@ public class Test {
 
         Chamber chamber2 = new Chamber();
         chamber2.setCoordinates(new Coordinate(0,0,1));
-        chamber2.setWallColor(Color.green);
+        chamber2.setWallColor(ColorUtils.randomChamberColor());
         Chamber chamber3 = new Chamber();
         chamber3.setCoordinates(new Coordinate(0,1,0));
-        chamber3.setWallColor(Color.orange);
+        chamber3.setWallColor(ColorUtils.randomChamberColor());
         chamber.setChambers(new Chamber[] {
             null, null, chamber3, null, null, chamber2
         });
