@@ -1,6 +1,8 @@
 package maze;
 
 import java.awt.Color;
+import rendering.WallArt;
+
 public class Chamber {
     private Color wallColor;
     private boolean visited;
@@ -16,12 +18,15 @@ public class Chamber {
     public void setWallColor(Color c) {
         wallColor = c;
     }
+
     public WallArt getWallArt() {
         return wallArt;
     }
+
     public void setWallArt(WallArt art) {
-        wallArt = art;
+        this.wallArt = art;
     }
+
     public boolean getVisited() {
         return visited;
     }

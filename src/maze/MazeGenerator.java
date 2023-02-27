@@ -1,3 +1,5 @@
+package maze;
+
 import java.util.*;
 public class MazeGenerator {
     private Maze generatedMaze;

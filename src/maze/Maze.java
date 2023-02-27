@@ -1,8 +1,8 @@
 package maze;
 
+
 import maze.Chamber;
 import maze.Coordinate;
-
 public class Maze {
     private int mazeSize;
     private Chamber[][][] chambers;

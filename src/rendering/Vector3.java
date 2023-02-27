@@ -1,5 +1,7 @@
 package rendering;
 
+import maze.Coordinate;
+
 public class Vector3 {
 	private float x, y, z;
 	
@@ -13,6 +15,12 @@ public class Vector3 {
 		this.x = a;
 		this.y = a;
 		this.z = a;
+	}
+
+	public Vector3(Coordinate coord) {
+		z = coord.getRow()*2;
+		y = -coord.getLevel()*2;
+		x = coord.getColumn()*2;
 	}
 	
 	public Vector3 add(Vector3 other) {
