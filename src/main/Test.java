@@ -40,7 +40,7 @@ public class Test {
         chamber2.setWallColor(Color.green);
         Chamber chamber3 = new Chamber();
         chamber3.setCoordinates(new Coordinate(0,1,0));
-        chamber3.setWallColor(Color.orange);
+        chamber3.setWallColor(Color.RED);
         chamber.setChambers(new Chamber[] {
             null, null, chamber3, null, null, chamber2
         });
