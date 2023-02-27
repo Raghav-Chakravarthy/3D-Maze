@@ -1,6 +1,8 @@
 package maze;
 
 import java.util.*;
+import utils.Direction;
+
 public class MazeGenerator {
     private Maze generatedMaze;
     private boolean[][][] visited;
