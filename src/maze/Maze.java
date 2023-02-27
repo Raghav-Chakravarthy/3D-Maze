@@ -1,4 +1,8 @@
 package maze;
+
+
+import maze.Chamber;
+import maze.Coordinate;
 public class Maze {
     private int mazeSize;
     private Chamber[][][] chambers;
@@ -17,10 +21,10 @@ public class Maze {
         }
     }
     public Chamber getChamberAt(Coordinate coord){
-       return null;
+        return chambers[coord.getLevel()][coord.getRow()][coord.getColumn()];
     }
     public Chamber[][] getLevel(int z){
-        return null;
+        return chambers[z];
     }
     public Chamber getRootChamber(){
         return rootChamber;
@@ -31,7 +35,7 @@ public class Maze {
     public int getMoves(){
         return moves;
     }
-    public Chamber setChamber(Coordinate coord){
-        return null;
+    public void setChamber(Coordinate coord, Chamber chamber){
+        chambers[coord.getLevel()][coord.getRow()][coord.getColumn()] = chamber;
     }
 }

@@ -1,15 +1,18 @@
 package maze;
+
 import rendering.Vector3;
 
 public class Coordinate {
     private int row;
     private int column;
     private int level;
-    public Coordinate(int row, int column, int level) {
+    
+    public Coordinate(int level, int row, int column) {
+        this.level = level;
         this.row = row;
         this.column = column;
-        this.level = level;
     }
+    
     public int getRow() {
         return row;
     }

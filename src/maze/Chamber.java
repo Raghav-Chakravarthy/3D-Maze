@@ -1,4 +1,5 @@
 package maze;
+
 import java.awt.Color;
 import rendering.WallArt;
 

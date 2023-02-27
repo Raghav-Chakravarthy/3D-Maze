@@ -2,7 +2,7 @@ package backend;
 
 import frontend.*;
 import maze.*;
-import utils.*;
+import utils.Direction;
 
 public class BackendEngine {
 
