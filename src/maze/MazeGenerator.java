@@ -1,3 +1,9 @@
+package maze;
+
+import maze.Chamber;
+import maze.Coordinate;
+import maze.Maze;
+
 import java.util.*;
 public class MazeGenerator {
     private Maze generatedMaze;

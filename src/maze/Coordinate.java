@@ -1,3 +1,5 @@
+package maze;
+
 public class Coordinate {
     private int row;
     private int column;

@@ -1,3 +1,5 @@
+package maze;
+
 public class Direction {
     public static final int NORTH = 0;
     public static final int SOUTH = 1;

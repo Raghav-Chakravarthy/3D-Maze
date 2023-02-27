@@ -1,3 +1,5 @@
+package maze;
+
 public class MazeSolver {
     private Maze toSolve;
     private static boolean[][][] visited;
