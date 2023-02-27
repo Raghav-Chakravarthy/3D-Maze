@@ -1,9 +1,3 @@
-package maze;
-
-import maze.Chamber;
-import maze.Coordinate;
-import maze.Maze;
-
 import java.util.*;
 public class MazeGenerator {
     private Maze generatedMaze;
@@ -381,6 +375,12 @@ public class MazeGenerator {
         for (int i = 0; i < size; i++) {
             for (int k = 0; k < size; k++) {
                 for (int c = 0; c < size; c++) {
+                	chambers[i][k][c].setWallColor(ColorUtils.randomChamberColor());
+                	boolean hasArt = Math.random() > 0.5;
+                	int artAmount = (int)(Math.random() * 2 + 1);
+                	if (hasArt) {
+                		chambers[i][k][c].setWallArt(ImageWallArt.generateWallArtFor(chambers[i][k][c], artAmount));
+                	}
                     Coordinate loc = new Coordinate(i,k,c);
                     generatedMaze.setChamber(loc, chambers[i][k][c]);
                 }
