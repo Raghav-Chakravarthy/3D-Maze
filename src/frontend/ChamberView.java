@@ -176,7 +176,7 @@ public class ChamberView extends JPanel {
                 double distanceMoved = (currentTime- lastTime)/250000000;
                 distanceRemaining -= distanceMoved;
                 //move
-                System.out.println(distanceRemaining);
+                //System.out.println(distanceRemaining);
                 if(distanceRemaining<=0){
                     frameTimerUp.stop();
                     if(backendEngine.getDirection()==Direction.NORTH){
@@ -300,7 +300,7 @@ public class ChamberView extends JPanel {
                 double distanceMoved = (currentTime- lastTime)/250000000;
                 distanceRemaining -= distanceMoved;
                 //move
-                System.out.println(distanceRemaining);
+                //System.out.println(distanceRemaining);
                 if(distanceRemaining<=0){
                     frameTimerDown.stop();
                     if(backendEngine.getDirection()==Direction.NORTH){
