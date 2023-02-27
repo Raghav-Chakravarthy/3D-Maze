@@ -1,21 +1,15 @@
 package main;
 
-
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
 import backend.BackendEngine;
 import frontend.ChamberView;
-import maze.Chamber;
 import maze.Coordinate;
 import maze.Maze;
 import maze.MazeGenerator;
-import rendering.ColorUtils;
-import rendering.ImageWallArt;
-import utils.TextureManager;
+
 
 public class Test {
     public static void main(String[] args) {
