@@ -9,6 +9,17 @@ public class Chamber {
     private Chamber[] adjacentChambers;
     private WallArt wallArt;
     private Coordinate coordinates;
+
+    private boolean lastDoor = false;
+
+    public boolean isLastDoor() {
+        return lastDoor;
+    }
+
+    public void setLastDoor(boolean lastDoor) {
+        this.lastDoor = lastDoor;
+    }
+
     public Chamber() {
         adjacentChambers = new Chamber[6];
     }
