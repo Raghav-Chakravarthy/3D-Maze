@@ -12,12 +12,15 @@ public class Maze {
     public Maze(String difficulty){
         if (difficulty.equals("easy")){
             chambers = new Chamber[4][4][4];
+            mazeSize=4;
         }
         else if (difficulty.equals("medium")){
             chambers = new Chamber[5][5][5];
+            mazeSize=5;
         }
         else{
             chambers = new Chamber[6][6][6];
+            mazeSize=6;
         }
     }
     public Chamber getChamberAt(Coordinate coord){
@@ -27,15 +30,18 @@ public class Maze {
         return chambers[z];
     }
     public Chamber getRootChamber(){
-        return rootChamber;
+        return getChamberAt(new Coordinate(0,0,0));
     }
     public Chamber getSolutionChamber(){
-        return solutionChamber;
+        return getChamberAt(new Coordinate(mazeSize-1, mazeSize-1, mazeSize-1));
     }
     public int getMoves(){
         return moves;
     }
     public void setChamber(Coordinate coord, Chamber chamber){
+        if(coord.equals(new Coordinate(mazeSize-1, mazeSize-1, mazeSize-1)))
+            chamber.setLastDoor(true);
+        
         chambers[coord.getLevel()][coord.getRow()][coord.getColumn()] = chamber;
     }
 }

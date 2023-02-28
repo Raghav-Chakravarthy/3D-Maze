@@ -15,6 +15,7 @@ public class Scene {
 
 	private final int TEXTURE_SIZE = 500;
 	private final Color PASSAGE_COLOR = new Color(ColorUtils.rgbToHex(new Vector3(0.01f)));
+	private final Color SOLUTION_DOOR_COLOR = new Color(0x03fc62);
 	private final float CHAMBER_SIZE = 2.01f;
 	
 	public Scene() {
@@ -34,7 +35,9 @@ public class Scene {
 			addLight(new PointLight(center.add(new Vector3(0,0.5f,0)), new Vector3(0.7f)));
 
 			for(int dir = 0; dir < 6; dir++) {
-				if(chamber.getAdjacentChamber(dir) == null) {
+				if(dir == Direction.SOUTH && chamber.isLastDoor()) {
+					addObject(createSolutionDoor(center, dir, chamber));
+				} else if(chamber.getAdjacentChamber(dir) == null) {
 					addObject(createWall(dir, center, createWallTexture(chamber, dir)));
 				} else {
 					if(dir == Direction.UP) {
@@ -79,6 +82,10 @@ public class Scene {
 		return createWall(dir, center, createDoorTexture(chamber));
 	}
 
+	private Quad createSolutionDoor(Vector3 center, int dir, Chamber chamber) {
+		return createWall(dir, center, createSolutionDoorTexture(chamber));
+	}
+
 	private BufferedImage emptyWallTexture(Chamber chamber) {
 		BufferedImage img = new BufferedImage(TEXTURE_SIZE,TEXTURE_SIZE,BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = (Graphics2D) img.getGraphics();
@@ -96,6 +103,18 @@ public class Scene {
 				g.drawImage(chamber.getWallArt().getArt(dir).getImage(), TEXTURE_SIZE/4, TEXTURE_SIZE/4, TEXTURE_SIZE/2, TEXTURE_SIZE/2, null);
 		}
 		return new ImageTexture(wallTexture);
+	}
+
+	private ImageTexture createSolutionDoorTexture(Chamber chamber) {
+		BufferedImage img = emptyWallTexture(chamber);
+		Graphics2D g = (Graphics2D) img.getGraphics();
+		g.setColor(SOLUTION_DOOR_COLOR);
+		g.fillRect(TEXTURE_SIZE/4, TEXTURE_SIZE/4, TEXTURE_SIZE/2, TEXTURE_SIZE);
+		g.setColor(PASSAGE_COLOR);
+		g.setStroke(new BasicStroke(5));
+		g.drawRect(TEXTURE_SIZE/4, TEXTURE_SIZE/4, TEXTURE_SIZE/2, TEXTURE_SIZE);
+
+		return new ImageTexture(img);
 	}
 
 	private ImageTexture createDoorTexture(Chamber chamber) {
