@@ -487,9 +487,20 @@ public class ChamberView extends JPanel {
                 g.fillPolygon(new int[]{377,343,343,377},new int[]{(int) (720-(80+(45*Math.sin(Math.PI/3)))),(int) (720-(80+(45*Math.sin(Math.PI/3)))),720-170,720-170},4);
             }
             //right and left arrows
-
+            //GeneralPath polyline = new GeneralPath(GeneralPath.WIND_EVEN_ODD, x2Points.length);
+            drawLeftArrow();
+            drawRightArrow();
         }
     }
+
+    public void drawLeftArrow() {
+
+    }
+
+    public void drawRightArrow() {
+
+    }
+
     public void paintComponent(Graphics g){
         rendering.Renderer.renderTo(scene, camera, frameImage);
         Header.drawHeader(headerImage,backendEngine.getMoves(),backendEngine.getChamber().getCoordinates(),backendEngine.getDirection());
