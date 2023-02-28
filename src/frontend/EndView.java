@@ -56,7 +56,7 @@ public class EndView extends JPanel {
 
 		//	read the csv file and make it an array
 		try {
-			scan = new Scanner(new File("assets/3D-Maze-Scores.csv"));
+			scan = new Scanner(new File("assets"+ File.separator + "3D-Maze-Scores.csv"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -95,7 +95,7 @@ public class EndView extends JPanel {
 		String tempStr;
 		FileWriter fw = null;
 		try {
-			fw = new FileWriter(new File("assets/3D-Maze-Scores.csv"));
+			fw = new FileWriter(new File("assets" + File.separator + "3D-Maze-Scores.csv"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -121,10 +121,10 @@ public class EndView extends JPanel {
 			super.paintComponent(g);
 
 			//	Creates background and title
-			Image bgImage = readImage("/assets/endbg.jpg");
+			Image bgImage = readImage(File.separator + "assets" + File.separator + "endbg.jpg");
 			Image bgScaled = bgImage.getScaledInstance(1151, 720, Image.SCALE_DEFAULT);
 			g.drawImage(bgScaled,-215,0,null);
-			Image titleImage = readImage("/assets/endtitle.png");
+			Image titleImage = readImage(File.separator + "assets" + File.separator + "endtitle.png");
 			Image titleScaled = titleImage.getScaledInstance(680, 177, Image.SCALE_DEFAULT);
 			g.drawImage(titleScaled,20,10,null);
 
@@ -150,7 +150,7 @@ public class EndView extends JPanel {
 			g.fillRect(80,230,560,350);
 
 			//	creates the image that has numbers 1-10 for the leaderboard
-			Image leaderImage = readImage("/assets/endleaderboard.png");
+			Image leaderImage = readImage(File.separator + "assets" + File.separator  +"endleaderboard.png");
 			Image leaderScaled = leaderImage.getScaledInstance(300, 317, Image.SCALE_DEFAULT);
 			g.drawImage(leaderScaled,115,245,null);
 			g.setColor(Color.LIGHT_GRAY);
@@ -159,7 +159,7 @@ public class EndView extends JPanel {
 			//	reads from the newly altered file and displays the scores on the leaderboard (your score is yellow if on leaderboard)
 			Scanner scanner = null;
 			try {
-				scanner = new Scanner(new File("assets/3D-Maze-Scores.csv"));
+				scanner = new Scanner(new File("assets" + File.separator + "3D-Maze-Scores.csv"));
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}

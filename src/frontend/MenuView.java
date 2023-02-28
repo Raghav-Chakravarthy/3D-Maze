@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
+
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -14,7 +16,7 @@ public class MenuView extends JPanel implements MouseListener, MouseMotionListen
 	private int slideCounter = 0;
 	private String [] imageSlides;
 	private Image display;
-	private final String path = "assets\\art\\";
+	private final String path = "assets" + File.separator + "art" + File.separator;
 	private boolean mouseHoveredEasy;
 	private boolean mouseHoveredMedium;
 	private boolean mouseHoveredHard;
