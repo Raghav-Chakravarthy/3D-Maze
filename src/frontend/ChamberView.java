@@ -23,6 +23,8 @@ public class ChamberView extends JPanel {
     private BufferedImage headerImage = new BufferedImage(720,30,BufferedImage.TYPE_INT_ARGB);
     //TODO: everything...
     public ChamberView(Chamber chamber, final BackendEngine backendEngine){
+        System.out.println(chamber.getCoordinates());
+        this.setPreferredSize(new Dimension(720,720));
         this.setFocusable(true);
         this.backendEngine = backendEngine;
         camera.setNearPlane(1F);

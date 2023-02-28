@@ -2,7 +2,7 @@ package backend;
 
 import frontend.*;
 import maze.*;
-import utils.*;
+import utils.Direction;
 
 public class BackendEngine {
 
@@ -13,7 +13,7 @@ public class BackendEngine {
     private String gameMode, difficulty;
 
     public BackendEngine(){
-        viewEngine = new ViewEngine();
+        viewEngine = new ViewEngine(this);
     }
     
     public static void main(String[] args){
@@ -32,6 +32,10 @@ public class BackendEngine {
         return currentChamber;
     }
 
+    public int getScore(){
+        return (int) (10000 * ((double) this.gameMaze.getMoves() / (double) this.getMoves()));
+    }
+
     public void setChamber(Chamber chamber){
         currentChamber = chamber;
     }
@@ -44,6 +48,7 @@ public class BackendEngine {
         this.difficulty = difficulty;
         MazeGenerator m = new MazeGenerator(difficulty);
         this.gameMaze = m.getMaze();
+        this.currentChamber = this.gameMaze.getChamberAt(new Coordinate(0,0,0));
     }
 
     public void setDirection(int direction){
@@ -59,7 +64,7 @@ public class BackendEngine {
     public void changeView(String newView){
         if(newView.equals("chamberview")){
             if(viewEngine.getGameView().equals("mainview")){
-                this.viewEngine.setChamberView(new ChamberView(this.gameMaze.getRootChamber(), this));
+                this.viewEngine.setChamberView(new ChamberView(this.gameMaze.getChamberAt(new Coordinate(0,0,0)), this));
                 this.viewEngine.changeView("chamberview");
             } else if(viewEngine.getGameView().equals("mapview")){
                 this.viewEngine.changeView("chamberview");

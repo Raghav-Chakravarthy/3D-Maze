@@ -14,8 +14,8 @@ public class Header{
         graphics.fillRect(0,0,720,30);
         graphics.setColor(new Color(0,0,0,255));
         graphics.setFont(new Font("OCR A Extended", Font.PLAIN,20));
-        graphics.drawString("Level: "+coordinate.getLevel()+" | Row: "+coordinate.getRow()+" | Column: "+coordinate.getColumn(),0,422);
-        graphics.drawString("Moves Made: "+currentMoves, (((580-graphics.getFontMetrics().stringWidth("Level: "+coordinate.getLevel()+" | Row: "+coordinate.getRow()+" | Column: "+coordinate.getColumn()))-graphics.getFontMetrics().stringWidth("Moves Made: "+currentMoves))/2)+graphics.getFontMetrics().stringWidth("Level: "+coordinate.getLevel()+" | Row: "+coordinate.getRow()+" | Column: "+coordinate.getColumn()),22);
+        graphics.drawString("Level: "+(coordinate.getLevel()+1)+" | Row: "+(coordinate.getRow()+1)+" | Column: "+(coordinate.getColumn()+1),0,22);
+        graphics.drawString("Moves Made: "+currentMoves, (((580-graphics.getFontMetrics().stringWidth("Level: "+(coordinate.getLevel()+1)+" | Row: "+(coordinate.getRow()+1)+" | Column: "+(coordinate.getColumn()+1)))-graphics.getFontMetrics().stringWidth("Moves Made: "+currentMoves))/2)+graphics.getFontMetrics().stringWidth("Level: "+coordinate.getLevel()+" | Row: "+coordinate.getRow()+" | Column: "+coordinate.getColumn()),22);
         graphics.drawString("Direction: "+ Direction.toString(direction), 580,22);
     }
 }
