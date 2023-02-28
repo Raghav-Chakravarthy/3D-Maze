@@ -4,10 +4,7 @@ import backend.BackendEngine;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -29,12 +26,13 @@ public class EndView extends JPanel {
 	private int[] newTopTen;
 
 	public EndView(int score, BackendEngine engine) {
-
+		this.setFocusable(true);
+		this.setPreferredSize(new Dimension(720,720));
 		//	actual code for the constructor:
 		playerScore = score;
 		updateLeaderboard(playerScore);
 		JPanel panel = new PaintEndView();
-		BackendEngine game = engine;
+		final BackendEngine game = engine;
 		panel.setLayout(null);
 		panel.setBackground(Color.WHITE);
 
@@ -58,7 +56,7 @@ public class EndView extends JPanel {
 
 		//	read the csv file and make it an array
 		try {
-			scan = new Scanner(new File("C:/mydata/Java Projects/AOOD/3D-Maze/src/assets/3D-Maze-Scores.csv"));
+			scan = new Scanner(new File("assets/3D-Maze-Scores.csv"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -97,7 +95,7 @@ public class EndView extends JPanel {
 		String tempStr;
 		FileWriter fw = null;
 		try {
-			fw = new FileWriter(new File("C:/mydata/Java Projects/AOOD/3D-Maze/src/assets/3D-Maze-Scores.csv"));
+			fw = new FileWriter(new File("assets/3D-Maze-Scores.csv"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -161,7 +159,7 @@ public class EndView extends JPanel {
 			//	reads from the newly altered file and displays the scores on the leaderboard (your score is yellow if on leaderboard)
 			Scanner scanner = null;
 			try {
-				scanner = new Scanner(new File("C:/mydata/Java Projects/AOOD/3D-Maze/src/assets/3D-Maze-Scores.csv"));
+				scanner = new Scanner(new File("assets/3D-Maze-Scores.csv"));
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}

@@ -12,8 +12,8 @@ public class ViewEngine{
     private BackendEngine backend;
     
     public ViewEngine(BackendEngine backend){
-        setup();
         this.backend = backend;
+        setup();
     }
 
     public void setup(){
@@ -21,10 +21,11 @@ public class ViewEngine{
         mainPanel = new JPanel();
         gameView = "mainview";
 		mainPanel.setPreferredSize(new Dimension(720,720));
-        introDisplay = new Menu();
-        mainPanel.add(introDisplay);
+        introDisplay = new MenuView(backend);
         introDisplay.setSize(720,720);
-		frame.setContentPane(mainPanel);
+        frame.setContentPane(introDisplay);
+        frame.pack();
+        introDisplay.requestFocusInWindow();
 		frame.setLayout(null);
         frame.setTitle("3D Maze");
         frame.pack();
@@ -36,7 +37,7 @@ public class ViewEngine{
     public void setChamberView(ChamberView chamberView){
         this.chamberDisplay = chamberView;
     }
-    
+
     public void setMapView(MapView mapView){
         this.mapDisplay = mapView;
     }
@@ -57,6 +58,7 @@ public class ViewEngine{
             if(gameView.equals("chamberview")){
                 chamberViewToMapView();
             }
+
         } else if(newView.equals("endview")){
             if(gameView.equals("chamberview")){
                 chamberViewToEndView();
@@ -74,24 +76,28 @@ public class ViewEngine{
     }
 
     private void mainViewToChamberView(){
-        mainPanel.remove(introDisplay);
-        mainPanel.add(chamberDisplay);
+        frame.setContentPane(chamberDisplay);
+        frame.pack();
+        chamberDisplay.requestFocusInWindow();
     } 
 
     private void chamberViewToMapView(){
-        mainPanel.remove(chamberDisplay);
-        mainPanel.add(mapDisplay);
+        frame.setContentPane(mapDisplay);
+        frame.pack();
+        mapDisplay.requestFocusInWindow();
     }
 
     private void mapViewToChamberView(){
-        mainPanel.remove(mapDisplay);
-        mainPanel.add(chamberDisplay);
+        frame.setContentPane(chamberDisplay);
+        frame.pack();
+        chamberDisplay.requestFocusInWindow();
     }
 
     private void chamberViewToEndView(){
         endDisplay = new EndView(backend.getScore(), backend);
-        mainPanel.remove(chamberDisplay);
-        mainPanel.add(endDisplay);
+        frame.setContentPane(endDisplay);
+        frame.pack();
+        endDisplay.requestFocusInWindow();
     }
 
     private void endViewToClose(){

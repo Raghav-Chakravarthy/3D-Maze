@@ -48,6 +48,7 @@ public class BackendEngine {
         this.difficulty = difficulty;
         MazeGenerator m = new MazeGenerator(difficulty);
         this.gameMaze = m.getMaze();
+        this.currentChamber = this.gameMaze.getChamberAt(new Coordinate(0,0,0));
     }
 
     public void setDirection(int direction){
@@ -59,10 +60,11 @@ public class BackendEngine {
         currentChamber = currentChamber.getAdjacentChamber(direction);
     }
 
+
     public void changeView(String newView){
         if(newView.equals("chamberview")){
             if(viewEngine.getGameView().equals("mainview")){
-                this.viewEngine.setChamberView(new ChamberView(this.gameMaze.getRootChamber(), this));
+                this.viewEngine.setChamberView(new ChamberView(this.gameMaze.getChamberAt(new Coordinate(0,0,0)), this));
                 this.viewEngine.changeView("chamberview");
             } else if(viewEngine.getGameView().equals("mapview")){
                 this.viewEngine.changeView("chamberview");
