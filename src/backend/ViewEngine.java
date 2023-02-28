@@ -9,12 +9,11 @@ public class ViewEngine{
     private JFrame frame;
     private JPanel mainPanel, currentPanel, introDisplay, chamberDisplay, mapDisplay, endDisplay;
     private String gameView;
-    /*
     public ViewEngine(){
         setup();
     }
 
-     */
+
 
     public void setup(){
         frame = new JFrame();
@@ -36,12 +35,10 @@ public class ViewEngine{
     public void setChamberView(ChamberView chamberView){
         this.chamberDisplay = chamberView;
     }
-    /*
+
     public void setMapView(MapView mapView){
         this.mapDisplay = mapView;
     }
-
-     */
 
 
     public JPanel getChamberView(){
@@ -97,8 +94,6 @@ public class ViewEngine{
         mainPanel.remove(chamberDisplay);
         mainPanel.add(endDisplay);
     }
-
-
 
 
     private void endViewToClose(){
