@@ -39,7 +39,7 @@ public class ChamberView extends JPanel {
             @Override
             public void keyPressed(KeyEvent e) {
                 if(!moving){
-                    if((e.getKeyCode()==KeyEvent.VK_SPACE)&&(backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())!=null)){
+                    if((e.getKeyCode()==KeyEvent.VK_SPACE)&&((backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())!=null)||((backendEngine.getChamber().isLastDoor())&&(backendEngine.getDirection()==Direction.SOUTH)))){
                         moveForward();
                     } else if ((e.getKeyCode()==KeyEvent.VK_UP)&&(backendEngine.getChamber().getAdjacentChamber(Direction.UP)!=null)) {
                         moveUp();
@@ -59,11 +59,19 @@ public class ChamberView extends JPanel {
     private void moveForward(){
         //renders the new scene
         moving = true;
-        scene = new Scene(new Chamber[]{backendEngine.getChamber(), backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())});
+        double distance;
+        if((backendEngine.getChamber().isLastDoor())&&(backendEngine.getDirection()==Direction.SOUTH)){
+            distance = 2;
+        }else{
+            distance = 3;
+            scene = new Scene(new Chamber[]{backendEngine.getChamber(), backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())});
+        }
+        final double distanceToMove = distance;
         //rendering loop
         final Timer frameTimer = new Timer(1000 / 60, null);
+
         frameTimer.addActionListener(new ActionListener() {
-            double distanceRemaining = 3;
+            double distanceRemaining = distanceToMove;
             double lastTime = System.nanoTime();
             @Override
             public void actionPerformed(ActionEvent e) {
