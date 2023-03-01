@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 
 import backend.BackendEngine;
 import frontend.ChamberView;
-import maze.Coordinate;
 import maze.Maze;
 import maze.MazeGenerator;
 

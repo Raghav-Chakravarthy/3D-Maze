@@ -1,7 +1,5 @@
 package maze;
 
-import rendering.Vector3;
-
 public class Coordinate {
     private int row;
     private int column;

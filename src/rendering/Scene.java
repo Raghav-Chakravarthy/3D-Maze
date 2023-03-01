@@ -1,13 +1,13 @@
 package rendering;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+
 import maze.Chamber;
 import maze.Coordinate;
 import utils.Direction;
-
-import java.awt.image.BufferedImage;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.BasicStroke;
 
 public class Scene {
 	private ArrayList<SceneObject> objects;
