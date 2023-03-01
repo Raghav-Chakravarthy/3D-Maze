@@ -22,7 +22,8 @@ import maze.Chamber;
 import rendering.Camera;
 import rendering.Scene;
 import rendering.Vector3;
-import utils.Direction;;
+import utils.Direction;
+import utils.BoundingBox;
 
 
 public class ChamberView extends JPanel {
@@ -33,6 +34,13 @@ public class ChamberView extends JPanel {
     private BufferedImage frameImage = new BufferedImage(360,360,BufferedImage.TYPE_INT_RGB);
     private BufferedImage arrowImage = new BufferedImage(720,720,BufferedImage.TYPE_INT_ARGB);
     private BufferedImage headerImage = new BufferedImage(720,30,BufferedImage.TYPE_INT_ARGB);
+   
+    private BoundingBox leftArrowBounds = new BoundingBox(41, 425, 137, 336);
+    private BoundingBox rightArrowBounds = new BoundingBox(588, 423, 680, 333);
+    private BoundingBox forwardArrowBounds = new BoundingBox(311, 500, 404, 450);
+    private BoundingBox downArrowBounds = new BoundingBox(322, 642, 399, 551);
+    private BoundingBox upArrowBounds = new BoundingBox(327, 170, 399, 83);
+
     //TODO: everything...
     public ChamberView(Chamber chamber, final BackendEngine backendEngine){
         System.out.println(chamber.getCoordinates());
@@ -45,6 +53,20 @@ public class ChamberView extends JPanel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                int x = e.getX(), y = e.getY();
+                if(!moving) {
+                    if(upArrowBounds.inBounds(x, y) && (backendEngine.getChamber().getAdjacentChamber(Direction.UP)!=null)) {
+                        moveUp();
+                    } else if(downArrowBounds.inBounds(x, y) && (backendEngine.getChamber().getAdjacentChamber(Direction.DOWN)!=null)) {
+                        moveDown();
+                    } else if(leftArrowBounds.inBounds(x, y)) {
+                        turnLeft();
+                    } else if(rightArrowBounds.inBounds(x, y)) {
+                        turnRight();
+                    } else if(forwardArrowBounds.inBounds(x, y) && (backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())!=null)) {
+                        moveForward();
+                    }
+                }
             }
         });
         this.addKeyListener(new KeyAdapter() {
