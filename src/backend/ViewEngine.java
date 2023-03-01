@@ -7,7 +7,7 @@ import frontend.*;
 
 public class ViewEngine{
     private JFrame frame;
-    private JPanel mainPanel, currentPanel, introDisplay, chamberDisplay, mapDisplay, endDisplay;
+    private JPanel mainPanel, introDisplay, chamberDisplay, mapDisplay, endDisplay;
     private String gameView;
     private BackendEngine backend;
     
@@ -41,7 +41,6 @@ public class ViewEngine{
     public void setMapView(MapView mapView){
         this.mapDisplay = mapView;
     }
-
 
     public JPanel getChamberView(){
         return this.chamberDisplay;

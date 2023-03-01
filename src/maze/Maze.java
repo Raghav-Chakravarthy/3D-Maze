@@ -26,11 +26,20 @@ public class Maze {
     public Chamber[][] getLevel(int z){
         return chambers[z];
     }
+    public void setRootChamber(Chamber c) {
+    	rootChamber = c;
+    }
+    public void setSolutionChamber(Chamber c) {
+    	solutionChamber = c;
+    }
     public Chamber getRootChamber(){
         return getChamberAt(new Coordinate(0,0,0));
     }
     public Chamber getSolutionChamber(){
         return getChamberAt(new Coordinate(mazeSize-1, mazeSize-1, mazeSize-1));
+    }
+    public void setMoves(int moves) {
+    	this.moves = moves;
     }
     public int getMoves(){
         return moves;
