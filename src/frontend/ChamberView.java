@@ -35,8 +35,8 @@ public class ChamberView extends JPanel {
     private BufferedImage arrowImage = new BufferedImage(720,720,BufferedImage.TYPE_INT_ARGB);
     private BufferedImage headerImage = new BufferedImage(720,30,BufferedImage.TYPE_INT_ARGB);
    
-    private BoundingBox leftArrowBounds = new BoundingBox(41, 425, 137, 336);
-    private BoundingBox rightArrowBounds = new BoundingBox(588, 423, 680, 333);
+    private BoundingBox leftArrowBounds = new BoundingBox(41, 425+50, 137, 336+50);
+    private BoundingBox rightArrowBounds = new BoundingBox(588, 423+50, 680, 333+50);
     private BoundingBox forwardArrowBounds = new BoundingBox(311, 500, 404, 450);
     private BoundingBox downArrowBounds = new BoundingBox(322, 642, 399, 551);
     private BoundingBox upArrowBounds = new BoundingBox(327, 170, 399, 83);
@@ -526,9 +526,9 @@ public class ChamberView extends JPanel {
         }
     }
 
-    public void drawLeftArrow(Graphics2D g) {
+    private void drawLeftArrow(Graphics2D g) {
         int x = 70;
-        int y = 720/2 + 50;
+        int y = 720/2 + 100;
 
         QuadCurve2D.Float curve = new QuadCurve2D.Float(x+50, y, x+51, y-50, x, y-50);
         g.setStroke(new BasicStroke(25));
@@ -536,9 +536,9 @@ public class ChamberView extends JPanel {
         g.fillPolygon(new int[]{x-30, x+5, x+5},new int[]{y-50, y-25, y-75},3);
     }
 
-    public void drawRightArrow(Graphics2D g) {
+    private void drawRightArrow(Graphics2D g) {
         int x = 720-70;
-        int y = 720/2 + 50;
+        int y = 720/2 + 100;
 
         QuadCurve2D.Float curve = new QuadCurve2D.Float(x-50, y, x-51, y-50, x, y-50);
         g.setStroke(new BasicStroke(25));
