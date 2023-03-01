@@ -1,3 +1,5 @@
+package maze;
+
 import java.util.LinkedList;
 import java.util.Queue;
 public class OptimalSolver {
@@ -23,8 +25,6 @@ public class OptimalSolver {
 			Chamber current = queue.poll();
 			Coordinate coord = current.getCoordinates();
 			if (coord.getLevel() == size-1 && coord.getRow() == size-1 && coord.getColumn() == size-1) {
-				//System.out.println("SOLVED");
-				//System.out.println(prevNode.get(coord));
 				break;
 			}
 			for (Chamber c : current.getChambers()) {
