@@ -71,24 +71,18 @@ public class ChamberView extends JPanel {
     private void moveForward(){
         //renders the new scene
         moving = true;
-        double distance;
-        if((backendEngine.getChamber().isLastDoor())&&(backendEngine.getDirection()==Direction.SOUTH)){
-            distance = 2;
-        }else{
-            distance = 3;
+        if(!((backendEngine.getChamber().isLastDoor())&&(backendEngine.getDirection()==Direction.SOUTH))){
             scene = new Scene(new Chamber[]{backendEngine.getChamber(), backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())});
         }
-        final double distanceToMove = distance;
         //rendering loop
         final Timer frameTimer = new Timer(1000 / 60, null);
 
         frameTimer.addActionListener(new ActionListener() {
-            double distanceRemaining = distanceToMove;
+            double distanceRemaining = 3;
             double lastTime = System.nanoTime();
             @Override
             public void actionPerformed(ActionEvent e) {
                 double currentTime = System.nanoTime();
-                //how far to move off of time since last frame, idk how to VSync but whatever
 
                 double distanceMoved = (currentTime- lastTime)/330000000;
                 distanceRemaining -= distanceMoved;
@@ -96,8 +90,13 @@ public class ChamberView extends JPanel {
 
                 if(distanceRemaining<=0){
                     frameTimer.stop();
-                    backendEngine.move(backendEngine.getDirection());
-                    centerChamber();
+                    if((backendEngine.getChamber().isLastDoor())&&(backendEngine.getDirection()==Direction.SOUTH)){
+                        backendEngine.changeView("endview");
+                        moving = false;
+                    }else{
+                        backendEngine.move(backendEngine.getDirection());
+                        centerChamber();
+                    }
                 }else{
                     if(backendEngine.getDirection()==Direction.NORTH){
                         camera.translate(new Vector3(0,0,(float) distanceMoved));
@@ -491,7 +490,7 @@ public class ChamberView extends JPanel {
         g.clearRect(0,0,720,720);
         g.setColor(Color.RED);
         if(!moving){
-            if(backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())!=null){
+            if((backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())!=null)||((backendEngine.getChamber().isLastDoor())&&(backendEngine.getDirection()==Direction.SOUTH))){
                 //forward arrow
                 g.fillPolygon(new int[]{360, 405, 315},new int[]{450, (int) (450+(20*Math.sin(Math.PI/3))), (int) (450+(20*Math.sin(Math.PI/3)))},3);
                 g.fillPolygon(new int[]{375,345,330,390},new int[]{(int) (450+(20*Math.sin(Math.PI/3))),(int) (450+(20*Math.sin(Math.PI/3))),500,500},4);
@@ -512,9 +511,9 @@ public class ChamberView extends JPanel {
         }
     }
 
-    public void drawLeftArrow(Graphics2D g) {
+    private void drawLeftArrow(Graphics2D g) {
         int x = 70;
-        int y = 720/2 + 50;
+        int y = 720/2+150;
 
         QuadCurve2D.Float curve = new QuadCurve2D.Float(x+50, y, x+51, y-50, x, y-50);
         g.setStroke(new BasicStroke(25));
@@ -522,9 +521,9 @@ public class ChamberView extends JPanel {
         g.fillPolygon(new int[]{x-30, x+5, x+5},new int[]{y-50, y-25, y-75},3);
     }
 
-    public void drawRightArrow(Graphics2D g) {
+    private void drawRightArrow(Graphics2D g) {
         int x = 720-70;
-        int y = 720/2 + 50;
+        int y = 720/2+150;
 
         QuadCurve2D.Float curve = new QuadCurve2D.Float(x-50, y, x-51, y-50, x, y-50);
         g.setStroke(new BasicStroke(25));
