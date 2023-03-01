@@ -4,7 +4,6 @@ import java.util.*;
 import utils.Direction;
 import rendering.ColorUtils;
 import rendering.ImageWallArt;
-
 public class MazeGenerator {
     private Maze generatedMaze;
     private boolean[][][] visited;
@@ -393,6 +392,11 @@ public class MazeGenerator {
                 }
             }
         }
+        //set root chamber, solution chamber, and moves
+        generatedMaze.setRootChamber(generatedMaze.getChamberAt(new Coordinate(0,0,0)));
+        generatedMaze.setSolutionChamber(generatedMaze.getChamberAt(new Coordinate(size-1,size-1,size-1)));
+        OptimalSolver solver = new OptimalSolver(generatedMaze);
+        generatedMaze.setMoves(solver.getMoves());
     }
     public Maze getMaze(){
         toMaze();
