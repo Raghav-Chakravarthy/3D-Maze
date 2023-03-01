@@ -49,7 +49,7 @@ public class OptimalSolver {
 		String reverseSolution = "";
 		while (prevNode[z][y][x] != null) {
 			//add to solution string
-			System.out.println(z + " " + y + " " + x);
+			//System.out.println(z + " " + y + " " + x);
 			Coordinate fromCoord = prevNode[z][y][x];
 			// z,y,x -> destination coordinate
 			// z1,y1,x1 -> from coordinate
