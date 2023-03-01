@@ -1,7 +1,11 @@
 package backend;
 
-import frontend.*;
-import maze.*;
+import frontend.ChamberView;
+import frontend.MapView;
+import maze.Chamber;
+import maze.Coordinate;
+import maze.Maze;
+import maze.MazeGenerator;
 import utils.Direction;
 
 public class BackendEngine {
