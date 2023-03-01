@@ -23,6 +23,8 @@ public class OptimalSolver {
 			Chamber current = queue.poll();
 			Coordinate coord = current.getCoordinates();
 			if (coord.getLevel() == size-1 && coord.getRow() == size-1 && coord.getColumn() == size-1) {
+				//System.out.println("SOLVED");
+				//System.out.println(prevNode.get(coord));
 				break;
 			}
 			for (Chamber c : current.getChambers()) {
@@ -47,6 +49,7 @@ public class OptimalSolver {
 		String reverseSolution = "";
 		while (prevNode[z][y][x] != null) {
 			//add to solution string
+			System.out.println(z + " " + y + " " + x);
 			Coordinate fromCoord = prevNode[z][y][x];
 			// z,y,x -> destination coordinate
 			// z1,y1,x1 -> from coordinate
@@ -83,5 +86,9 @@ public class OptimalSolver {
 	}
 	public int getMoves() {
 		return moveCount;
+	}
+	public static void main(String[] args) {
+		Maze toSolve = new MazeGenerator("easy").getMaze();
+		OptimalSolver test = new OptimalSolver(toSolve);
 	}
 }

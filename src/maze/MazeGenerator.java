@@ -1,4 +1,9 @@
+package maze;
+
 import java.util.*;
+import utils.Direction;
+import rendering.ColorUtils;
+import rendering.ImageWallArt;
 public class MazeGenerator {
     private Maze generatedMaze;
     private boolean[][][] visited;
