@@ -7,10 +7,10 @@ import utils.Direction;
 public class BackendEngine {
 
     private ViewEngine viewEngine;
-    private int currentMoves = 0, direction = Direction.EAST, minMoves, finalScore;
+    private int currentMoves = 0, direction = Direction.EAST;
     private Maze gameMaze;
     private Chamber currentChamber, solutionChamber;
-    private String gameMode, difficulty;
+    private String difficulty;
 
     public BackendEngine(){
         viewEngine = new ViewEngine(this);
@@ -30,6 +30,10 @@ public class BackendEngine {
 
     public Chamber getChamber(){
         return currentChamber;
+    }
+
+    public Chamber getSolutionChamber(){
+        return gameMaze.getSolutionChamber();
     }
 
     public int getScore(){
