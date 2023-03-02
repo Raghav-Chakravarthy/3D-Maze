@@ -50,7 +50,7 @@ public class MazeGenerator {
                     }
                 }
             }
-            visited[0][0][0] = true;
+            visited[4][4][4] = true;
             medium();
         }
         else{
@@ -179,42 +179,48 @@ public class MazeGenerator {
             boolean found = false;
             for (int i = 0; i < 6; i++) {
                 if (directions.get(i) == 'N') {
-                    if (coord.getRow() - 1 >= 0) {
+                    if (coord.getRow() - 1 >= 0 && !(unvisited == 124 && coord.getLevel() == 4 && coord.getRow() - 1 == 4
+                     && coord.getColumn() == 4)) {
                         walk[coord.getLevel()][coord.getRow()][coord.getColumn()] = 'N';
                         coord = new Coordinate(coord.getLevel(), coord.getRow() - 1, coord.getColumn());
                         found = true;
                     }
                 }
                 if (directions.get(i) == 'E') {
-                    if (coord.getColumn() + 1 < 5) {
+                    if (coord.getColumn() + 1 < 5 && !(unvisited == 124 && coord.getLevel() == 4 && coord.getRow() == 4
+                            && coord.getColumn() + 1 == 4)) {
                         walk[coord.getLevel()][coord.getRow()][coord.getColumn()] = 'E';
                         coord = new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn() + 1);
                         found = true;
                     }
                 }
                 if (directions.get(i) == 'S') {
-                    if (coord.getRow() + 1 < 5) {
+                    if (coord.getRow() + 1 < 5 && !(unvisited == 124 && coord.getLevel() == 4 && coord.getRow() + 1 == 4
+                            && coord.getColumn() == 4)) {
                         walk[coord.getLevel()][coord.getRow()][coord.getColumn()] = 'S';
                         coord = new Coordinate(coord.getLevel(), coord.getRow() + 1, coord.getColumn());
                         found = true;
                     }
                 }
                 if (directions.get(i) == 'W') {
-                    if (coord.getColumn() - 1 >= 0) {
+                    if (coord.getColumn() - 1 >= 0 && !(unvisited == 124 && coord.getLevel() == 4 && coord.getRow() == 4
+                            && coord.getColumn() - 1 == 4)) {
                         walk[coord.getLevel()][coord.getRow()][coord.getColumn()] = 'W';
                         coord = new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn() - 1);
                         found = true;
                     }
                 }
                 if (directions.get(i) == 'T') {
-                    if (coord.getLevel() - 1 >= 0) {
+                    if (coord.getLevel() - 1 >= 0 && !(unvisited == 124 && coord.getLevel() - 1 == 4 && coord.getRow() == 4
+                            && coord.getColumn() == 4)) {
                         walk[coord.getLevel()][coord.getRow()][coord.getColumn()] = 'T';
                         coord = new Coordinate(coord.getLevel() - 1, coord.getRow(), coord.getColumn());
                         found = true;
                     }
                 }
                 if (directions.get(i) == 'B') {
-                    if (coord.getLevel() + 1 < 5) {
+                    if (coord.getLevel() + 1 < 5 && !(unvisited == 124 && coord.getLevel() + 1 == 4 && coord.getRow() == 4
+                            && coord.getColumn() == 4)) {
                         walk[coord.getLevel()][coord.getRow()][coord.getColumn()] = 'B';
                         coord = new Coordinate(coord.getLevel() + 1, coord.getRow(), coord.getColumn());
                         found = true;
@@ -228,6 +234,9 @@ public class MazeGenerator {
     }
     public void hard(Coordinate coord){
         visited[coord.getLevel()][coord.getRow()][coord.getColumn()] = true;
+        if (coord.getLevel() == 5 && coord.getRow() == 5 && coord.getColumn() == 5){
+            return;
+        }
         Collections.shuffle(directions);
         for (int i = 0; i < 6; i++){
             if (directions.get(i) == 'N'){
