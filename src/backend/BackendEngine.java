@@ -90,9 +90,7 @@ public class BackendEngine {
         } else if(newView.equals("endview")){
             this.viewEngine.changeView("endview");
         } else if(newView.equals("close")){
-            if(viewEngine.getGameView().equals("endview")){
-                this.viewEngine.changeView("close");
-            }
+            this.viewEngine.changeView("close");
         }
     }
 }

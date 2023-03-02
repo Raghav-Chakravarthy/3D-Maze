@@ -61,9 +61,7 @@ public class ViewEngine{
         } else if(newView.equals("endview")){
             chamberViewToEndView();
         } else if(newView.equals("close")){
-            if(gameView.equals("endview")){
-                endViewToClose();
-            }
+            endViewToClose();
         } 
     }
 
@@ -98,6 +96,8 @@ public class ViewEngine{
     }
 
     private void endViewToClose(){
+        frame.setVisible(false);
         frame.dispose();
+        System.exit(0);
     }
 }
