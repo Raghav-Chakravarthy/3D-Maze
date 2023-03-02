@@ -35,15 +35,16 @@ public class ChamberView extends JPanel {
     private BufferedImage arrowImage = new BufferedImage(720,720,BufferedImage.TYPE_INT_ARGB);
     private BufferedImage headerImage = new BufferedImage(720,30,BufferedImage.TYPE_INT_ARGB);
    
-    private BoundingBox leftArrowBounds = new BoundingBox(41, 425+50, 137, 336+50);
-    private BoundingBox rightArrowBounds = new BoundingBox(588, 423+50, 680, 333+50);
+    private BoundingBox leftArrowBounds = new BoundingBox(41, 425+100, 137, 336+100);
+    private BoundingBox rightArrowBounds = new BoundingBox(588, 423+100, 680, 333+100);
     private BoundingBox forwardArrowBounds = new BoundingBox(311, 500, 404, 450);
     private BoundingBox downArrowBounds = new BoundingBox(322, 642, 399, 551);
     private BoundingBox upArrowBounds = new BoundingBox(327, 170, 399, 83);
+    
+    private BoundingBox mapViewButtonBounds = new BoundingBox(50, 720-20, 150, 720-70);
 
     //TODO: everything...
     public ChamberView(Chamber chamber, final BackendEngine backendEngine){
-        System.out.println(chamber.getCoordinates());
         this.setPreferredSize(new Dimension(720,720));
         this.setFocusable(true);
         this.backendEngine = backendEngine;
@@ -52,7 +53,7 @@ public class ChamberView extends JPanel {
         this.repaint();
         this.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 int x = e.getX(), y = e.getY();
                 if(!moving) {
                     if(upArrowBounds.inBounds(x, y) && (backendEngine.getChamber().getAdjacentChamber(Direction.UP)!=null)) {
@@ -65,6 +66,8 @@ public class ChamberView extends JPanel {
                         turnRight();
                     } else if(forwardArrowBounds.inBounds(x, y) && (backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())!=null)) {
                         moveForward();
+                    } else if(mapViewButtonBounds.inBounds(x, y)) {
+                        backendEngine.changeView("mapview");
                     }
                 }
             }
@@ -531,7 +534,23 @@ public class ChamberView extends JPanel {
             //right and left arrows
             drawLeftArrow(g);
             drawRightArrow(g);
+            drawMapViewButton(g);
         }
+    }
+
+    private void drawMapViewButton(Graphics2D g) {
+        int x = mapViewButtonBounds.x0(), y = mapViewButtonBounds.y1();
+        int width = mapViewButtonBounds.x1()-mapViewButtonBounds.x0();
+        int height = mapViewButtonBounds.y0()-mapViewButtonBounds.y1();
+
+        g.setColor(Color.GRAY);
+        g.fillRect(x, y, width, height);
+        g.setStroke(new BasicStroke(2));
+        g.setColor(Color.WHITE);
+        g.drawRect(x, y, width, height);
+
+        g.setColor(Color.WHITE);
+        g.drawString("Map View", x+20, y+30);
     }
 
     private void drawLeftArrow(Graphics2D g) {
