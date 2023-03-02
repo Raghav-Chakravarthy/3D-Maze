@@ -116,6 +116,7 @@ public class ChamberView extends JPanel {
                 if(distanceRemaining<=0){
                     frameTimer.stop();
                     if((backendEngine.getChamber().isLastDoor())&&(backendEngine.getDirection()==Direction.SOUTH)){
+                        System.out.println("Change View is called!!!!!!!!!!!!!!!");
                         backendEngine.changeView("endview");
                         moving = false;
                     }else{

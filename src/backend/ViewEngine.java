@@ -59,14 +59,9 @@ public class ViewEngine{
             }
 
         } else if(newView.equals("endview")){
-            if(gameView.equals("chamberview")){
-                chamberViewToEndView();
-            }
-
+            chamberViewToEndView();
         } else if(newView.equals("close")){
-            if(gameView.equals("endview")){
-                endViewToClose();
-            }
+            endViewToClose();
         } 
     }
 
@@ -93,6 +88,7 @@ public class ViewEngine{
     }
 
     private void chamberViewToEndView(){
+        System.out.println("Made it to: the private method chamberViewToEndView()");
         endDisplay = new EndView(backend.getScore(), backend);
         frame.setContentPane(endDisplay);
         frame.pack();
@@ -100,6 +96,8 @@ public class ViewEngine{
     }
 
     private void endViewToClose(){
+        frame.setVisible(false);
         frame.dispose();
+        System.exit(0);
     }
 }
