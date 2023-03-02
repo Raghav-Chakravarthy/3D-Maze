@@ -41,6 +41,7 @@ public class EndView extends JPanel {
 		closeBtn.setBounds(160,600,400,60);
 		panel.add(closeBtn);
 		this.add(panel);
+		panel.setPreferredSize(getPreferredSize());
 		closeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				game.changeView("close");
@@ -123,10 +124,11 @@ public class EndView extends JPanel {
 			super.paintComponent(g);
 
 			//	Creates background and title
-			Image bgImage = readImage(File.separator + "assets" + File.separator + "art" + File.separator + "endbg.jpg");
+			Image bgImage = readImage("assets" + File.separator + "art" + File.separator + "endbg.jpg");
 			Image bgScaled = bgImage.getScaledInstance(1151, 720, Image.SCALE_DEFAULT);
+			System.out.println(bgScaled);
 			g.drawImage(bgScaled,-215,0,null);
-			Image titleImage = readImage(File.separator + "assets" + File.separator + "art" + File.separator +"endtitle.png");
+			Image titleImage = readImage("assets" + File.separator + "art" + File.separator +"endtitle.png");
 			Image titleScaled = titleImage.getScaledInstance(680, 177, Image.SCALE_DEFAULT);
 			g.drawImage(titleScaled,20,10,null);
 
@@ -152,7 +154,7 @@ public class EndView extends JPanel {
 			g.fillRect(80,230,560,350);
 
 			//	creates the image that has numbers 1-10 for the leaderboard
-			Image leaderImage = readImage(File.separator + "assets" + File.separator  + "art" + File.separator +"endleaderboard.png");
+			Image leaderImage = readImage("assets" + File.separator  + "art" + File.separator +"endleaderboard.png");
 			Image leaderScaled = leaderImage.getScaledInstance(300, 317, Image.SCALE_DEFAULT);
 			g.drawImage(leaderScaled,115,245,null);
 			g.setColor(Color.LIGHT_GRAY);
@@ -184,7 +186,7 @@ public class EndView extends JPanel {
 		//	method to read the image (simplify code above)
 		private Image readImage(String imgStr) {
 			try {
-				return ImageIO.read(getClass().getResource(imgStr));
+				return ImageIO.read(new File(imgStr));
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
