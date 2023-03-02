@@ -1,10 +1,9 @@
 package maze;
 
-import maze.Chamber;
-import maze.Coordinate;
-import maze.Maze;
-
 import java.util.*;
+import utils.Direction;
+import rendering.ColorUtils;
+import rendering.ImageWallArt;
 public class MazeGenerator {
     private Maze generatedMaze;
     private boolean[][][] visited;
@@ -390,11 +389,22 @@ public class MazeGenerator {
         for (int i = 0; i < size; i++) {
             for (int k = 0; k < size; k++) {
                 for (int c = 0; c < size; c++) {
+                	chambers[i][k][c].setWallColor(ColorUtils.randomChamberColor());
+                	boolean hasArt = Math.random() > 0.5;
+                	int artAmount = (int)(Math.random() * 2 + 1);
+                	if (hasArt) {
+                		chambers[i][k][c].setWallArt(ImageWallArt.generateWallArtFor(chambers[i][k][c], artAmount));
+                	}
                     Coordinate loc = new Coordinate(i,k,c);
                     generatedMaze.setChamber(loc, chambers[i][k][c]);
                 }
             }
         }
+        //set root chamber, solution chamber, and moves
+        generatedMaze.setRootChamber(generatedMaze.getChamberAt(new Coordinate(0,0,0)));
+        generatedMaze.setSolutionChamber(generatedMaze.getChamberAt(new Coordinate(size-1,size-1,size-1)));
+        OptimalSolver solver = new OptimalSolver(generatedMaze);
+        generatedMaze.setMoves(solver.getMoves());
     }
     public Maze getMaze(){
         toMaze();

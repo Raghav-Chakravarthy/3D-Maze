@@ -4,7 +4,7 @@ public class Quad extends Plane {
 	private float height;
 	private ImageTexture texture;
 	
-	public Quad(Vector3 pos, Vector3 normal, ImageTexture texture, float width, float height) {
+	public Quad(Vector3 normal, Vector3 pos, ImageTexture texture, float width, float height) {
 		super(normal, pos);
 		this.width = width;
 		this.height = height;
@@ -27,8 +27,6 @@ public class Quad extends Plane {
 			float y = v.dot(p.subtract(position()));
 					
 			if(x < width/2f && y < height/2f && x > -width/2f && y > -height/2f) {
-				
-				
 				return p;
 			}
 		}
@@ -60,7 +58,6 @@ public class Quad extends Plane {
 
 	@Override
 	public float shininess() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

@@ -1,12 +1,24 @@
 package maze;
 
 import java.awt.Color;
+import rendering.WallArt;
 public class Chamber {
     private Color wallColor;
     private boolean visited;
     private Chamber[] adjacentChambers;
     private WallArt wallArt;
     private Coordinate coordinates;
+
+    private boolean lastDoor = false;
+
+    public boolean isLastDoor() {
+        return lastDoor;
+    }
+
+    public void setLastDoor(boolean lastDoor) {
+        this.lastDoor = lastDoor;
+    }
+
     public Chamber() {
         adjacentChambers = new Chamber[6];
     }
@@ -16,12 +28,15 @@ public class Chamber {
     public void setWallColor(Color c) {
         wallColor = c;
     }
+
     public WallArt getWallArt() {
         return wallArt;
     }
+
     public void setWallArt(WallArt art) {
-        wallArt = art;
+        this.wallArt = art;
     }
+
     public boolean getVisited() {
         return visited;
     }

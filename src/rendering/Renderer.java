@@ -3,15 +3,15 @@ import java.awt.image.BufferedImage;
 
 public class Renderer {
 	private static int numBounce = 0;
-	private static final int NUM_THREADS = 4;
+	private static final int NUM_THREADS = 2;
 	private static Thread[] renderThreads = new Thread[NUM_THREADS];
 	
 	private static final float EPSILON = 0.01f;
 
-	public static void renderTo(Scene scene, Camera cam, BufferedImage frameBuffer) {
+	public static void renderTo(final Scene scene, final Camera cam, final BufferedImage frameBuffer) {
 		for(int t = 0; t < NUM_THREADS; t++) {
-			int startPixelIdx = (frameBuffer.getWidth()/NUM_THREADS)*t;
-			int endPixelIdx;
+			final int startPixelIdx = (frameBuffer.getWidth()/NUM_THREADS)*t;
+			final int endPixelIdx;
 			
 			if(t == NUM_THREADS-1)
 				endPixelIdx = frameBuffer.getWidth();
@@ -107,7 +107,7 @@ public class Renderer {
 	}
 	
 	public void setNumBounce(int n) {
-		this.numBounce = n;
+		numBounce = n;
 	}
 	
 	public int getNumBounce() {
