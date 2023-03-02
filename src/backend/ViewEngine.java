@@ -54,10 +54,7 @@ public class ViewEngine{
                 mapViewToChamberView();
             }
         } else if(newView.equals("mapview")){
-            if(gameView.equals("chamberview")){
-                chamberViewToMapView();
-            }
-
+            chamberViewToMapView();
         } else if(newView.equals("endview")){
             chamberViewToEndView();
         } else if(newView.equals("close")){
