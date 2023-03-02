@@ -382,8 +382,7 @@ public class MazeGenerator {
                 for (int c = 0; c < size; c++) {
                 	chambers[i][k][c].setWallColor(ColorUtils.randomChamberColor());
                 	boolean hasArt = Math.random() > 0.5;
-                	int artAmount = (int)(Math.random() * 1 + 1);
-                    System.out.println("MAX WALLART SET TO 1 CURRENTLY CHANGE WHEN MORE ARE ADDED");
+                	int artAmount = (int)(Math.random() * 4 + 1);
                 	if (hasArt) {
                 		chambers[i][k][c].setWallArt(ImageWallArt.generateWallArtFor(chambers[i][k][c], artAmount));
                 	}
