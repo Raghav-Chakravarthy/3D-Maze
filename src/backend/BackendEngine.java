@@ -2,10 +2,7 @@ package backend;
 
 import frontend.ChamberView;
 import frontend.MapView;
-import maze.Chamber;
-import maze.Coordinate;
-import maze.Maze;
-import maze.MazeGenerator;
+import maze.*;
 import utils.Direction;
 
 public class BackendEngine {
@@ -57,6 +54,8 @@ public class BackendEngine {
         MazeGenerator m = new MazeGenerator(difficulty);
         this.gameMaze = m.getMaze();
         this.currentChamber = this.gameMaze.getChamberAt(new Coordinate(0,0,0));
+        OptimalSolver solver = new OptimalSolver(this.gameMaze);
+        System.out.println(solver.getSolution());
     }
 
     public void setDirection(int direction){
