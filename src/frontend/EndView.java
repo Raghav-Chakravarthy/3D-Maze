@@ -40,6 +40,7 @@ public class EndView extends JPanel {
 		JButton closeBtn = new JButton("Exit");
 		closeBtn.setBounds(160,600,400,60);
 		panel.add(closeBtn);
+		this.add(panel);
 		closeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				game.changeView("close");
