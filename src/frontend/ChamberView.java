@@ -45,7 +45,6 @@ public class ChamberView extends JPanel {
 
     //TODO: everything...
     public ChamberView(Chamber chamber, final BackendEngine backendEngine){
-        System.out.println(chamber.getCoordinates());
         this.setPreferredSize(new Dimension(720,720));
         this.setFocusable(true);
         this.backendEngine = backendEngine;
