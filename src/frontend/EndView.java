@@ -45,6 +45,7 @@ public class EndView extends JPanel {
 				game.changeView("close");
 			}
 		});
+		
 	}
 
 	//	method to read the csv file and edit it if necessary
