@@ -2,7 +2,11 @@ package backend;
 
 import frontend.ChamberView;
 import frontend.MapView;
-import maze.*;
+import maze.Chamber;
+import maze.Coordinate;
+import maze.Maze;
+import maze.MazeGenerator;
+import maze.OptimalSolver;
 import utils.Direction;
 
 public class BackendEngine {
@@ -54,7 +58,8 @@ public class BackendEngine {
         MazeGenerator m = new MazeGenerator(difficulty);
         this.gameMaze = m.getMaze();
         this.currentChamber = this.gameMaze.getChamberAt(new Coordinate(0,0,0));
-        OptimalSolver solver = new OptimalSolver(this.gameMaze);
+        OptimalSolver solver = new OptimalSolver(gameMaze);
+        System.out.println("HEREE");
         System.out.println(solver.getSolution());
     }
 
@@ -83,13 +88,9 @@ public class BackendEngine {
             }
 
         } else if(newView.equals("endview")){
-            if(viewEngine.getGameView().equals("chamberview")){
-                this.viewEngine.changeView("endview");
-            }
+            this.viewEngine.changeView("endview");
         } else if(newView.equals("close")){
-            if(viewEngine.getGameView().equals("endview")){
-                this.viewEngine.changeView("close");
-            }
+            this.viewEngine.changeView("close");
         }
     }
 }
