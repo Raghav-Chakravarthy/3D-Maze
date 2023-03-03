@@ -49,13 +49,17 @@ public class ViewEngine{
     public void changeView(String newView){
         if(newView.equals("chamberview")){
             if(gameView.equals("mainview")){
+                gameView = "chamberview";
                 mainViewToChamberView();
             } else if(gameView.equals("mapview")){
+                gameView = "chamberview";
                 mapViewToChamberView();
             }
         } else if(newView.equals("mapview")){
+            gameView = "mapview";
             chamberViewToMapView();
         } else if(newView.equals("endview")){
+            gameView = "endview";
             chamberViewToEndView();
         } else if(newView.equals("close")){
             endViewToClose();
