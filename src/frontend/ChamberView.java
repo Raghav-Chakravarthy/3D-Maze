@@ -64,7 +64,9 @@ public class ChamberView extends JPanel {
                         turnLeft();
                     } else if(rightArrowBounds.inBounds(x, y)) {
                         turnRight();
-                    } else if(forwardArrowBounds.inBounds(x, y) && (backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())!=null)) {
+                    } else if(forwardArrowBounds.inBounds(x, y) 
+                    && ((backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())!=null) ||
+                     (backendEngine.getChamber().isLastDoor() && backendEngine.getDirection() == Direction.SOUTH))) {
                         moveForward();
                     } else if(mapViewButtonBounds.inBounds(x, y)) {
                         backendEngine.changeView("mapview");

@@ -59,8 +59,8 @@ public class BackendEngine {
         this.gameMaze = m.getMaze();
         this.currentChamber = this.gameMaze.getChamberAt(new Coordinate(0,0,0));
         OptimalSolver solver = new OptimalSolver(gameMaze);
-        System.out.println("HEREE");
         System.out.println(solver.getSolution());
+        System.out.println(solver.getMoves());
     }
 
     public void setDirection(int direction){
