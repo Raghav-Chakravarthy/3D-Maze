@@ -85,7 +85,6 @@ public class ViewEngine{
     }
 
     private void chamberViewToEndView(){
-        System.out.println("Made it to: the private method chamberViewToEndView()");
         endDisplay = new EndView(backend.getScore(), backend);
         frame.setContentPane(endDisplay);
         frame.pack();
