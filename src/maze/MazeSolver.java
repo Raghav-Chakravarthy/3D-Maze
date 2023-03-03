@@ -19,8 +19,6 @@ public class MazeSolver {
             return false;
         }
         visited[z][y][x] = true;
-        System.out.print(z + ", " + y + ", " + x);
-        System.out.println();
         boolean out = false;
         if (z == size-1 && y == size-1 && x == size-1) {
             out = true;

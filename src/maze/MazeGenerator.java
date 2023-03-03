@@ -37,7 +37,7 @@ public class MazeGenerator {
             easy();
         }
         else if (difficulty.equals("medium")){
-            unvisited = 124;
+            unvisited = 123;
             visited = new boolean[5][5][5];
             walk = new char[5][5][5];
             for (int i = 0; i < 5; i++){
@@ -49,7 +49,9 @@ public class MazeGenerator {
                     }
                 }
             }
+            visited[3][4][4] = true;
             visited[4][4][4] = true;
+            addConnections(new Coordinate(4, 4, 4), 'T');
             medium();
         }
         else{
@@ -111,6 +113,7 @@ public class MazeGenerator {
             }
         }
         Collections.shuffle(edges);
+        boolean endFound = false;
         while (edges.size() > 0) {
             Coordinate[] edge = edges.get(0);
             edges.remove(0);
@@ -122,7 +125,11 @@ public class MazeGenerator {
             z2 = edge[1].getLevel();
             y2 = edge[1].getRow();
             x2 = edge[1].getColumn();
-            if (color[z1][y1][x1] != color[z2][y2][x2]) {
+            boolean endContained = (z1==3 && y1==3 && x1==3) || (z2==3 && y2==3 && x2==3);
+            if (color[z1][y1][x1] != color[z2][y2][x2] && !(endFound && endContained)) {
+                if (endContained) {
+                    endFound = true;
+                }
                 connections.get(z1).get(y1).get(x1).add(new Coordinate(z2,y2,x2));
                 connections.get(z2).get(y2).get(x2).add(new Coordinate(z1,y1,x1));
                 int oldColor = color[z1][y1][x1];
