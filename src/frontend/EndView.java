@@ -61,7 +61,32 @@ public class EndView extends JPanel {
 		try {
 			scan = new Scanner(new File("assets"+ File.separator + "3D-Maze-Scores.csv"));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			File newCSV = new File("assets"+ File.separator + "3D-Maze-Scores.csv");
+			FileWriter f = null;
+			try {
+				newCSV.createNewFile();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				//e1.printStackTrace();
+			}
+			try {
+				f = new FileWriter(newCSV);
+				System.out.println(newCSV);
+				f.append((CharSequence)"0,0,0,0,0,0,0,0,0,0");
+				f.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				System.out.println("Does not add all place-holder scores");
+				//e1.printStackTrace();
+			}
+			try {
+				scan = new Scanner(new File("assets"+ File.separator + "3D-Maze-Scores.csv"));
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				System.out.println("Does not make scanner");
+				e1.printStackTrace();
+			}
 		}
 		scan.useDelimiter(",");
 		for(int l=0; l<10; l++) {
