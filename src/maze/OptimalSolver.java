@@ -12,7 +12,8 @@ public class OptimalSolver {
 		solution = "";
 		bfs();
 	}
-	public void bfs() {
+	public boolean bfs() {
+		boolean solved = false;
 		Queue<Chamber> queue = new LinkedList<Chamber>();
 		int size = toSolve.getLevel(0).length;
 		boolean[][][] visited = new boolean[size][size][size];
@@ -25,6 +26,7 @@ public class OptimalSolver {
 			Chamber current = queue.poll();
 			Coordinate coord = current.getCoordinates();
 			if (coord.getLevel() == size-1 && coord.getRow() == size-1 && coord.getColumn() == size-1) {
+				solved = true;
 				break;
 			}
 			for (Chamber c : current.getChambers()) {
@@ -79,15 +81,13 @@ public class OptimalSolver {
 			solution += reverseSolution.charAt(i);
 		}
 		moveCount = reverseSolution.length();
+		//boolean used in tester to see whether solved
+		return solved;
 	}
 	public String getSolution() {
 		return solution;
 	}
 	public int getMoves() {
 		return moveCount;
-	}
-	public static void main(String[] args) {
-		Maze toSolve = new MazeGenerator("easy").getMaze();
-		OptimalSolver test = new OptimalSolver(toSolve);
 	}
 }
