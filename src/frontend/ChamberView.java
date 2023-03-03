@@ -1,9 +1,6 @@
 package frontend;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -12,7 +9,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.QuadCurve2D;
 import java.awt.image.BufferedImage;
-import java.awt.BasicStroke;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -35,15 +31,14 @@ public class ChamberView extends JPanel {
     private BufferedImage arrowImage = new BufferedImage(720,720,BufferedImage.TYPE_INT_ARGB);
     private BufferedImage headerImage = new BufferedImage(720,30,BufferedImage.TYPE_INT_ARGB);
    
-    private BoundingBox leftArrowBounds = new BoundingBox(41, 425+100, 137, 336+100);
-    private BoundingBox rightArrowBounds = new BoundingBox(588, 423+100, 680, 333+100);
-    private BoundingBox forwardArrowBounds = new BoundingBox(311, 500, 404, 450);
-    private BoundingBox downArrowBounds = new BoundingBox(322, 642, 399, 551);
-    private BoundingBox upArrowBounds = new BoundingBox(327, 170, 399, 83);
+    private BoundingBox leftArrowBounds = new BoundingBox(21, 425+120, 157, 336+80);
+    private BoundingBox rightArrowBounds = new BoundingBox(568, 425+120, 700, 336+80);
+    private BoundingBox forwardArrowBounds = new BoundingBox(291, 520, 424, 430);
+    private BoundingBox downArrowBounds = new BoundingBox(305, 662, 415, 531);
+    private BoundingBox upArrowBounds = new BoundingBox(305, 190, 415, 63);
     
-    private BoundingBox mapViewButtonBounds = new BoundingBox(50, 720-20, 150, 720-70);
+    private BoundingBox mapViewButtonBounds = new BoundingBox(35, 720-5, 165, 720-85);
 
-    //TODO: everything...
     public ChamberView(Chamber chamber, final BackendEngine backendEngine){
         this.setPreferredSize(new Dimension(720,720));
         this.setFocusable(true);
@@ -540,9 +535,9 @@ public class ChamberView extends JPanel {
     }
 
     private void drawMapViewButton(Graphics2D g) {
-        int x = mapViewButtonBounds.x0(), y = mapViewButtonBounds.y1();
-        int width = mapViewButtonBounds.x1()-mapViewButtonBounds.x0();
-        int height = mapViewButtonBounds.y0()-mapViewButtonBounds.y1();
+        int x = mapViewButtonBounds.x0()+10, y = mapViewButtonBounds.y1()+10;
+        int width = mapViewButtonBounds.x1()-mapViewButtonBounds.x0()-20;
+        int height = mapViewButtonBounds.y0()-mapViewButtonBounds.y1()-20;
 
         g.setColor(Color.GRAY);
         g.fillRect(x, y, width, height);
@@ -551,7 +546,8 @@ public class ChamberView extends JPanel {
         g.drawRect(x, y, width, height);
 
         g.setColor(Color.WHITE);
-        g.drawString("Map View", x+20, y+30);
+        g.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,15));
+        g.drawString("Map View", x+((width-g.getFontMetrics().stringWidth("Map View"))/2), y+((height-g.getFontMetrics().getAscent())/2)+g.getFontMetrics().getAscent());
     }
 
     private void drawLeftArrow(Graphics2D g) {
