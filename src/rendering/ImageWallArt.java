@@ -18,13 +18,10 @@ public class ImageWallArt extends WallArt {
         
         for(int i = 0; i < 4; i++) {
             if(placed < amount) {
-                /*
                 if(chamber.getAdjacentChamber(i) == null) {
                     art[i] = TextureManager.main.nextArt();
                     placed++;
                 }
-
-                 */
             }
         }
 

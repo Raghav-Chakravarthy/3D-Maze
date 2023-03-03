@@ -26,7 +26,7 @@ public class TextureManager {
         BufferedImage image = getTexture("art"+artCounter);
         artCounter++;
 
-        if(image == null) System.err.println("TextureManager: Ran out of unique wall art!");
+        if(image == null) System.err.println("TextureManager: Ran out of unique wall art at #" + artCounter);
 
         return image;
     }
@@ -41,7 +41,7 @@ public class TextureManager {
     
     private void loadArtImages() throws IOException {
         for(int i = 0; i < NUM_WALL_ART; i++) {
-            loadTextureFromDisk("assets" + File.separator + "wallArt"+ File.separator +" img"+i+".png", "img"+i);
+            loadTextureFromDisk("assets" + File.separator + "wallArt"+ File.separator + "img"+(i+1)+".png", "art"+i);
         }
     }
 

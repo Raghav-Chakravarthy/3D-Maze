@@ -151,7 +151,6 @@ public class EndView extends JPanel {
 			//	Creates background and title
 			Image bgImage = readImage("assets" + File.separator + "art" + File.separator + "endbg.jpg");
 			Image bgScaled = bgImage.getScaledInstance(1151, 720, Image.SCALE_DEFAULT);
-			System.out.println(bgScaled);
 			g.drawImage(bgScaled,-215,0,null);
 			Image titleImage = readImage("assets" + File.separator + "art" + File.separator +"endtitle.png");
 			Image titleScaled = titleImage.getScaledInstance(680, 177, Image.SCALE_DEFAULT);

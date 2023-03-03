@@ -54,10 +54,7 @@ public class ViewEngine{
                 mapViewToChamberView();
             }
         } else if(newView.equals("mapview")){
-            if(gameView.equals("chamberview")){
-                chamberViewToMapView();
-            }
-
+            chamberViewToMapView();
         } else if(newView.equals("endview")){
             chamberViewToEndView();
         } else if(newView.equals("close")){
@@ -88,7 +85,6 @@ public class ViewEngine{
     }
 
     private void chamberViewToEndView(){
-        System.out.println("Made it to: the private method chamberViewToEndView()");
         endDisplay = new EndView(backend.getScore(), backend);
         frame.setContentPane(endDisplay);
         frame.pack();
