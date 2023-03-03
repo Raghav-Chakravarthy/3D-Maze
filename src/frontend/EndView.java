@@ -72,6 +72,7 @@ public class EndView extends JPanel {
 			}
 			try {
 				f = new FileWriter(newCSV);
+				System.out.println(newCSV);
 				f.append((CharSequence)"0,0,0,0,0,0,0,0,0,0");
 				f.close();
 			} catch (IOException e1) {
