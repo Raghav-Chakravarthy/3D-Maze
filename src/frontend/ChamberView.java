@@ -46,7 +46,8 @@ public class ChamberView extends JPanel {
     private boolean autoSolve = false; //IMPORTANT: Set to false when not testing!
 
     public ChamberView(Chamber chamber, final BackendEngine backendEngine){
-        this.solution = new OptimalSolver(backendEngine.getGameMaze()).getSolution();
+        if(autoSolve)
+            this.solution = new OptimalSolver(backendEngine.getGameMaze()).getSolution();
 
         this.setPreferredSize(new Dimension(720,720));
         this.setFocusable(true);
@@ -525,19 +526,21 @@ public class ChamberView extends JPanel {
     public void moveEnded() {
         if(autoSolve) {
             char move = solution.charAt(currentMove);
-            System.out.println(move);
+            System.out.println("Autosolver: Move " + (currentMove+1) + " of " + solution.length());
             if(move == 'U') {
                 moveUp();
+                System.out.println("Autosolver: Moving Up");
                 currentMove++;
             } else if(move == 'D') {
                 moveDown();
+                System.out.println("Autosolver: Moving Down");
                 currentMove++;
             } else {
                 if(Direction.toString(backendEngine.getDirection()).charAt(0) != move) {
-                    System.out.println("Turning to " + move);
+                    System.out.println("Autosolver: Turning to " + move);
                     turnRight();
                 } else {
-                    System.out.print("Moving forwarrd");
+                    System.out.println("Autosolver: Moving forward");
                     moveForward();
                     currentMove++;
                 }
