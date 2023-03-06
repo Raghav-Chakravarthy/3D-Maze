@@ -26,11 +26,11 @@ public class MazeGenerator {
         if (difficulty.equals("easy")){
             visited = new boolean[4][4][4];
             for (int i = 0; i < 4; i++){
-                connections.add(new ArrayList<>());
+                connections.add(new ArrayList<ArrayList<ArrayList<Coordinate>>>());
                 for (int j = 0; j < 4; j++){
-                    connections.get(i).add(new ArrayList<>());
+                    connections.get(i).add(new ArrayList<ArrayList<Coordinate>>());
                     for (int k = 0; k < 4; k++){
-                        connections.get(i).get(j).add(new ArrayList<>());
+                        connections.get(i).get(j).add(new ArrayList<Coordinate>());
                     }
                 }
             }
@@ -41,11 +41,11 @@ public class MazeGenerator {
             visited = new boolean[5][5][5];
             walk = new char[5][5][5];
             for (int i = 0; i < 5; i++){
-                connections.add(new ArrayList<>());
+                connections.add(new ArrayList<ArrayList<ArrayList<Coordinate>>>());
                 for (int j = 0; j < 5; j++){
-                    connections.get(i).add(new ArrayList<>());
+                    connections.get(i).add(new ArrayList<ArrayList<Coordinate>>());
                     for (int k = 0; k < 5; k++){
-                        connections.get(i).get(j).add(new ArrayList<>());
+                        connections.get(i).get(j).add(new ArrayList<Coordinate>());
                     }
                 }
             }
@@ -57,11 +57,11 @@ public class MazeGenerator {
         else{
             visited = new boolean[6][6][6];
             for (int i = 0; i < 6; i++){
-                connections.add(new ArrayList<>());
+                connections.add(new ArrayList<ArrayList<ArrayList<Coordinate>>>());
                 for (int j = 0; j < 6; j++){
-                    connections.get(i).add(new ArrayList<>());
+                    connections.get(i).add(new ArrayList<ArrayList<Coordinate>>());
                     for (int k = 0; k < 6; k++){
-                        connections.get(i).get(j).add(new ArrayList<>());
+                        connections.get(i).get(j).add(new ArrayList<Coordinate>());
                     }
                 }
             }
@@ -428,7 +428,7 @@ public class MazeGenerator {
                 for (int c = 0; c < size; c++) {
                 	chambers[i][k][c].setWallColor(ColorUtils.randomChamberColor());
                 	boolean hasArt = Math.random() > 0.5;
-                	int artAmount = (int)(Math.random() * 2 + 1);
+                	int artAmount = (int)(Math.random() * 2) +  1;
                 	if (hasArt) {
                 		chambers[i][k][c].setWallArt(ImageWallArt.generateWallArtFor(chambers[i][k][c], artAmount));
                 	}

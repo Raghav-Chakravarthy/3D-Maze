@@ -7,24 +7,25 @@ import frontend.*;
 
 public class ViewEngine{
     private JFrame frame;
-    private JPanel mainPanel, currentPanel, introDisplay, chamberDisplay, mapDisplay, endDisplay;
+    private JPanel mainPanel, introDisplay, chamberDisplay, mapDisplay, endDisplay;
     private String gameView;
-    /*
-    public ViewEngine(){
+    private BackendEngine backend;
+    
+    public ViewEngine(BackendEngine backend){
+        this.backend = backend;
         setup();
     }
-
-     */
 
     public void setup(){
         frame = new JFrame();
         mainPanel = new JPanel();
         gameView = "mainview";
 		mainPanel.setPreferredSize(new Dimension(720,720));
-        introDisplay = new Menu();
-        mainPanel.add(introDisplay);
+        introDisplay = new MenuView(backend);
         introDisplay.setSize(720,720);
-		frame.setContentPane(mainPanel);
+        frame.setContentPane(introDisplay);
+        frame.pack();
+        introDisplay.requestFocusInWindow();
 		frame.setLayout(null);
         frame.setTitle("3D Maze");
         frame.pack();
@@ -36,13 +37,10 @@ public class ViewEngine{
     public void setChamberView(ChamberView chamberView){
         this.chamberDisplay = chamberView;
     }
-    /*
+
     public void setMapView(MapView mapView){
         this.mapDisplay = mapView;
     }
-
-     */
-
 
     public JPanel getChamberView(){
         return this.chamberDisplay;
@@ -51,25 +49,20 @@ public class ViewEngine{
     public void changeView(String newView){
         if(newView.equals("chamberview")){
             if(gameView.equals("mainview")){
+                gameView = "chamberview";
                 mainViewToChamberView();
             } else if(gameView.equals("mapview")){
+                gameView = "chamberview";
                 mapViewToChamberView();
             }
         } else if(newView.equals("mapview")){
-            if(gameView.equals("chamberview")){
-                chamberViewToMapView();
-            }
-            /*
+            gameView = "mapview";
+            chamberViewToMapView();
         } else if(newView.equals("endview")){
-            if(gameView.equals("chamberview")){
-                chamberViewToEndView();
-            }
-
-             */
+            gameView = "endview";
+            chamberViewToEndView();
         } else if(newView.equals("close")){
-            if(gameView.equals("endview")){
-                endViewToClose();
-            }
+            endViewToClose();
         } 
     }
 
@@ -78,30 +71,33 @@ public class ViewEngine{
     }
 
     private void mainViewToChamberView(){
-        mainPanel.remove(introDisplay);
-        mainPanel.add(chamberDisplay);
+        frame.setContentPane(chamberDisplay);
+        frame.pack();
+        chamberDisplay.requestFocusInWindow();
     } 
 
     private void chamberViewToMapView(){
-        mainPanel.remove(chamberDisplay);
-        mainPanel.add(mapDisplay);
+        frame.setContentPane(mapDisplay);
+        frame.pack();
+        mapDisplay.requestFocusInWindow();
     }
 
     private void mapViewToChamberView(){
-        mainPanel.remove(mapDisplay);
-        mainPanel.add(chamberDisplay);
+        frame.setContentPane(chamberDisplay);
+        frame.pack();
+        chamberDisplay.requestFocusInWindow();
     }
-    /*
+
     private void chamberViewToEndView(){
-        endDisplay = new EndView();
-        mainPanel.remove(chamberDisplay);
-        mainPanel.add(endDisplay);
+        endDisplay = new EndView(backend.getScore(), backend);
+        frame.setContentPane(endDisplay);
+        frame.pack();
+        endDisplay.requestFocusInWindow();
     }
-
-
-     */
 
     private void endViewToClose(){
+        frame.setVisible(false);
         frame.dispose();
+        System.exit(0);
     }
 }

@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 
 import backend.BackendEngine;
 import frontend.ChamberView;
-import maze.Coordinate;
 import maze.Maze;
 import maze.MazeGenerator;
 
@@ -17,8 +16,8 @@ public class Test {
         Maze maze = generator.getMaze();
 
         BackendEngine backendEngine = new BackendEngine();
-        backendEngine.setChamber(maze.getChamberAt(new Coordinate(0, 0, 0)));
-        ChamberView chamberView = new ChamberView(maze.getChamberAt(new Coordinate(0, 0, 0)), backendEngine);
+        backendEngine.setChamber(maze.getSolutionChamber());
+        ChamberView chamberView = new ChamberView(maze.getSolutionChamber(), backendEngine);
         chamberView.setPreferredSize(new Dimension(720,720));
         JFrame.setDefaultLookAndFeelDecorated(true);
         JFrame frame = new JFrame("Test");

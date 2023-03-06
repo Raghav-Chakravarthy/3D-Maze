@@ -11,7 +11,7 @@ public class TextureManager {
     public static final TextureManager main = new TextureManager();
     private HashMap<String, BufferedImage> textures;
     private int artCounter = 0;
-    private final int NUM_WALL_ART = 15; // Update this when new wall art is added
+    private final int NUM_WALL_ART = 129; // Update this when new wall art is added
 
     public TextureManager() {
         textures = new HashMap<String, BufferedImage>();
@@ -26,7 +26,7 @@ public class TextureManager {
         BufferedImage image = getTexture("art"+artCounter);
         artCounter++;
 
-        if(image == null) System.err.println("TextureManager: Ran out of unique wall art!");
+        if(image == null) System.err.println("TextureManager: Ran out of unique wall art at #" + artCounter);
 
         return image;
     }
@@ -41,7 +41,7 @@ public class TextureManager {
     
     private void loadArtImages() throws IOException {
         for(int i = 0; i < NUM_WALL_ART; i++) {
-            loadTextureFromDisk("assets/wallArt/art"+i+".jpg", "art"+i);
+            loadTextureFromDisk("assets" + File.separator + "wallArt"+ File.separator + "img"+(i+1)+".png", "art"+i);
         }
     }
 

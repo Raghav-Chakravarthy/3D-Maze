@@ -1,19 +1,24 @@
 package backend;
 
-import frontend.*;
-import maze.*;
+import frontend.ChamberView;
+import frontend.MapView;
+import maze.Chamber;
+import maze.Coordinate;
+import maze.Maze;
+import maze.MazeGenerator;
+import maze.OptimalSolver;
 import utils.Direction;
 
 public class BackendEngine {
 
     private ViewEngine viewEngine;
-    private int currentMoves = 0, direction = Direction.EAST, minMoves, finalScore;
+    private int currentMoves = 0, direction = Direction.EAST;
     private Maze gameMaze;
     private Chamber currentChamber, solutionChamber;
-    private String gameMode, difficulty;
+    private String difficulty;
 
     public BackendEngine(){
-        viewEngine = new ViewEngine();
+        viewEngine = new ViewEngine(this);
     }
     
     public static void main(String[] args){
@@ -32,6 +37,14 @@ public class BackendEngine {
         return currentChamber;
     }
 
+    public Chamber getSolutionChamber(){
+        return gameMaze.getSolutionChamber();
+    }
+
+    public int getScore(){
+        return (int) (10000 * ((double) this.gameMaze.getMoves() / (double) this.getMoves()));
+    }
+
     public void setChamber(Chamber chamber){
         currentChamber = chamber;
     }
@@ -44,6 +57,10 @@ public class BackendEngine {
         this.difficulty = difficulty;
         MazeGenerator m = new MazeGenerator(difficulty);
         this.gameMaze = m.getMaze();
+        this.currentChamber = this.gameMaze.getChamberAt(new Coordinate(0,0,0));
+        OptimalSolver solver = new OptimalSolver(gameMaze);
+        System.out.println(solver.getSolution());
+        System.out.println(solver.getMoves());
     }
 
     public void setDirection(int direction){
@@ -55,28 +72,22 @@ public class BackendEngine {
         currentChamber = currentChamber.getAdjacentChamber(direction);
     }
 
+
     public void changeView(String newView){
         if(newView.equals("chamberview")){
             if(viewEngine.getGameView().equals("mainview")){
-                this.viewEngine.setChamberView(new ChamberView(this.gameMaze.getRootChamber(), this));
+                this.viewEngine.setChamberView(new ChamberView(this.gameMaze.getChamberAt(new Coordinate(0,0,0)), this));
                 this.viewEngine.changeView("chamberview");
             } else if(viewEngine.getGameView().equals("mapview")){
                 this.viewEngine.changeView("chamberview");
             }
         } else if(newView.equals("mapview")){
-            if(viewEngine.getGameView().equals("chamberview")){
-                //this.viewEngine.setMapView(new MapView(this.gameMaze.getLevel(this.currentChamber.getCoordinates().getLevel()), this));
-                this.viewEngine.changeView("mapview");
-            }
-
+            this.viewEngine.setMapView(new MapView(this.gameMaze.getLevel(this.currentChamber.getCoordinates().getLevel()), this));
+            this.viewEngine.changeView("mapview");
         } else if(newView.equals("endview")){
-            if(viewEngine.getGameView().equals("chamberview")){
-                this.viewEngine.changeView("endview");
-            }
+            this.viewEngine.changeView("endview");
         } else if(newView.equals("close")){
-            if(viewEngine.getGameView().equals("endview")){
-                this.viewEngine.changeView("close");
-            }
+            this.viewEngine.changeView("close");
         }
     }
 }
