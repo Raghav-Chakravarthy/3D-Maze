@@ -524,7 +524,7 @@ public class ChamberView extends JPanel {
     }
 
     public void moveEnded() {
-        if(autoSolve) {
+        if(autoSolve && currentMove < solution.length()) {
             char move = solution.charAt(currentMove);
             System.out.println("Autosolver: Move " + (currentMove+1) + " of " + solution.length());
             if(move == 'U') {
