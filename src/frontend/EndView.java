@@ -4,11 +4,16 @@ import backend.BackendEngine;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Dimension;
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,11 +24,14 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
-public class EndView extends JPanel {
+public class EndView extends JPanel implements MouseListener, MouseMotionListener{
 
 	//variables
 	private int playerScore;
 	private int[] newTopTen;
+	private boolean mouseHovered;
+	private JPanel panel;
+	private final BackendEngine game;
 
 	public EndView(int score, BackendEngine engine) {
 		this.setFocusable(true);
@@ -31,22 +39,26 @@ public class EndView extends JPanel {
 		//	actual code for the constructor:
 		playerScore = score;
 		updateLeaderboard(playerScore);
-		JPanel panel = new PaintEndView();
-		final BackendEngine game = engine;
+		panel = new PaintEndView();
+		game = engine;
 		panel.setLayout(null);
 		panel.setBackground(Color.WHITE);
-
+		panel.addMouseListener(this);
+		panel.addMouseMotionListener(this);
+		this.add(panel);
+		panel.setPreferredSize(getPreferredSize());
+		/*
 		//	close button
 		JButton closeBtn = new JButton("Exit");
 		closeBtn.setBounds(160,600,400,60);
 		panel.add(closeBtn);
-		this.add(panel);
-		panel.setPreferredSize(getPreferredSize());
+		
+		
 		closeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				game.changeView("close");
 			}
-		});
+		}); */
 		
 	}
 
@@ -205,6 +217,16 @@ public class EndView extends JPanel {
 			yellowed = drawLBScore(Integer.parseInt(scanner.next()), 430, 486, yellowed, g) ;
 			yellowed = drawLBScore(Integer.parseInt(scanner.next()), 430, 552, yellowed, g) ;
 			scanner.close();
+			
+			//end button
+			Image endButton;
+			if(mouseHovered) {
+				endButton = readImage("assets" + File.separator + "art" + File.separator + "closeOutlined.png");
+				g.drawImage(endButton,208,598,null);
+			}else{ 
+				endButton = readImage("assets" + File.separator + "art" + File.separator + "close.png");
+				g.drawImage(endButton,210,600,null);
+			}
 		}
 
 		//	method to read the image (simplify code above)
@@ -233,7 +255,7 @@ public class EndView extends JPanel {
 		}
 
 		//	method to display number on leaderboard (simplify code above)
-		private boolean drawLBScore(int score, int x, int y,boolean yellowed, Graphics g) {
+		private boolean drawLBScore(int score, int x, int y, boolean yellowed, Graphics g) {
 			boolean yello = yellowed;
 			if((score==playerScore)&&(!yello)) {
 				g.setColor(Color.YELLOW);
@@ -243,5 +265,53 @@ public class EndView extends JPanel {
 			g.setColor(Color.LIGHT_GRAY);
 			return yello;
 		}
+	}
+
+	
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		//these coordinates will probably change once integrated with Raghav's code
+		if(e.getX()>=210 && e.getX()<=510 && e.getY()>=600 && e.getY()<=660)
+			mouseHovered=true;
+		else
+			mouseHovered=false;
+		panel.repaint();
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		//these coordinates will probably change once integrated with Raghav's code
+		if(e.getX()>=210 && e.getX()<=510 && e.getY()>=600 && e.getY()<=660)
+			game.changeView("close");
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
