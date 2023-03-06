@@ -90,4 +90,8 @@ public class BackendEngine {
             this.viewEngine.changeView("close");
         }
     }
+
+    public Maze getGameMaze() {
+        return gameMaze;
+    }
 }
