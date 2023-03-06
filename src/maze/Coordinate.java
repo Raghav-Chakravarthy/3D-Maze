@@ -1,7 +1,5 @@
 package maze;
 
-import rendering.Vector3;
-
 public class Coordinate {
     private int row;
     private int column;
@@ -30,5 +28,15 @@ public class Coordinate {
     }
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public boolean equals(Object other) {
+        if(other instanceof Coordinate) {
+            Coordinate c = (Coordinate) other;
+            if(c.getRow() == row && c.getColumn() == column && c.getLevel() == level) return true;
+            else return false;
+        } else {
+            return false;
+        }
     }
 }
