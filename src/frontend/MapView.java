@@ -3,9 +3,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
+
 import backend.*;
 import maze.*;
 import utils.*;
@@ -93,7 +92,9 @@ public class MapView extends JPanel {
         g.setFont(new Font("OCR A Extended", Font.BOLD, 53));
         g.drawString(Integer.toString(levelLabel+1), 60, 340);
         //added this to check in case mouse doesn't move but image is displayed
+
         Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+        SwingUtilities.convertPointFromScreen(mouseLocation,this);
         if (mouseLocation.getX() >= 78 && mouseLocation.getX() <= 132 && mouseLocation.getY() >= 366 && mouseLocation.getY() <= 450) {
             mouseHoverUp = true;
         } else if (mouseLocation.getX() >= 18 && mouseLocation.getX() <= 72 && mouseLocation.getY() >= 366 && mouseLocation.getY() <= 450) {
