@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -33,6 +34,8 @@ public class EndView extends JPanel implements MouseListener, MouseMotionListene
 	private JPanel panel;
 	private final BackendEngine game;
 
+	private BufferedImage screenRender = new BufferedImage(720,720,BufferedImage.TYPE_INT_ARGB);
+
 	public EndView(int score, BackendEngine engine) {
 		this.setFocusable(true);
 		this.setPreferredSize(new Dimension(720,720));
@@ -47,6 +50,64 @@ public class EndView extends JPanel implements MouseListener, MouseMotionListene
 		panel.addMouseMotionListener(this);
 		this.add(panel);
 		panel.setPreferredSize(getPreferredSize());
+		Graphics g = screenRender.getGraphics();
+		Image bgImage = readImage("assets" + File.separator + "art" + File.separator + "endbg.jpg");
+		Image bgScaled = bgImage.getScaledInstance(1151, 720, Image.SCALE_DEFAULT);
+		g.drawImage(bgScaled,-215,0,null);
+		Image titleImage = readImage("assets" + File.separator + "art" + File.separator +"endtitle.png");
+		Image titleScaled = titleImage.getScaledInstance(680, 177, Image.SCALE_DEFAULT);
+		g.drawImage(titleScaled,20,10,null);
+
+		//	Displays the player's score (called multiple times to create black outline around white text)
+		String displayScore; //assumes the highest playerScore possible is 4 digits (max score = 9999)
+		displayScore = adjustScore(playerScore);
+		g.setColor(Color.BLACK);
+		g.setFont(new Font("OCR A Extended", Font.BOLD, 40));
+		g.drawString("Your Score: " + displayScore, 168, 203);
+		g.drawString("Your Score: " + displayScore, 168, 205);
+		g.drawString("Your Score: " + displayScore, 168, 207);
+		g.drawString("Your Score: " + displayScore, 170, 203);
+		g.drawString("Your Score: " + displayScore, 170, 205);
+		g.drawString("Your Score: " + displayScore, 170, 207);
+		g.drawString("Your Score: " + displayScore, 172, 203);
+		g.drawString("Your Score: " + displayScore, 172, 205);
+		g.drawString("Your Score: " + displayScore, 172, 207);
+		g.setColor(Color.WHITE);
+		g.drawString("Your Score: " + displayScore, 170, 205);
+
+		//	creates the transparent black background for the leaderboard
+		g.setColor(new Color(0,0,0,150));
+		g.fillRect(80,230,560,350);
+
+		//	creates the image that has numbers 1-10 for the leaderboard
+		Image leaderImage = readImage("assets" + File.separator  + "art" + File.separator +"endleaderboard.png");
+		Image leaderScaled = leaderImage.getScaledInstance(300, 317, Image.SCALE_DEFAULT);
+		g.drawImage(leaderScaled,115,245,null);
+		g.setColor(Color.LIGHT_GRAY);
+		g.setFont(new Font("OCR A Extended", Font.BOLD, 40));
+
+		//	reads from the newly altered file and displays the scores on the leaderboard (your score is yellow if on leaderboard)
+		Scanner scanner = null;
+		try {
+			scanner = new Scanner(new File("assets" + File.separator + "3D-Maze-Scores.csv"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		scanner.useDelimiter(",");
+		int scanNext;
+		boolean yellowed = false;
+		yellowed = drawLBScore(Integer.parseInt(scanner.next()), 175, 283, yellowed, g) ;
+		yellowed = drawLBScore(Integer.parseInt(scanner.next()), 175, 351, yellowed, g) ;
+		yellowed = drawLBScore(Integer.parseInt(scanner.next()), 175, 418, yellowed, g) ;
+		yellowed = drawLBScore(Integer.parseInt(scanner.next()), 175, 486, yellowed, g) ;
+		yellowed = drawLBScore(Integer.parseInt(scanner.next()), 175, 552, yellowed, g) ;
+		yellowed = drawLBScore(Integer.parseInt(scanner.next()), 430, 283, yellowed, g) ;
+		yellowed = drawLBScore(Integer.parseInt(scanner.next()), 430, 351, yellowed, g) ;
+		yellowed = drawLBScore(Integer.parseInt(scanner.next()), 430, 418, yellowed, g) ;
+		yellowed = drawLBScore(Integer.parseInt(scanner.next()), 430, 486, yellowed, g) ;
+		yellowed = drawLBScore(Integer.parseInt(scanner.next()), 430, 552, yellowed, g) ;
+		scanner.close();
+
 		/*
 		//	close button
 		JButton closeBtn = new JButton("Exit");
@@ -159,112 +220,58 @@ public class EndView extends JPanel implements MouseListener, MouseMotionListene
 		public void paintComponent(Graphics g) {
 
 			super.paintComponent(g);
-
-			//	Creates background and title
-			Image bgImage = readImage("assets" + File.separator + "art" + File.separator + "endbg.jpg");
-			Image bgScaled = bgImage.getScaledInstance(1151, 720, Image.SCALE_DEFAULT);
-			g.drawImage(bgScaled,-215,0,null);
-			Image titleImage = readImage("assets" + File.separator + "art" + File.separator +"endtitle.png");
-			Image titleScaled = titleImage.getScaledInstance(680, 177, Image.SCALE_DEFAULT);
-			g.drawImage(titleScaled,20,10,null);
-
-			//	Displays the player's score (called multiple times to create black outline around white text)
-			String displayScore; //assumes the highest playerScore possible is 4 digits (max score = 9999)
-			displayScore = adjustScore(playerScore);
-			g.setColor(Color.BLACK);
-			g.setFont(new Font("OCR A Extended", Font.BOLD, 40));
-			g.drawString("Your Score: " + displayScore, 168, 203);
-			g.drawString("Your Score: " + displayScore, 168, 205);
-			g.drawString("Your Score: " + displayScore, 168, 207);
-			g.drawString("Your Score: " + displayScore, 170, 203);
-			g.drawString("Your Score: " + displayScore, 170, 205);
-			g.drawString("Your Score: " + displayScore, 170, 207);
-			g.drawString("Your Score: " + displayScore, 172, 203);
-			g.drawString("Your Score: " + displayScore, 172, 205);
-			g.drawString("Your Score: " + displayScore, 172, 207);
-			g.setColor(Color.WHITE);
-			g.drawString("Your Score: " + displayScore, 170, 205);
-
-			//	creates the transparent black background for the leaderboard
-			g.setColor(new Color(0,0,0,150));
-			g.fillRect(80,230,560,350);
-
-			//	creates the image that has numbers 1-10 for the leaderboard
-			Image leaderImage = readImage("assets" + File.separator  + "art" + File.separator +"endleaderboard.png");
-			Image leaderScaled = leaderImage.getScaledInstance(300, 317, Image.SCALE_DEFAULT);
-			g.drawImage(leaderScaled,115,245,null);
-			g.setColor(Color.LIGHT_GRAY);
-			g.setFont(new Font("OCR A Extended", Font.BOLD, 40));
-
-			//	reads from the newly altered file and displays the scores on the leaderboard (your score is yellow if on leaderboard)
-			Scanner scanner = null;
-			try {
-				scanner = new Scanner(new File("assets" + File.separator + "3D-Maze-Scores.csv"));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-			scanner.useDelimiter(",");
-			int scanNext;
-			boolean yellowed = false;
-			yellowed = drawLBScore(Integer.parseInt(scanner.next()), 175, 283, yellowed, g) ;
-			yellowed = drawLBScore(Integer.parseInt(scanner.next()), 175, 351, yellowed, g) ;
-			yellowed = drawLBScore(Integer.parseInt(scanner.next()), 175, 418, yellowed, g) ;
-			yellowed = drawLBScore(Integer.parseInt(scanner.next()), 175, 486, yellowed, g) ;
-			yellowed = drawLBScore(Integer.parseInt(scanner.next()), 175, 552, yellowed, g) ;
-			yellowed = drawLBScore(Integer.parseInt(scanner.next()), 430, 283, yellowed, g) ;
-			yellowed = drawLBScore(Integer.parseInt(scanner.next()), 430, 351, yellowed, g) ;
-			yellowed = drawLBScore(Integer.parseInt(scanner.next()), 430, 418, yellowed, g) ;
-			yellowed = drawLBScore(Integer.parseInt(scanner.next()), 430, 486, yellowed, g) ;
-			yellowed = drawLBScore(Integer.parseInt(scanner.next()), 430, 552, yellowed, g) ;
-			scanner.close();
-			
+			g.drawImage(screenRender,0,0,null);
 			//end button
 			Image endButton;
 			if(mouseHovered) {
 				endButton = readImage("assets" + File.separator + "art" + File.separator + "closeOutlined.png");
 				g.drawImage(endButton,208,598,null);
-			}else{ 
+			}else{
 				endButton = readImage("assets" + File.separator + "art" + File.separator + "close.png");
 				g.drawImage(endButton,210,600,null);
 			}
 		}
 
 		//	method to read the image (simplify code above)
-		private Image readImage(String imgStr) {
-			try {
-				return ImageIO.read(new File(imgStr));
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-			return null;
-		}
+
 
 		//	method to adjust string of numbers displayed (simplify code above)
-		private String adjustScore(int theScore) {
-			String scoreToReturn;
-			if(theScore<10) {
-				scoreToReturn = "000" + theScore;
-			} else if(theScore<100) {
-				scoreToReturn = "00" + theScore;
-			} else if(theScore<1000) {
-				scoreToReturn = "0" + theScore;
-			} else {
-				scoreToReturn = "" + theScore;
-			}
-			return scoreToReturn;
-		}
 
-		//	method to display number on leaderboard (simplify code above)
-		private boolean drawLBScore(int score, int x, int y, boolean yellowed, Graphics g) {
-			boolean yello = yellowed;
-			if((score==playerScore)&&(!yello)) {
-				g.setColor(Color.YELLOW);
-				yello = true;
-			}
-			g.drawString("= "+adjustScore(score), x, y);
-			g.setColor(Color.LIGHT_GRAY);
-			return yello;
+	}
+
+	private Image readImage(String imgStr) {
+		try {
+			return ImageIO.read(new File(imgStr));
+		} catch (IOException ex) {
+			ex.printStackTrace();
 		}
+		return null;
+	}
+
+	private String adjustScore(int theScore) {
+		String scoreToReturn;
+		if(theScore<10) {
+			scoreToReturn = "000" + theScore;
+		} else if(theScore<100) {
+			scoreToReturn = "00" + theScore;
+		} else if(theScore<1000) {
+			scoreToReturn = "0" + theScore;
+		} else {
+			scoreToReturn = "" + theScore;
+		}
+		return scoreToReturn;
+	}
+
+	//	method to display number on leaderboard (simplify code above)
+	private boolean drawLBScore(int score, int x, int y, boolean yellowed, Graphics g) {
+		boolean yello = yellowed;
+		if((score==playerScore)&&(!yello)) {
+			g.setColor(Color.YELLOW);
+			yello = true;
+		}
+		g.drawString("= "+adjustScore(score), x, y);
+		g.setColor(Color.LIGHT_GRAY);
+		return yello;
 	}
 
 	
