@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 public class MenuView extends JPanel implements MouseListener, MouseMotionListener{
 	private boolean tutorial = false;
 	private int slideCounter = 0;
-	private String [] imageSlides;
+	private String [] imageSlides = new String[]{"slide1.png", "slide2.png", "slide3.png", "slide4.png", "slide5.png", "slide6.png", "slide7.png", "slide8.png", "slide9.png", "slide10.png"};
 	private Image display;
 	private final String path = "assets" + File.separator + "art" + File.separator;
 	private boolean mouseHoveredEasy;
@@ -51,19 +51,19 @@ public class MenuView extends JPanel implements MouseListener, MouseMotionListen
 				g.drawImage(display,0,0,null);
 			}
 		} else if(tutorial) {
-//			display = new ImageIcon(path+imageSlides[slideCounter]).getImage();
-//			g.drawImage(display,0,0,null);
+			display = new ImageIcon(path+imageSlides[slideCounter]).getImage();
+			g.drawImage(display,0,0,null);
 			if(slideCounter==0) {
 				if(mouseHovered2)
 					g.drawImage(new ImageIcon(path+"tutorialStartOutlined.png").getImage(),95,240,null);
 				else
 					g.drawImage(new ImageIcon(path+"tutorialStart.png").getImage(),95,240,null);
-			} else if(slideCounter<8) {
+			} else if(slideCounter<9) {
 				if(mouseHovered3)
 					g.drawImage(new ImageIcon(path+"continueOutlined.png").getImage(),488,628,null);
 				else
 					g.drawImage(new ImageIcon(path+"continue.png").getImage(),490,630,null);
-			} else if(slideCounter==8) {
+			} else if(slideCounter==9) {
 				mouseHoveredEasy = false;
 				mouseHoveredMedium = false;
 				mouseHoveredHard = false;
@@ -92,13 +92,13 @@ public class MenuView extends JPanel implements MouseListener, MouseMotionListen
 			}
 			this.repaint();
 		} else {
-			if(slideCounter<8){
+			if(slideCounter<9){
 				if(slideCounter==0 && e.getX()>=470 && e.getX()<=609 && e.getY()>=352 && e.getY()<=382) {
 					slideCounter++;
 				} else if(e.getX()>=490 && e.getX()<=690 && e.getY()>=630 && e.getY()<=665) {
 					slideCounter++;
 				}
-			} else if (e.getX()>=490 && e.getX()<=690 && e.getY()>=631 && e.getY()<=663 && slideCounter==8) {
+			} else if (e.getX()>=490 && e.getX()<=690 && e.getY()>=631 && e.getY()<=663 && slideCounter==9) {
 				slideCounter=0;
 				tutorial = false;
 			}
@@ -144,7 +144,7 @@ public class MenuView extends JPanel implements MouseListener, MouseMotionListen
 			}
 			this.repaint();
 		} else {
-			if(slideCounter<8){
+			if(slideCounter<9){
 				if(slideCounter==0 && e.getX()>=470 && e.getX()<=609 && e.getY()>=352 && e.getY()<=382) {
 					mouseHovered2 = true;
 				} else if(e.getX()>=490 && e.getX()<=690 && e.getY()>=630 && e.getY()<=665) {
@@ -153,7 +153,7 @@ public class MenuView extends JPanel implements MouseListener, MouseMotionListen
 					mouseHovered2 = false;
 					mouseHovered3 = false;
 				}
-			} else if (e.getX()>=490 && e.getX()<=690 && e.getY()>=631 && e.getY()<=663 && slideCounter==8) {
+			} else if (e.getX()>=490 && e.getX()<=690 && e.getY()>=631 && e.getY()<=663 && slideCounter==9) {
 					mouseHovered3=true;
 			} else {
 				mouseHovered3 = false;
