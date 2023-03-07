@@ -4,6 +4,7 @@
 out/
 .idea/
 .idea_modules/
+META-INF/
 *.iml
 *.ipr
 *.iws
