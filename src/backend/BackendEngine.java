@@ -58,6 +58,7 @@ public class BackendEngine {
         MazeGenerator m = new MazeGenerator(difficulty);
         this.gameMaze = m.getMaze();
         this.currentChamber = this.gameMaze.getChamberAt(new Coordinate(0,0,0));
+        currentChamber.setVisited(true);
         OptimalSolver solver = new OptimalSolver(gameMaze);
         System.out.println(solver.getSolution());
         System.out.println(solver.getMoves());
@@ -70,8 +71,12 @@ public class BackendEngine {
     public void move(int direction){
         currentMoves += 1;
         currentChamber = currentChamber.getAdjacentChamber(direction);
+        currentChamber.setVisited(true);
     }
 
+    public Chamber[][] getLevel(int level){
+        return this.gameMaze.getLevel(level);
+    }
 
     public void changeView(String newView){
         if(newView.equals("chamberview")){
@@ -82,7 +87,7 @@ public class BackendEngine {
                 this.viewEngine.changeView("chamberview");
             }
         } else if(newView.equals("mapview")){
-            this.viewEngine.setMapView(new MapView(this.gameMaze.getLevel(this.currentChamber.getCoordinates().getLevel()), this));
+            this.viewEngine.setMapView(new MapView(this));
             this.viewEngine.changeView("mapview");
         } else if(newView.equals("endview")){
             this.viewEngine.changeView("endview");

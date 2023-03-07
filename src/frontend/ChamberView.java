@@ -1,17 +1,12 @@
 package frontend;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.geom.QuadCurve2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
-import javax.swing.JPanel;
-import javax.swing.Timer;
+import javax.swing.*;
 
 import backend.BackendEngine;
 import maze.Chamber;
@@ -27,7 +22,7 @@ public class ChamberView extends JPanel {
     private BackendEngine backendEngine;
     private Camera camera = new Camera(new Vector3(-2,0,0),0, 90);
     private Scene scene;
-    private boolean moving;
+    private boolean moving, mouseHoverMap;
     private BufferedImage frameImage = new BufferedImage(360,360,BufferedImage.TYPE_INT_RGB);
     private BufferedImage arrowImage = new BufferedImage(720,720,BufferedImage.TYPE_INT_ARGB);
     private BufferedImage headerImage = new BufferedImage(720,30,BufferedImage.TYPE_INT_ARGB);
@@ -72,8 +67,30 @@ public class ChamberView extends JPanel {
                     && ((backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())!=null) ||
                      (backendEngine.getChamber().isLastDoor() && backendEngine.getDirection() == Direction.SOUTH))) {
                         moveForward();
-                    } else if(mapViewButtonBounds.inBounds(x, y)) {
+                    } else if(e.getX() >= 20 && e.getX() <= 130 && e.getY() >= 560 && e.getY() <= 670) {
                         backendEngine.changeView("mapview");
+                    }
+                }
+            }
+        });
+        this.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                if(!moving){
+                    boolean changed = false;
+                    if (e.getX() >= 20 && e.getX() <= 130 && e.getY() >= 560 && e.getY() <= 670) {
+                        if (!mouseHoverMap){
+                            changed = true;
+                        }
+                        mouseHoverMap = true;
+                    }else{
+                        if (mouseHoverMap){
+                            changed = true;
+                        }
+                        mouseHoverMap = false;
+                    }
+                    if(changed){
+                        repaint();
                     }
                 }
             }
@@ -573,25 +590,24 @@ public class ChamberView extends JPanel {
             //right and left arrows
             drawLeftArrow(g);
             drawRightArrow(g);
-            drawMapViewButton(g);
+
+            Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+            SwingUtilities.convertPointFromScreen(mouseLocation,this);
+            if (mouseLocation.getX() >= 20 && mouseLocation.getX() <= 130 && mouseLocation.getY() >= 560 && mouseLocation.getY() <= 670) {
+                mouseHoverMap = true;
+            }else{
+                mouseHoverMap = false;
+            }
+            
+            if (mouseHoverMap){
+                g.drawImage(new ImageIcon("assets"+ File.separator+"art"+ File.separator+"mapViewButtonOutlined.png").getImage(), 23, 563, null);
+            }else{
+                g.drawImage(new ImageIcon("assets"+ File.separator+"art"+ File.separator+"mapViewButton.png").getImage(), 25, 565, null);
+            }
+            
         }
     }
 
-    private void drawMapViewButton(Graphics2D g) {
-        int x = mapViewButtonBounds.x0()+10, y = mapViewButtonBounds.y1()+10;
-        int width = mapViewButtonBounds.x1()-mapViewButtonBounds.x0()-20;
-        int height = mapViewButtonBounds.y0()-mapViewButtonBounds.y1()-20;
-
-        g.setColor(Color.GRAY);
-        g.fillRect(x, y, width, height);
-        g.setStroke(new BasicStroke(2));
-        g.setColor(Color.WHITE);
-        g.drawRect(x, y, width, height);
-
-        g.setColor(Color.WHITE);
-        g.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,15));
-        g.drawString("Map View", x+((width-g.getFontMetrics().stringWidth("Map View"))/2), y+((height-g.getFontMetrics().getAscent())/2)+g.getFontMetrics().getAscent());
-    }
 
     private void drawLeftArrow(Graphics2D g) {
         int x = 70;
