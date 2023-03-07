@@ -549,6 +549,7 @@ public class ChamberView extends JPanel {
             drawRightArrow(g);
 
             Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+            SwingUtilities.convertPointFromScreen(mouseLocation,this);
             if (mouseLocation.getX() >= 20 && mouseLocation.getX() <= 130 && mouseLocation.getY() >= 560 && mouseLocation.getY() <= 670) {
                 mouseHoverMap = true;
             }else{
