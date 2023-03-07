@@ -75,6 +75,20 @@ public class MapView extends JPanel {
                 }
             }
         });
+        this.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                    if ((e.getKeyCode()==KeyEvent.VK_UP)&&(levelLabel>0)) {
+                        levelLabel-=1;
+                        level = backend.getLevel(levelLabel);
+                        repaint();
+                    } else if ((e.getKeyCode()==KeyEvent.VK_DOWN)&&(levelLabel<mapDim-1)) {
+                        levelLabel+=1;
+                        level = backend.getLevel(levelLabel);
+                        repaint();
+                }
+            }
+        });
 
     }
 
@@ -107,13 +121,21 @@ public class MapView extends JPanel {
             mouseHoverChamber = false;
         }
 
-        if (mouseHoverUp) {
+        if (mouseHoverUp && levelLabel != 0) {
             g.drawImage(new ImageIcon("assets"+ File.separator+"art"+ File.separator+"upbuttonOutlined.png").getImage(), 58, 360, null);
+        } else if(levelLabel == 0) {
+            g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            g.drawImage(new ImageIcon("assets"+ File.separator+"art"+ File.separator+"upbutton.png").getImage(), 58, 360, null);
+            g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         } else {
             g.drawImage(new ImageIcon("assets"+ File.separator+"art"+ File.separator+"upbutton.png").getImage(), 58, 360, null);
         }
-        if (mouseHoverDown) {
+        if (mouseHoverDown && levelLabel != mapDim-1) {
             g.drawImage(new ImageIcon("assets"+ File.separator+"art"+ File.separator+"downbuttonOutlined.png").getImage(), 0, 360, null);
+        } else if(levelLabel == mapDim-1) {
+            g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            g.drawImage(new ImageIcon("assets"+ File.separator+"art"+ File.separator+"downbutton.png").getImage(), 0, 360, null);
+            g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         } else {
             g.drawImage(new ImageIcon("assets"+ File.separator+"art"+ File.separator+"downbutton.png").getImage(), 0, 360, null);
         }

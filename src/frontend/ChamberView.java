@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import backend.BackendEngine;
 import maze.Chamber;
+import maze.OptimalSolver;
 import rendering.Camera;
 import rendering.Scene;
 import rendering.Vector3;
@@ -34,7 +35,15 @@ public class ChamberView extends JPanel {
     
     private BoundingBox mapViewButtonBounds = new BoundingBox(35, 720-5, 165, 720-85);
 
+    //Auto-solve stuff
+    private int currentMove = 0;
+    private String solution;
+    private boolean autoSolve = false; //IMPORTANT: Set to false when not testing!
+
     public ChamberView(Chamber chamber, final BackendEngine backendEngine){
+        if(autoSolve)
+            this.solution = new OptimalSolver(backendEngine.getGameMaze()).getSolution();
+
         this.setPreferredSize(new Dimension(720,720));
         this.setFocusable(true);
         this.backendEngine = backendEngine;
@@ -106,6 +115,7 @@ public class ChamberView extends JPanel {
         });
         centerChamber();
         //camera.translate(new Vector3(0,2,0));
+        moveEnded();
     }
     private void moveForward(){
         //renders the new scene
@@ -136,6 +146,7 @@ public class ChamberView extends JPanel {
                         backendEngine.move(backendEngine.getDirection());
                         centerChamber();
                     }
+                    moveEnded();
                 }else{
                     if(backendEngine.getDirection()==Direction.NORTH){
                         camera.translate(new Vector3(0,0,(float) distanceMoved));
@@ -278,6 +289,7 @@ public class ChamberView extends JPanel {
                     backendEngine.move(Direction.UP);
                     centerChamber();
                     moving=false;
+                    moveEnded();
                 }else{
                     if(backendEngine.getDirection()==Direction.NORTH){
                         camera.translate(new Vector3(0,0,(float) distanceMoved*-1));
@@ -402,6 +414,7 @@ public class ChamberView extends JPanel {
                     backendEngine.move(Direction.DOWN);
                     centerChamber();
                     moving=false;
+                    moveEnded();
                 }else{
                     if(backendEngine.getDirection()==Direction.NORTH){
                         camera.translate(new Vector3(0,0,(float) distanceMoved*-1));
@@ -452,6 +465,7 @@ public class ChamberView extends JPanel {
                         backendEngine.setDirection(Direction.SOUTH);
                     }
                     centerChamber();
+                    moveEnded();
                 }else{
                     if(backendEngine.getDirection()==Direction.NORTH){
                         camera.translate(new Vector3((float)distanceMoved,0,(float) distanceMoved));
@@ -470,6 +484,7 @@ public class ChamberView extends JPanel {
             }
         });
         frameTimer.start();
+
     }
     private void turnRight(){
         moving = true;
@@ -502,6 +517,7 @@ public class ChamberView extends JPanel {
                         backendEngine.setDirection(Direction.NORTH);
                     }
                     centerChamber();
+                    moveEnded();
                 }else{
 
                     if(backendEngine.getDirection()==Direction.NORTH){
@@ -514,7 +530,7 @@ public class ChamberView extends JPanel {
                         camera.translate(new Vector3((float)distanceMoved*-1,0,(float)distanceMoved*-1));
                     }
 
-
+                    
                     camera.setRotation((float) 0, (float) (camera.getYaw()-angleMoved));
                     repaint();
                     lastTime = currentTime;
@@ -523,6 +539,33 @@ public class ChamberView extends JPanel {
         });
         frameTimer.start();
     }
+
+    public void moveEnded() {
+        if(autoSolve && currentMove < solution.length()) {
+            char move = solution.charAt(currentMove);
+            System.out.println("Autosolver: Move " + (currentMove+1) + " of " + solution.length());
+            if(move == 'U') {
+                moveUp();
+                System.out.println("Autosolver: Moving Up");
+                currentMove++;
+            } else if(move == 'D') {
+                moveDown();
+                System.out.println("Autosolver: Moving Down");
+                currentMove++;
+            } else {
+                if(Direction.toString(backendEngine.getDirection()).charAt(0) != move) {
+                    System.out.println("Autosolver: Turning to " + move);
+                    turnRight();
+                } else {
+                    System.out.println("Autosolver: Moving forward");
+                    moveForward();
+                    currentMove++;
+                }
+            }
+           
+        }
+    }
+    
     private void drawArrows(BufferedImage image){
         Graphics2D g = (Graphics2D) image.getGraphics();
         g.setBackground(new Color(0,0,0,0));
