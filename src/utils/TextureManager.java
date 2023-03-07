@@ -11,7 +11,7 @@ public class TextureManager {
     public static final TextureManager main = new TextureManager();
     private HashMap<String, BufferedImage> textures;
     private int artCounter = 0;
-    private final int NUM_WALL_ART = 129; // Update this when new wall art is added
+    private final int NUM_WALL_ART = 154; // Update this when new wall art is added
 
     public TextureManager() {
         textures = new HashMap<String, BufferedImage>();
