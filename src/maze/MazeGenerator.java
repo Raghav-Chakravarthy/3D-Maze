@@ -37,7 +37,7 @@ public class MazeGenerator {
             easy();
         }
         else if (difficulty.equals("medium")){
-            unvisited = 123;
+            unvisited = 124;
             visited = new boolean[5][5][5];
             walk = new char[5][5][5];
             for (int i = 0; i < 5; i++){
@@ -49,9 +49,7 @@ public class MazeGenerator {
                     }
                 }
             }
-            visited[3][4][4] = true;
             visited[4][4][4] = true;
-            addConnections(new Coordinate(4, 4, 4), 'T');
             medium();
         }
         else{
