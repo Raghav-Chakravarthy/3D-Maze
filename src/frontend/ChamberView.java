@@ -32,8 +32,6 @@ public class ChamberView extends JPanel {
     private BoundingBox forwardArrowBounds = new BoundingBox(291, 520, 424, 430);
     private BoundingBox downArrowBounds = new BoundingBox(305, 662, 415, 531);
     private BoundingBox upArrowBounds = new BoundingBox(305, 190, 415, 63);
-    
-    private BoundingBox mapViewButtonBounds = new BoundingBox(35, 720-5, 165, 720-85);
 
     //Auto-solve stuff
     private int currentMove = 0;
@@ -116,7 +114,6 @@ public class ChamberView extends JPanel {
             }
         });
         centerChamber();
-        //camera.translate(new Vector3(0,2,0));
         moveEnded();
     }
     private void moveForward(){
