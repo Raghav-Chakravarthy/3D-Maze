@@ -78,14 +78,16 @@ public class MapView extends JPanel {
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                    if ((e.getKeyCode()==KeyEvent.VK_UP)&&(levelLabel>0)) {
-                        levelLabel-=1;
-                        level = backend.getLevel(levelLabel);
-                        repaint();
-                    } else if ((e.getKeyCode()==KeyEvent.VK_DOWN)&&(levelLabel<mapDim-1)) {
-                        levelLabel+=1;
-                        level = backend.getLevel(levelLabel);
-                        repaint();
+                if ((e.getKeyCode()==KeyEvent.VK_UP)&&(levelLabel>0)) {
+                    levelLabel-=1;
+                    level = backend.getLevel(levelLabel);
+                    repaint();
+                } else if ((e.getKeyCode()==KeyEvent.VK_DOWN)&&(levelLabel<mapDim-1)) {
+                    levelLabel+=1;
+                    level = backend.getLevel(levelLabel);
+                    repaint();
+                } else if (e.getKeyCode()== KeyEvent.VK_M){
+                    backend.changeView("chamberview");
                 }
             }
         });

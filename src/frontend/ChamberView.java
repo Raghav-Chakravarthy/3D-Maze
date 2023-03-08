@@ -109,6 +109,8 @@ public class ChamberView extends JPanel {
                         turnLeft();
                     } else if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
                         turnRight();
+                    } else if (e.getKeyCode()== KeyEvent.VK_M){
+                        backendEngine.changeView("mapview");
                     }
                 }
             }
