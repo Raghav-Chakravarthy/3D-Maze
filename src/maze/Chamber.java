@@ -4,7 +4,7 @@ import java.awt.Color;
 import rendering.WallArt;
 public class Chamber {
     private Color wallColor;
-    private boolean visited;
+    private boolean visited = false;
     private Chamber[] adjacentChambers;
     private WallArt wallArt;
     private Coordinate coordinates;

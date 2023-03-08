@@ -1,8 +1,11 @@
 package rendering;
 
 import java.awt.Color;
+import java.util.HashSet;
 
 public class ColorUtils {
+	private static HashSet<Integer> usedColors = new HashSet<Integer>();
+
 	public static int rgbToHex(int r, int g, int b) {
 		int hex = (r << 8 << 8) | (g << 8) | b;
 		return hex;
@@ -15,7 +18,12 @@ public class ColorUtils {
 	}
 	
 	public static Color randomChamberColor() {
-		return new Color(rgbToHex(randColorChannel(), randColorChannel(), randColorChannel()));
+		int color = 0;
+		do {
+			color = rgbToHex(randColorChannel(), randColorChannel(), randColorChannel());
+		} while(usedColors.contains(color));
+
+		return new Color(color);
 	}
 
 	private static int randColorChannel() {
