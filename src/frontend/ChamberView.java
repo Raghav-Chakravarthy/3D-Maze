@@ -52,20 +52,29 @@ public class ChamberView extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 int x = e.getX(), y = e.getY();
-                if(!moving) {
-                    if(upArrowBounds.inBounds(x, y) && (backendEngine.getChamber().getAdjacentChamber(Direction.UP)!=null)) {
+                if (!moving) {
+                    if (upArrowBounds.inBounds(x, y) && (backendEngine.getChamber().getAdjacentChamber(Direction.UP) != null)) {
                         moveUp();
-                    } else if(downArrowBounds.inBounds(x, y) && (backendEngine.getChamber().getAdjacentChamber(Direction.DOWN)!=null)) {
+                    } else if (downArrowBounds.inBounds(x, y) && (backendEngine.getChamber().getAdjacentChamber(Direction.DOWN) != null)) {
                         moveDown();
-                    } else if(leftArrowBounds.inBounds(x, y)) {
+                    } else if (leftArrowBounds.inBounds(x, y)) {
                         turnLeft();
-                    } else if(rightArrowBounds.inBounds(x, y)) {
+                    } else if (rightArrowBounds.inBounds(x, y)) {
                         turnRight();
-                    } else if(forwardArrowBounds.inBounds(x, y) 
-                    && ((backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())!=null) ||
-                     (backendEngine.getChamber().isLastDoor() && backendEngine.getDirection() == Direction.SOUTH))) {
+                    } else if (forwardArrowBounds.inBounds(x, y)
+                            && ((backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection()) != null) ||
+                            (backendEngine.getChamber().isLastDoor() && backendEngine.getDirection() == Direction.SOUTH))) {
                         moveForward();
-                    } else if(e.getX() >= 20 && e.getX() <= 130 && e.getY() >= 560 && e.getY() <= 670) {
+                    }
+                }
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                int x = e.getX(), y = e.getY();
+                if(!moving) {
+                    if (e.getX() >= 20 && e.getX() <= 130 && e.getY() >= 560 && e.getY() <= 670) {
                         backendEngine.changeView("mapview");
                     }
                 }

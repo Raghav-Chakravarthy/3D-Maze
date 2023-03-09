@@ -7,7 +7,7 @@ import frontend.*;
 
 public class ViewEngine{
     private JFrame frame;
-    private JPanel mainPanel, introDisplay, chamberDisplay, mapDisplay, endDisplay;
+    private JPanel splashDisplay, mainDisplay, chamberDisplay, mapDisplay, endDisplay;
     private String gameView;
     private BackendEngine backend;
     
@@ -18,20 +18,20 @@ public class ViewEngine{
 
     public void setup(){
         frame = new JFrame();
-        mainPanel = new JPanel();
-        gameView = "mainview";
-		mainPanel.setPreferredSize(new Dimension(720,720));
-        introDisplay = new MenuView(backend);
-        introDisplay.setSize(720,720);
-        frame.setContentPane(introDisplay);
+        gameView = "splashview";
+        splashDisplay = new SplashView(backend);
+        frame.setContentPane(splashDisplay);
         frame.pack();
-        introDisplay.requestFocusInWindow();
 		frame.setLayout(null);
         frame.setTitle("3D Maze");
         frame.pack();
 		frame.setVisible(true);
         frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public void setMainView(MenuView menuView){
+        this.mainDisplay = menuView;
     }
 
     public void setChamberView(ChamberView chamberView){
@@ -42,12 +42,11 @@ public class ViewEngine{
         this.mapDisplay = mapView;
     }
 
-    public JPanel getChamberView(){
-        return this.chamberDisplay;
-    }
-
     public void changeView(String newView){
-        if(newView.equals("chamberview")){
+        if(newView.equals("mainview")){
+            gameView = "mainview";
+            splashViewToMainView();
+        } else if(newView.equals("chamberview")){
             if(gameView.equals("mainview")){
                 gameView = "chamberview";
                 mainViewToChamberView();
@@ -70,6 +69,11 @@ public class ViewEngine{
         return gameView;
     }
 
+    private void splashViewToMainView(){
+        frame.setContentPane(mainDisplay);
+        frame.pack();
+        mainDisplay.requestFocusInWindow();
+    }
     private void mainViewToChamberView(){
         frame.setContentPane(chamberDisplay);
         frame.pack();
