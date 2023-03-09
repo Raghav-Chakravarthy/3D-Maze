@@ -272,12 +272,9 @@ public class MazeGenerator {
             return;
         }
         ArrayList<Character> dir = new ArrayList<Character>();
-        dir.add('N');
-        dir.add('E');
-        dir.add('S');
-        dir.add('W');
-        dir.add('T');
-        dir.add('B');
+        for (int i = 0; i < 6; i++){
+            dir.add(directions.get(i));
+        }
         Collections.shuffle(dir);
         for (int i = 0; i < 6; i++){
             if (dir.get(i) == 'N'){
