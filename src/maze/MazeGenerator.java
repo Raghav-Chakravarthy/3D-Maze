@@ -271,39 +271,46 @@ public class MazeGenerator {
         if (coord.getLevel() == 5 && coord.getRow() == 5 && coord.getColumn() == 5){
             return;
         }
-        Collections.shuffle(directions);
+        ArrayList<Character> dir = new ArrayList<Character>();
+        dir.add('N');
+        dir.add('E');
+        dir.add('S');
+        dir.add('W');
+        dir.add('T');
+        dir.add('B');
+        Collections.shuffle(dir);
         for (int i = 0; i < 6; i++){
-            if (directions.get(i) == 'N'){
-                if (coord.getRow() - 1 >= 0 &&!visited[coord.getLevel()][coord.getRow() - 1][coord.getColumn()]){
+            if (dir.get(i) == 'N'){
+                if (coord.getRow() - 1 >= 0 && !visited[coord.getLevel()][coord.getRow() - 1][coord.getColumn()]){
                     addConnections(coord, 'N');
                     hard(new Coordinate(coord.getLevel(), coord.getRow() - 1, coord.getColumn()));
                 }
             }
-            if (directions.get(i) == 'E'){
-                if (coord.getColumn() + 1 < 6 &&!visited[coord.getLevel()][coord.getRow()][coord.getColumn() + 1]){
+            if (dir.get(i) == 'E'){
+                if (coord.getColumn() + 1 < 6 && !visited[coord.getLevel()][coord.getRow()][coord.getColumn() + 1]){
                     addConnections(coord, 'E');
                     hard(new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn() + 1));
                 }
             }
-            if (directions.get(i) == 'S'){
-                if (coord.getRow() + 1 < 6 &&!visited[coord.getLevel()][coord.getRow() + 1][coord.getColumn()]){
+            if (dir.get(i) == 'S'){
+                if (coord.getRow() + 1 < 6 && !visited[coord.getLevel()][coord.getRow() + 1][coord.getColumn()]){
                     addConnections(coord, 'S');
                     hard(new Coordinate(coord.getLevel(), coord.getRow() + 1, coord.getColumn()));
                 }
             }
-            if (directions.get(i) == 'W'){
-                if (coord.getColumn() - 1 >= 0 &&!visited[coord.getLevel()][coord.getRow()][coord.getColumn() - 1]){
+            if (dir.get(i) == 'W'){
+                if (coord.getColumn() - 1 >= 0 && !visited[coord.getLevel()][coord.getRow()][coord.getColumn() - 1]){
                     addConnections(coord, 'W');
                     hard(new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn() - 1));
                 }
             }
-            if (directions.get(i) == 'T'){
-                if (coord.getLevel() - 1 >= 0 &&!visited[coord.getLevel() - 1][coord.getRow()][coord.getColumn()]){
+            if (dir.get(i) == 'T'){
+                if (coord.getLevel() - 1 >= 0 && !visited[coord.getLevel() - 1][coord.getRow()][coord.getColumn()]){
                     addConnections(coord, 'T');
                     hard(new Coordinate(coord.getLevel() - 1, coord.getRow(), coord.getColumn()));
                 }
             }
-            if (directions.get(i) == 'B'){
+            if (dir.get(i) == 'B'){
                 if (coord.getLevel() + 1 < 6 && !visited[coord.getLevel() + 1][coord.getRow()][coord.getColumn()]){
                     addConnections(coord, 'B');
                     hard(new Coordinate(coord.getLevel() + 1, coord.getRow(), coord.getColumn()));
