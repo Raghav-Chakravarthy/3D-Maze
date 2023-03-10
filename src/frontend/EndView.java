@@ -224,12 +224,6 @@ public class EndView extends JPanel implements MouseListener, MouseMotionListene
 				g.drawImage(endButton,210,600,null);
 			}
 		}
-
-		//	method to read the image (simplify code above)
-
-
-		//	method to adjust string of numbers displayed (simplify code above)
-
 	}
 
 	private Image readImage(String imgStr) {
@@ -276,7 +270,6 @@ public class EndView extends JPanel implements MouseListener, MouseMotionListene
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		//these coordinates will probably change once integrated with Raghav's code
 		if(e.getX()>=210 && e.getX()<=510 && e.getY()>=600 && e.getY()<=660)
 			mouseHovered=true;
 		else
@@ -286,7 +279,6 @@ public class EndView extends JPanel implements MouseListener, MouseMotionListene
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		//these coordinates will probably change once integrated with Raghav's code
 		if(e.getX()>=210 && e.getX()<=510 && e.getY()>=600 && e.getY()<=660)
 			game.changeView("close");
 	}
