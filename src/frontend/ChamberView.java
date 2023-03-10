@@ -36,7 +36,7 @@ public class ChamberView extends JPanel {
     //Auto-solve stuff
     private int currentMove = 0;
     private String solution;
-    private boolean autoSolve = true; //IMPORTANT: Set to false when not testing!
+    private boolean autoSolve = false; //IMPORTANT: Set to false when not testing!
 
     public ChamberView(Chamber chamber, final BackendEngine backendEngine){
         if(autoSolve)
