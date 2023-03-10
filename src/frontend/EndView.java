@@ -2,25 +2,19 @@ package frontend;
 
 import backend.BackendEngine;
 import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import java.awt.Graphics;
 import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -94,7 +88,6 @@ public class EndView extends JPanel implements MouseListener, MouseMotionListene
 			e.printStackTrace();
 		}
 		scanner.useDelimiter(",");
-		int scanNext;
 		boolean yellowed = false;
 		yellowed = drawLBScore(Integer.parseInt(scanner.next()), 175, 283, yellowed, g) ;
 		yellowed = drawLBScore(Integer.parseInt(scanner.next()), 175, 351, yellowed, g) ;
