@@ -20,7 +20,6 @@ public class MapView extends JPanel {
     //Horizontal pixelage
     private boolean mouseHoverUp, mouseHoverDown, mouseHoverChamber;
     private int levelLabel;
-    private JFrame frame;
     private BufferedImage headerImage = new BufferedImage(720,30,BufferedImage.TYPE_INT_ARGB);
     private Chamber[][] level;
     private BackendEngine backend;
