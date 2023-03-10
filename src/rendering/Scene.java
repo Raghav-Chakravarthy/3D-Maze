@@ -18,7 +18,7 @@ public class Scene {
 
 	private final int TEXTURE_SIZE = 1024;
 	private final Color PASSAGE_COLOR = new Color(ColorUtils.rgbToHex(new Vector3(0.01f)));
-	private final Color SOLUTION_DOOR_COLOR = new Color(0x03fc62);
+	private final Color SOLUTION_DOOR_COLOR = Color.BLACK;//new Color(0x03fc62);
 	private final float CHAMBER_SIZE = 2.01f;
 	
 	public Scene() {
@@ -125,7 +125,7 @@ public class Scene {
 		float w = g.getFontMetrics().stringWidth(exitMessage);
 		int x = (TEXTURE_SIZE/2-(int)(w/2)), y = (TEXTURE_SIZE/2);
 
-		g.setColor(Color.BLACK);
+		g.setColor(Color.WHITE);
 		g.translate(x, y);
 		//g.drawString(exitMessage, 0, 0);
 		FontRenderContext frc = g.getFontRenderContext();
@@ -133,7 +133,7 @@ public class Scene {
         Shape shape = tl.getOutline(null);
         g.setStroke(new BasicStroke(25f));
         g.draw(shape);
-        g.setColor(Color.WHITE);
+        g.setColor(Color.RED);
         g.fill(shape);
 		
 		
