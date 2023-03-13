@@ -1,7 +1,6 @@
 package frontend;
 
 import backend.BackendEngine;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,12 +9,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -92,7 +89,6 @@ public class EndView extends JPanel implements MouseListener, MouseMotionListene
 			e.printStackTrace();
 		}
 		scanner.useDelimiter(",");
-		int scanNext;
 		boolean yellowed = false;
 		yellowed = drawLBScore(Integer.parseInt(scanner.next()), 175, 283, yellowed, g) ;
 		yellowed = drawLBScore(Integer.parseInt(scanner.next()), 175, 351, yellowed, g) ;
@@ -260,12 +256,6 @@ public class EndView extends JPanel implements MouseListener, MouseMotionListene
 			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,endOpacity));
 			g2d.fillRect(0,0,720,720);
 		}
-
-		//	method to read the image (simplify code above)
-
-
-		//	method to adjust string of numbers displayed (simplify code above)
-
 	}
 
 	private Image readImage(String imgStr) {
@@ -312,7 +302,6 @@ public class EndView extends JPanel implements MouseListener, MouseMotionListene
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		//these coordinates will probably change once integrated with Raghav's code
 		if(e.getX()>=210 && e.getX()<=510 && e.getY()>=600 && e.getY()<=660)
 			mouseHovered=true;
 		else
@@ -322,7 +311,6 @@ public class EndView extends JPanel implements MouseListener, MouseMotionListene
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		//these coordinates will probably change once integrated with Raghav's code
 		if(e.getX()>=210 && e.getX()<=510 && e.getY()>=600 && e.getY()<=660)
 			game.changeView("close");
 	}

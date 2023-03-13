@@ -74,7 +74,6 @@ public class ChamberView extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                int x = e.getX(), y = e.getY();
                 if(!moving) {
                     if (e.getX() >= 20 && e.getX() <= 130 && e.getY() >= 560 && e.getY() <= 670) {
                         backendEngine.changeView("mapview");

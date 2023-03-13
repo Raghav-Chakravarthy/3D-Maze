@@ -15,7 +15,7 @@ public class BackendEngine {
     private ViewEngine viewEngine;
     private int currentMoves = 0, direction = Direction.EAST;
     private Maze gameMaze;
-    private Chamber currentChamber, solutionChamber;
+    private Chamber currentChamber;
     private String difficulty;
 
     public BackendEngine(){
