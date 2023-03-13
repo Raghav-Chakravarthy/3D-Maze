@@ -1,14 +1,9 @@
 package frontend;
 
 import backend.BackendEngine;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import java.awt.Graphics;
-import java.awt.Dimension;
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.Font;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -33,8 +28,11 @@ public class EndView extends JPanel implements MouseListener, MouseMotionListene
 	private boolean mouseHovered;
 	private JPanel panel;
 	private final BackendEngine game;
+	private float endOpacity = 1F;
 
 	private BufferedImage screenRender = new BufferedImage(720,720,BufferedImage.TYPE_INT_ARGB);
+
+
 
 	public EndView(int score, BackendEngine engine) {
 		this.setFocusable(true);
@@ -107,7 +105,7 @@ public class EndView extends JPanel implements MouseListener, MouseMotionListene
 		yellowed = drawLBScore(Integer.parseInt(scanner.next()), 430, 486, yellowed, g) ;
 		yellowed = drawLBScore(Integer.parseInt(scanner.next()), 430, 552, yellowed, g) ;
 		scanner.close();
-
+		endFade();
 		/*
 		//	close button
 		JButton closeBtn = new JButton("Exit");
@@ -214,6 +212,34 @@ public class EndView extends JPanel implements MouseListener, MouseMotionListene
 		}
 	}
 
+	private void endFade(){
+		final Timer frameTimer = new Timer(1000/60,null);
+		frameTimer.addActionListener(new ActionListener() {
+			double opacityRemaining = 1;
+			double lastTime = System.nanoTime();
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				double currentTime = System.nanoTime();
+				opacityRemaining-=(currentTime-lastTime)/500000000;
+				if(opacityRemaining<=0){
+					frameTimer.stop();
+					opacityRemaining = 0;
+					endOpacity = 0;
+					repaint();
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException ex) {
+						throw new RuntimeException(ex);
+					}
+				}
+				endOpacity= (float) (opacityRemaining);
+				repaint();
+				lastTime = currentTime;
+			}
+		});
+		frameTimer.start();
+	}
+
 	//paint component method to do all the painting required
 	private class PaintEndView extends JPanel {
 
@@ -230,6 +256,9 @@ public class EndView extends JPanel implements MouseListener, MouseMotionListene
 				endButton = readImage("assets" + File.separator + "art" + File.separator + "close.png");
 				g.drawImage(endButton,210,600,null);
 			}
+			Graphics2D g2d = (Graphics2D) g;
+			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,endOpacity));
+			g2d.fillRect(0,0,720,720);
 		}
 
 		//	method to read the image (simplify code above)
