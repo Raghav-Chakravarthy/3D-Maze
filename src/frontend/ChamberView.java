@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.QuadCurve2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
 import java.io.File;
 
 import javax.swing.*;
@@ -23,6 +24,7 @@ public class ChamberView extends JPanel {
     private Camera camera = new Camera(new Vector3(-2,0,0),0, 90);
     private Scene scene;
     private boolean moving, mouseHoverMap;
+    private float endOpacity = 0;
     private BufferedImage frameImage = new BufferedImage(360,360,BufferedImage.TYPE_INT_RGB);
     private BufferedImage arrowImage = new BufferedImage(720,720,BufferedImage.TYPE_INT_ARGB);
     private BufferedImage headerImage = new BufferedImage(720,30,BufferedImage.TYPE_INT_ARGB);
@@ -147,8 +149,7 @@ public class ChamberView extends JPanel {
                 if(distanceRemaining<=0){
                     frameTimer.stop();
                     if((backendEngine.getChamber().isLastDoor())&&(backendEngine.getDirection()==Direction.SOUTH)){
-                        backendEngine.changeView("endview");
-                        moving = false;
+                        endFade();
                     }else{
                         backendEngine.move(backendEngine.getDirection());
                         centerChamber();
@@ -546,7 +547,34 @@ public class ChamberView extends JPanel {
         });
         frameTimer.start();
     }
-
+    private void endFade(){
+        final Timer frameTimer = new Timer(1000/60,null);
+        frameTimer.addActionListener(new ActionListener() {
+            double opacityRemaining = 1;
+            double lastTime = System.nanoTime();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double currentTime = System.nanoTime();
+                opacityRemaining-=(currentTime-lastTime)/500000000;
+                if(opacityRemaining<=0){
+                    frameTimer.stop();
+                    opacityRemaining = 0;
+                    endOpacity = 1;
+                    paintComponent(getGraphics());
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    backendEngine.changeView("endview");
+                }
+                endOpacity= (float) (1-opacityRemaining);
+                repaint();
+                lastTime = currentTime;
+            }
+        });
+        frameTimer.start();
+    }
     public void moveEnded() {
         if(autoSolve && currentMove < solution.length()) {
             char move = solution.charAt(currentMove);
@@ -640,8 +668,12 @@ public class ChamberView extends JPanel {
         rendering.Renderer.renderTo(scene, camera, frameImage);
         Header.drawHeader(headerImage,backendEngine.getMoves(),backendEngine.getChamber().getCoordinates(),backendEngine.getDirection());
         drawArrows(arrowImage);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.white);
         g.drawImage(frameImage,0,0,720,720,null);
         g.drawImage(arrowImage,0,0,null);
         g.drawImage(headerImage,0,0,null);
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,endOpacity));
+        g2d.fillRect(0,0,720,720);
     }
 }
