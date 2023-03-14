@@ -556,19 +556,15 @@ public class ChamberView extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 double currentTime = System.nanoTime();
                 opacityRemaining-=(currentTime-lastTime)/500000000;
-                if(opacityRemaining<=0){
-                    frameTimer.stop();
+                if(opacityRemaining<=-2){
                     opacityRemaining = 0;
                     endOpacity = 1;
-                    paintComponent(getGraphics());
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    repaint();
+                    frameTimer.stop();
                     backendEngine.changeView("endview");
                 }
                 endOpacity= (float) (1-opacityRemaining);
+                System.out.println(endOpacity);
                 repaint();
                 lastTime = currentTime;
             }
@@ -673,7 +669,13 @@ public class ChamberView extends JPanel {
         g.drawImage(frameImage,0,0,720,720,null);
         g.drawImage(arrowImage,0,0,null);
         g.drawImage(headerImage,0,0,null);
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,endOpacity));
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,clamp(endOpacity, 0, 1)));
         g2d.fillRect(0,0,720,720);
+    }
+
+    private float clamp(float val, float min, float max) {
+        if(val < min) return min;
+        else if(val > max) return max;
+        else return val;
     }
 }
