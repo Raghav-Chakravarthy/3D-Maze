@@ -564,7 +564,6 @@ public class ChamberView extends JPanel {
                     backendEngine.changeView("endview");
                 }
                 endOpacity= (float) (1-opacityRemaining);
-                System.out.println(endOpacity);
                 repaint();
                 lastTime = currentTime;
             }
