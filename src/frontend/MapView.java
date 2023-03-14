@@ -112,10 +112,16 @@ public class MapView extends JPanel {
         SwingUtilities.convertPointFromScreen(mouseLocation,this);
         if (mouseLocation.getX() >= 78 && mouseLocation.getX() <= 132 && mouseLocation.getY() >= 366 && mouseLocation.getY() <= 450) {
             mouseHoverUp = true;
+            mouseHoverDown = false;
+            mouseHoverChamber = false;
         } else if (mouseLocation.getX() >= 18 && mouseLocation.getX() <= 72 && mouseLocation.getY() >= 366 && mouseLocation.getY() <= 450) {
             mouseHoverDown = true;
+            mouseHoverUp = false;
+            mouseHoverChamber = false;
         } else if (mouseLocation.getX() >= 20 && mouseLocation.getX() <= 130 && mouseLocation.getY() >= 560 && mouseLocation.getY() <= 670) {
             mouseHoverChamber = true;
+            mouseHoverUp = false;
+            mouseHoverDown = false;
         } else {
             mouseHoverUp = false;
             mouseHoverDown = false;
