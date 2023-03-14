@@ -118,9 +118,6 @@ public class Scene {
 		g.setStroke(new BasicStroke(5));
 		g.drawRect(TEXTURE_SIZE/4, TEXTURE_SIZE/4, TEXTURE_SIZE/2, TEXTURE_SIZE);
 
-	
-
-
 		g.setFont(new Font("Arial", Font.PLAIN, 200));
 		float w = g.getFontMetrics().stringWidth(exitMessage);
 		int x = (TEXTURE_SIZE/2-(int)(w/2)), y = (TEXTURE_SIZE/2);
@@ -135,7 +132,6 @@ public class Scene {
         g.draw(shape);
         g.setColor(Color.RED);
         g.fill(shape);
-		
 		
 		return new ImageTexture(img);
 	}
