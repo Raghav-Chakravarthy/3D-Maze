@@ -19,9 +19,12 @@ public class ColorUtils {
 	
 	public static Color randomChamberColor() {
 		int color = 0;
+		
 		do {
 			color = rgbToHex(randColorChannel(), randColorChannel(), randColorChannel());
 		} while(usedColors.contains(color));
+		
+		usedColors.add(color);
 
 		return new Color(color);
 	}

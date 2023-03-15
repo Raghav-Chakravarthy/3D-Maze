@@ -3,17 +3,16 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
+
 import backend.*;
 import maze.*;
 import utils.*;
 
 public class MapView extends JPanel {
-    private final static int xBound1 = 180;
+    private final static int xBound1 = 175;
     //left edge right edge
-    private final static int yBound1 = 180;
+    private final static int yBound1 = 175;
     private final static int mapSize = 540;
     private static int mapDim = 0;
     //number of chambers per side
@@ -21,7 +20,6 @@ public class MapView extends JPanel {
     //Horizontal pixelage
     private boolean mouseHoverUp, mouseHoverDown, mouseHoverChamber;
     private int levelLabel;
-    private JFrame frame;
     private BufferedImage headerImage = new BufferedImage(720,30,BufferedImage.TYPE_INT_ARGB);
     private Chamber[][] level;
     private BackendEngine backend;
@@ -76,6 +74,22 @@ public class MapView extends JPanel {
                 }
             }
         });
+        this.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if ((e.getKeyCode()==KeyEvent.VK_UP)&&(levelLabel>0)) {
+                    levelLabel-=1;
+                    level = backend.getLevel(levelLabel);
+                    repaint();
+                } else if ((e.getKeyCode()==KeyEvent.VK_DOWN)&&(levelLabel<mapDim-1)) {
+                    levelLabel+=1;
+                    level = backend.getLevel(levelLabel);
+                    repaint();
+                } else if (e.getKeyCode()== KeyEvent.VK_M){
+                    backend.changeView("chamberview");
+                }
+            }
+        });
 
     }
 
@@ -93,26 +107,42 @@ public class MapView extends JPanel {
         g.setFont(new Font("OCR A Extended", Font.BOLD, 53));
         g.drawString(Integer.toString(levelLabel+1), 60, 340);
         //added this to check in case mouse doesn't move but image is displayed
+
         Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+        SwingUtilities.convertPointFromScreen(mouseLocation,this);
         if (mouseLocation.getX() >= 78 && mouseLocation.getX() <= 132 && mouseLocation.getY() >= 366 && mouseLocation.getY() <= 450) {
             mouseHoverUp = true;
+            mouseHoverDown = false;
+            mouseHoverChamber = false;
         } else if (mouseLocation.getX() >= 18 && mouseLocation.getX() <= 72 && mouseLocation.getY() >= 366 && mouseLocation.getY() <= 450) {
             mouseHoverDown = true;
+            mouseHoverUp = false;
+            mouseHoverChamber = false;
         } else if (mouseLocation.getX() >= 20 && mouseLocation.getX() <= 130 && mouseLocation.getY() >= 560 && mouseLocation.getY() <= 670) {
             mouseHoverChamber = true;
+            mouseHoverUp = false;
+            mouseHoverDown = false;
         } else {
             mouseHoverUp = false;
             mouseHoverDown = false;
             mouseHoverChamber = false;
         }
 
-        if (mouseHoverUp) {
+        if (mouseHoverUp && levelLabel != 0) {
             g.drawImage(new ImageIcon("assets"+ File.separator+"art"+ File.separator+"upbuttonOutlined.png").getImage(), 58, 360, null);
+        } else if(levelLabel == 0) {
+            g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            g.drawImage(new ImageIcon("assets"+ File.separator+"art"+ File.separator+"upbutton.png").getImage(), 58, 360, null);
+            g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         } else {
             g.drawImage(new ImageIcon("assets"+ File.separator+"art"+ File.separator+"upbutton.png").getImage(), 58, 360, null);
         }
-        if (mouseHoverDown) {
+        if (mouseHoverDown && levelLabel != mapDim-1) {
             g.drawImage(new ImageIcon("assets"+ File.separator+"art"+ File.separator+"downbuttonOutlined.png").getImage(), 0, 360, null);
+        } else if(levelLabel == mapDim-1) {
+            g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+            g.drawImage(new ImageIcon("assets"+ File.separator+"art"+ File.separator+"downbutton.png").getImage(), 0, 360, null);
+            g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         } else {
             g.drawImage(new ImageIcon("assets"+ File.separator+"art"+ File.separator+"downbutton.png").getImage(), 0, 360, null);
         }
@@ -121,29 +151,34 @@ public class MapView extends JPanel {
         } else {
             g.drawImage(new ImageIcon("assets"+ File.separator+"art"+ File.separator+"chamberViewButton.png").getImage(), 25, 565, null);
         }
-
+        g2D.setColor(Color.BLACK);
+        g2D.setStroke(new BasicStroke(11));
         for (int x = 0;  x< mapDim; x++) {
             for (int y = 0; y < mapDim; y++) {
-                g.setColor(Color.BLACK);
                 if (!level[y][x].getVisited()) {
-                    g.fillRect(xBound1+(x*edgeLength),yBound1+(y*edgeLength),edgeLength,edgeLength);
-                } else {
-                    g.drawLine(xBound1+(x*edgeLength),yBound1+(y*edgeLength),xBound1+((x+1)*edgeLength),yBound1+(y*edgeLength));
-                    g.drawLine(xBound1+(x*edgeLength),yBound1+((y+1)*edgeLength),xBound1+((x+1)*edgeLength),yBound1+((y+1)*edgeLength));
-                    g.drawLine(xBound1+((x+1)*edgeLength),yBound1+(y*edgeLength),xBound1+((x+1)*edgeLength),yBound1+((y+1)*edgeLength));
-                    g.drawLine(xBound1+(x*edgeLength),yBound1+(y*edgeLength),xBound1+(x*edgeLength),yBound1+((y+1)*edgeLength));
-                    g.setColor(Color.white);
+                    g2D.fillRect(xBound1+(x*edgeLength),yBound1+(y*edgeLength),edgeLength,edgeLength);
+                }
+                g2D.drawLine(xBound1 + (x * edgeLength), yBound1 + (y * edgeLength), xBound1 + ((x + 1) * edgeLength), yBound1 + (y * edgeLength));
+                g2D.drawLine(xBound1 + (x * edgeLength), yBound1 + ((y + 1) * edgeLength), xBound1 + ((x + 1) * edgeLength), yBound1 + ((y + 1) * edgeLength));
+                g2D.drawLine(xBound1 + ((x + 1) * edgeLength), yBound1 + (y * edgeLength), xBound1 + ((x + 1) * edgeLength), yBound1 + ((y + 1) * edgeLength));
+                g2D.drawLine(xBound1 + (x * edgeLength), yBound1 + (y * edgeLength), xBound1 + (x * edgeLength), yBound1 + ((y + 1) * edgeLength));
+            }
+        }
+        g2D.setColor(Color.white);
+        for (int x = 0;  x< mapDim; x++) {
+            for (int y = 0; y < mapDim; y++) {
+                if (level[y][x].getVisited()) {
                     if (level[y][x].getAdjacentChamber(Direction.NORTH) != null) {
-                        g.drawLine(xBound1+(x*edgeLength)+(edgeLength/4),yBound1+(y*edgeLength),xBound1+((x+1)*edgeLength)-(edgeLength/4),yBound1+(y*edgeLength));
+                        g2D.drawLine(xBound1+(x*edgeLength)+(edgeLength/4),yBound1+(y*edgeLength),xBound1+((x+1)*edgeLength)-(edgeLength/4),yBound1+(y*edgeLength));
                     }
                     if (level[y][x].getAdjacentChamber(Direction.SOUTH) != null) {
-                        g.drawLine(xBound1+(x*edgeLength)+(edgeLength/4),yBound1+((y+1)*edgeLength),xBound1+((x+1)*edgeLength)-(edgeLength/4),yBound1+((y+1)*edgeLength));
+                        g2D.drawLine(xBound1+(x*edgeLength)+(edgeLength/4),yBound1+((y+1)*edgeLength),xBound1+((x+1)*edgeLength)-(edgeLength/4),yBound1+((y+1)*edgeLength));
                     }
                     if (level[y][x].getAdjacentChamber(Direction.EAST) != null) {
-                        g.drawLine(xBound1+((x+1)*edgeLength),yBound1+(y*edgeLength)+(edgeLength/4),xBound1+((x+1)*edgeLength),yBound1+((y+1)*edgeLength)-(edgeLength/4));
+                        g2D.drawLine(xBound1+((x+1)*edgeLength),yBound1+(y*edgeLength)+(edgeLength/4),xBound1+((x+1)*edgeLength),yBound1+((y+1)*edgeLength)-(edgeLength/4));
                     }
                     if (level[y][x].getAdjacentChamber(Direction.WEST) != null) {
-                        g.drawLine(xBound1+(x*edgeLength),yBound1+(y*edgeLength)+(edgeLength/4),xBound1+(x*edgeLength),yBound1+((y+1)*edgeLength)-(edgeLength/4));
+                        g2D.drawLine(xBound1+(x*edgeLength),yBound1+(y*edgeLength)+(edgeLength/4),xBound1+(x*edgeLength),yBound1+((y+1)*edgeLength)-(edgeLength/4));
                     }
 
                     if ((level[y][x].getAdjacentChamber(Direction.UP) != null)&&(level[y][x].getAdjacentChamber(Direction.DOWN) != null)) {
@@ -160,6 +195,7 @@ public class MapView extends JPanel {
                 }
             }
         }
+
 
         Header.drawHeader(headerImage,backend.getMoves(),backend.getChamber().getCoordinates(),backend.getDirection());
         g.drawImage(headerImage,0,0,null);

@@ -2,6 +2,7 @@ package backend;
 
 import frontend.ChamberView;
 import frontend.MapView;
+import frontend.MenuView;
 import maze.Chamber;
 import maze.Coordinate;
 import maze.Maze;
@@ -14,7 +15,7 @@ public class BackendEngine {
     private ViewEngine viewEngine;
     private int currentMoves = 0, direction = Direction.EAST;
     private Maze gameMaze;
-    private Chamber currentChamber, solutionChamber;
+    private Chamber currentChamber;
     private String difficulty;
 
     public BackendEngine(){
@@ -78,8 +79,11 @@ public class BackendEngine {
         return this.gameMaze.getLevel(level);
     }
 
-    public void changeView(String newView){
-        if(newView.equals("chamberview")){
+    public void changeView(String newView) {
+        if(newView.equals("mainview")){
+            this.viewEngine.setMainView(new MenuView(this));
+            this.viewEngine.changeView("mainview");
+        } else if(newView.equals("chamberview")){
             if(viewEngine.getGameView().equals("mainview")){
                 this.viewEngine.setChamberView(new ChamberView(this.gameMaze.getChamberAt(new Coordinate(0,0,0)), this));
                 this.viewEngine.changeView("chamberview");
@@ -94,5 +98,9 @@ public class BackendEngine {
         } else if(newView.equals("close")){
             this.viewEngine.changeView("close");
         }
+    }
+
+    public Maze getGameMaze() {
+        return gameMaze;
     }
 }

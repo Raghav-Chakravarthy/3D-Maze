@@ -2,8 +2,11 @@ package rendering;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.awt.Font;
+import java.awt.font.*;
 
 import maze.Chamber;
 import maze.Coordinate;
@@ -13,9 +16,9 @@ public class Scene {
 	private ArrayList<SceneObject> objects;
 	private ArrayList<Light> lights;
 
-	private final int TEXTURE_SIZE = 500;
+	private final int TEXTURE_SIZE = 1024;
 	private final Color PASSAGE_COLOR = new Color(ColorUtils.rgbToHex(new Vector3(0.01f)));
-	private final Color SOLUTION_DOOR_COLOR = new Color(0x03fc62);
+	private final Color SOLUTION_DOOR_COLOR = Color.BLACK;//new Color(0x03fc62);
 	private final float CHAMBER_SIZE = 2.01f;
 	
 	public Scene() {
@@ -23,7 +26,6 @@ public class Scene {
 		lights = new ArrayList<Light>();
 	}
 
-	//TODO: Alternate chamber constructor
 	public Scene(Chamber[] chambers) {
 		objects = new ArrayList<SceneObject>();
 		lights = new ArrayList<Light>();
@@ -106,6 +108,8 @@ public class Scene {
 	}
 
 	private ImageTexture createSolutionDoorTexture(Chamber chamber) {
+		String exitMessage = "EXIT";
+
 		BufferedImage img = emptyWallTexture(chamber);
 		Graphics2D g = (Graphics2D) img.getGraphics();
 		g.setColor(SOLUTION_DOOR_COLOR);
@@ -114,6 +118,21 @@ public class Scene {
 		g.setStroke(new BasicStroke(5));
 		g.drawRect(TEXTURE_SIZE/4, TEXTURE_SIZE/4, TEXTURE_SIZE/2, TEXTURE_SIZE);
 
+		g.setFont(new Font("Arial", Font.PLAIN, 200));
+		float w = g.getFontMetrics().stringWidth(exitMessage);
+		int x = (TEXTURE_SIZE/2-(int)(w/2)), y = (TEXTURE_SIZE/2);
+
+		g.setColor(Color.WHITE);
+		g.translate(x, y);
+		//g.drawString(exitMessage, 0, 0);
+		FontRenderContext frc = g.getFontRenderContext();
+        TextLayout tl = new TextLayout(exitMessage, g.getFont().deriveFont(70), frc);
+        Shape shape = tl.getOutline(null);
+        g.setStroke(new BasicStroke(25f));
+        g.draw(shape);
+        g.setColor(Color.RED);
+        g.fill(shape);
+		
 		return new ImageTexture(img);
 	}
 

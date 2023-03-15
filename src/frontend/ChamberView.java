@@ -4,12 +4,14 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.QuadCurve2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
 import java.io.File;
 
 import javax.swing.*;
 
 import backend.BackendEngine;
 import maze.Chamber;
+import maze.OptimalSolver;
 import rendering.Camera;
 import rendering.Scene;
 import rendering.Vector3;
@@ -22,6 +24,7 @@ public class ChamberView extends JPanel {
     private Camera camera = new Camera(new Vector3(-2,0,0),0, 90);
     private Scene scene;
     private boolean moving, mouseHoverMap;
+    private float endOpacity = 0;
     private BufferedImage frameImage = new BufferedImage(360,360,BufferedImage.TYPE_INT_RGB);
     private BufferedImage arrowImage = new BufferedImage(720,720,BufferedImage.TYPE_INT_ARGB);
     private BufferedImage headerImage = new BufferedImage(720,30,BufferedImage.TYPE_INT_ARGB);
@@ -31,10 +34,16 @@ public class ChamberView extends JPanel {
     private BoundingBox forwardArrowBounds = new BoundingBox(291, 520, 424, 430);
     private BoundingBox downArrowBounds = new BoundingBox(305, 662, 415, 531);
     private BoundingBox upArrowBounds = new BoundingBox(305, 190, 415, 63);
-    
-    private BoundingBox mapViewButtonBounds = new BoundingBox(35, 720-5, 165, 720-85);
+
+    //Auto-solve stuff
+    private int currentMove = 0;
+    private String solution;
+    private boolean autoSolve = false; //IMPORTANT: Set to false when not testing!
 
     public ChamberView(Chamber chamber, final BackendEngine backendEngine){
+        if(autoSolve)
+            this.solution = new OptimalSolver(backendEngine.getGameMaze()).getSolution();
+
         this.setPreferredSize(new Dimension(720,720));
         this.setFocusable(true);
         this.backendEngine = backendEngine;
@@ -45,20 +54,28 @@ public class ChamberView extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 int x = e.getX(), y = e.getY();
-                if(!moving) {
-                    if(upArrowBounds.inBounds(x, y) && (backendEngine.getChamber().getAdjacentChamber(Direction.UP)!=null)) {
+                if (!moving) {
+                    if (upArrowBounds.inBounds(x, y) && (backendEngine.getChamber().getAdjacentChamber(Direction.UP) != null)) {
                         moveUp();
-                    } else if(downArrowBounds.inBounds(x, y) && (backendEngine.getChamber().getAdjacentChamber(Direction.DOWN)!=null)) {
+                    } else if (downArrowBounds.inBounds(x, y) && (backendEngine.getChamber().getAdjacentChamber(Direction.DOWN) != null)) {
                         moveDown();
-                    } else if(leftArrowBounds.inBounds(x, y)) {
+                    } else if (leftArrowBounds.inBounds(x, y)) {
                         turnLeft();
-                    } else if(rightArrowBounds.inBounds(x, y)) {
+                    } else if (rightArrowBounds.inBounds(x, y)) {
                         turnRight();
-                    } else if(forwardArrowBounds.inBounds(x, y) 
-                    && ((backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection())!=null) ||
-                     (backendEngine.getChamber().isLastDoor() && backendEngine.getDirection() == Direction.SOUTH))) {
+                    } else if (forwardArrowBounds.inBounds(x, y)
+                            && ((backendEngine.getChamber().getAdjacentChamber(backendEngine.getDirection()) != null) ||
+                            (backendEngine.getChamber().isLastDoor() && backendEngine.getDirection() == Direction.SOUTH))) {
                         moveForward();
-                    } else if(e.getX() >= 20 && e.getX() <= 130 && e.getY() >= 560 && e.getY() <= 670) {
+                    }
+                }
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if(!moving) {
+                    if (e.getX() >= 20 && e.getX() <= 130 && e.getY() >= 560 && e.getY() <= 670) {
                         backendEngine.changeView("mapview");
                     }
                 }
@@ -100,12 +117,14 @@ public class ChamberView extends JPanel {
                         turnLeft();
                     } else if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
                         turnRight();
+                    } else if (e.getKeyCode()== KeyEvent.VK_M){
+                        backendEngine.changeView("mapview");
                     }
                 }
             }
         });
         centerChamber();
-        //camera.translate(new Vector3(0,2,0));
+        moveEnded();
     }
     private void moveForward(){
         //renders the new scene
@@ -130,12 +149,12 @@ public class ChamberView extends JPanel {
                 if(distanceRemaining<=0){
                     frameTimer.stop();
                     if((backendEngine.getChamber().isLastDoor())&&(backendEngine.getDirection()==Direction.SOUTH)){
-                        backendEngine.changeView("endview");
-                        moving = false;
+                        endFade();
                     }else{
                         backendEngine.move(backendEngine.getDirection());
                         centerChamber();
                     }
+                    moveEnded();
                 }else{
                     if(backendEngine.getDirection()==Direction.NORTH){
                         camera.translate(new Vector3(0,0,(float) distanceMoved));
@@ -278,6 +297,7 @@ public class ChamberView extends JPanel {
                     backendEngine.move(Direction.UP);
                     centerChamber();
                     moving=false;
+                    moveEnded();
                 }else{
                     if(backendEngine.getDirection()==Direction.NORTH){
                         camera.translate(new Vector3(0,0,(float) distanceMoved*-1));
@@ -402,6 +422,7 @@ public class ChamberView extends JPanel {
                     backendEngine.move(Direction.DOWN);
                     centerChamber();
                     moving=false;
+                    moveEnded();
                 }else{
                     if(backendEngine.getDirection()==Direction.NORTH){
                         camera.translate(new Vector3(0,0,(float) distanceMoved*-1));
@@ -452,6 +473,7 @@ public class ChamberView extends JPanel {
                         backendEngine.setDirection(Direction.SOUTH);
                     }
                     centerChamber();
+                    moveEnded();
                 }else{
                     if(backendEngine.getDirection()==Direction.NORTH){
                         camera.translate(new Vector3((float)distanceMoved,0,(float) distanceMoved));
@@ -470,6 +492,7 @@ public class ChamberView extends JPanel {
             }
         });
         frameTimer.start();
+
     }
     private void turnRight(){
         moving = true;
@@ -502,6 +525,7 @@ public class ChamberView extends JPanel {
                         backendEngine.setDirection(Direction.NORTH);
                     }
                     centerChamber();
+                    moveEnded();
                 }else{
 
                     if(backendEngine.getDirection()==Direction.NORTH){
@@ -514,7 +538,7 @@ public class ChamberView extends JPanel {
                         camera.translate(new Vector3((float)distanceMoved*-1,0,(float)distanceMoved*-1));
                     }
 
-
+                    
                     camera.setRotation((float) 0, (float) (camera.getYaw()-angleMoved));
                     repaint();
                     lastTime = currentTime;
@@ -523,6 +547,55 @@ public class ChamberView extends JPanel {
         });
         frameTimer.start();
     }
+    private void endFade(){
+        final Timer frameTimer = new Timer(1000/60,null);
+        frameTimer.addActionListener(new ActionListener() {
+            double opacityRemaining = 1;
+            double lastTime = System.nanoTime();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double currentTime = System.nanoTime();
+                opacityRemaining-=(currentTime-lastTime)/500000000;
+                if(opacityRemaining<=-2){
+                    opacityRemaining = 0;
+                    endOpacity = 1;
+                    repaint();
+                    frameTimer.stop();
+                    backendEngine.changeView("endview");
+                }
+                endOpacity= (float) (1-opacityRemaining);
+                repaint();
+                lastTime = currentTime;
+            }
+        });
+        frameTimer.start();
+    }
+    public void moveEnded() {
+        if(autoSolve && currentMove < solution.length()) {
+            char move = solution.charAt(currentMove);
+            System.out.println("Autosolver: Move " + (currentMove+1) + " of " + solution.length());
+            if(move == 'U') {
+                moveUp();
+                System.out.println("Autosolver: Moving Up");
+                currentMove++;
+            } else if(move == 'D') {
+                moveDown();
+                System.out.println("Autosolver: Moving Down");
+                currentMove++;
+            } else {
+                if(Direction.toString(backendEngine.getDirection()).charAt(0) != move) {
+                    System.out.println("Autosolver: Turning to " + move);
+                    turnRight();
+                } else {
+                    System.out.println("Autosolver: Moving forward");
+                    moveForward();
+                    currentMove++;
+                }
+            }
+           
+        }
+    }
+    
     private void drawArrows(BufferedImage image){
         Graphics2D g = (Graphics2D) image.getGraphics();
         g.setBackground(new Color(0,0,0,0));
@@ -549,6 +622,7 @@ public class ChamberView extends JPanel {
             drawRightArrow(g);
 
             Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+            SwingUtilities.convertPointFromScreen(mouseLocation,this);
             if (mouseLocation.getX() >= 20 && mouseLocation.getX() <= 130 && mouseLocation.getY() >= 560 && mouseLocation.getY() <= 670) {
                 mouseHoverMap = true;
             }else{
@@ -589,8 +663,18 @@ public class ChamberView extends JPanel {
         rendering.Renderer.renderTo(scene, camera, frameImage);
         Header.drawHeader(headerImage,backendEngine.getMoves(),backendEngine.getChamber().getCoordinates(),backendEngine.getDirection());
         drawArrows(arrowImage);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.white);
         g.drawImage(frameImage,0,0,720,720,null);
         g.drawImage(arrowImage,0,0,null);
         g.drawImage(headerImage,0,0,null);
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,clamp(endOpacity, 0, 1)));
+        g2d.fillRect(0,0,720,720);
+    }
+
+    private float clamp(float val, float min, float max) {
+        if(val < min) return min;
+        else if(val > max) return max;
+        else return val;
     }
 }
