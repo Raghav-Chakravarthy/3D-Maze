@@ -53,7 +53,9 @@ public class MazeGenerator {
             medium();
         }
         else{
+            unvisited = 215;
             visited = new boolean[6][6][6];
+            walk = new char[6][6][6];
             for (int i = 0; i < 6; i++){
                 connections.add(new ArrayList<ArrayList<ArrayList<Coordinate>>>());
                 for (int j = 0; j < 6; j++){
@@ -63,7 +65,8 @@ public class MazeGenerator {
                     }
                 }
             }
-            hard(new Coordinate(0, 0, 0));
+            visited[5][5][5] = true;
+            hard();
         }
     }
     public void easy(){
@@ -178,14 +181,16 @@ public class MazeGenerator {
         }
     }
     private void walk(Coordinate coord){
+        int size = connections.size();
+        int cubed = size * size * size;
         while (!visited[coord.getLevel()][coord.getRow()][coord.getColumn()]) {
             Collections.shuffle(directions);
             boolean found = false;
             for (int i = 0; i < 6; i++) {
                 if (directions.get(i) == 'N') {
                     if (coord.getRow() - 1 >= 0) {
-                        if (unvisited != 124 && coord.getLevel() == 4 && coord.getRow() - 1 == 4
-                                && coord.getColumn() == 4) {
+                        if (unvisited != cubed-1 && coord.getLevel() == size-1 && coord.getRow() - 1 == size-1
+                                && coord.getColumn() == size-1) {
                             continue;
                         }
                         else{
@@ -196,9 +201,9 @@ public class MazeGenerator {
                     }
                 }
                 if (directions.get(i) == 'E') {
-                    if (coord.getColumn() + 1 < 5) {
-                        if (unvisited != 124 && coord.getLevel() == 4 && coord.getRow() == 4
-                                && coord.getColumn() + 1 == 4) {
+                    if (coord.getColumn() + 1 < size) {
+                        if (unvisited != cubed-1 && coord.getLevel() == size-1 && coord.getRow() == size-1
+                                && coord.getColumn() + 1 == size-1) {
                             continue;
                         }
                         else {
@@ -209,9 +214,9 @@ public class MazeGenerator {
                     }
                 }
                 if (directions.get(i) == 'S') {
-                    if (coord.getRow() + 1 < 5) {
-                        if (unvisited != 124 && coord.getLevel() == 4 && coord.getRow() + 1 == 4
-                                && coord.getColumn() == 4) {
+                    if (coord.getRow() + 1 < size) {
+                        if (unvisited != cubed-1 && coord.getLevel() == size-1 && coord.getRow() + 1 == size-1
+                                && coord.getColumn() == size-1) {
                             continue;
                         }
                         else {
@@ -223,8 +228,8 @@ public class MazeGenerator {
                 }
                 if (directions.get(i) == 'W') {
                     if (coord.getColumn() - 1 >= 0) {
-                        if (unvisited != 124 && coord.getLevel() == 4 && coord.getRow() == 4
-                                && coord.getColumn() - 1 == 4) {
+                        if (unvisited != cubed-1 && coord.getLevel() == size-1 && coord.getRow() == size-1
+                                && coord.getColumn() - 1 == size-1) {
                             continue;
                         }
                         else {
@@ -236,8 +241,8 @@ public class MazeGenerator {
                 }
                 if (directions.get(i) == 'T') {
                     if (coord.getLevel() - 1 >= 0) {
-                        if (unvisited != 124 && coord.getLevel() - 1 == 4 && coord.getRow() == 4
-                                && coord.getColumn() == 4) {
+                        if (unvisited != cubed-1 && coord.getLevel() - 1 == size-1 && coord.getRow() == size-1
+                                && coord.getColumn() == size-1) {
                             continue;
                         }
                         else {
@@ -248,9 +253,9 @@ public class MazeGenerator {
                     }
                 }
                 if (directions.get(i) == 'B') {
-                    if (coord.getLevel() + 1 < 5) {
-                        if (unvisited != 124 && coord.getLevel() + 1 == 4 && coord.getRow() == 4
-                                && coord.getColumn() == 4) {
+                    if (coord.getLevel() + 1 < size) {
+                        if (unvisited != cubed-1 && coord.getLevel() + 1 == size-1 && coord.getRow() == size-1
+                                && coord.getColumn() == size-1) {
                             continue;
                         }
                         else {
@@ -266,52 +271,36 @@ public class MazeGenerator {
             }
         }
     }
-    public void hard(Coordinate coord){
-        visited[coord.getLevel()][coord.getRow()][coord.getColumn()] = true;
-        if (coord.getLevel() == 5 && coord.getRow() == 5 && coord.getColumn() == 5){
-            return;
-        }
-        ArrayList<Character> dir = new ArrayList<Character>();
-        for (int i = 0; i < 6; i++){
-            dir.add(directions.get(i));
-        }
-        Collections.shuffle(dir);
-        for (int i = 0; i < 6; i++){
-            if (dir.get(i) == 'N'){
-                if (coord.getRow() - 1 >= 0 && !visited[coord.getLevel()][coord.getRow() - 1][coord.getColumn()]){
-                    addConnections(coord, 'N');
-                    hard(new Coordinate(coord.getLevel(), coord.getRow() - 1, coord.getColumn()));
-                }
+    public void hard(){
+        Coordinate start;
+        while (unvisited > 0){
+            do{
+                start = new Coordinate(rand.nextInt(6), rand.nextInt(6), rand.nextInt(6));
             }
-            if (dir.get(i) == 'E'){
-                if (coord.getColumn() + 1 < 6 && !visited[coord.getLevel()][coord.getRow()][coord.getColumn() + 1]){
-                    addConnections(coord, 'E');
-                    hard(new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn() + 1));
+            while (visited[start.getLevel()][start.getRow()][start.getColumn()]);
+            walk(start);
+            while (!visited[start.getLevel()][start.getRow()][start.getColumn()]){
+                visited[start.getLevel()][start.getRow()][start.getColumn()] = true;
+                addConnections(start, walk[start.getLevel()][start.getRow()][start.getColumn()]);
+                if (walk[start.getLevel()][start.getRow()][start.getColumn()] == 'N'){
+                    start = new Coordinate(start.getLevel(), start.getRow() - 1, start.getColumn());
                 }
-            }
-            if (dir.get(i) == 'S'){
-                if (coord.getRow() + 1 < 6 && !visited[coord.getLevel()][coord.getRow() + 1][coord.getColumn()]){
-                    addConnections(coord, 'S');
-                    hard(new Coordinate(coord.getLevel(), coord.getRow() + 1, coord.getColumn()));
+                else if (walk[start.getLevel()][start.getRow()][start.getColumn()] == 'E'){
+                    start = new Coordinate(start.getLevel(), start.getRow(), start.getColumn() + 1);
                 }
-            }
-            if (dir.get(i) == 'W'){
-                if (coord.getColumn() - 1 >= 0 && !visited[coord.getLevel()][coord.getRow()][coord.getColumn() - 1]){
-                    addConnections(coord, 'W');
-                    hard(new Coordinate(coord.getLevel(), coord.getRow(), coord.getColumn() - 1));
+                else if (walk[start.getLevel()][start.getRow()][start.getColumn()] == 'S'){
+                    start = new Coordinate(start.getLevel(), start.getRow() + 1, start.getColumn());
                 }
-            }
-            if (dir.get(i) == 'T'){
-                if (coord.getLevel() - 1 >= 0 && !visited[coord.getLevel() - 1][coord.getRow()][coord.getColumn()]){
-                    addConnections(coord, 'T');
-                    hard(new Coordinate(coord.getLevel() - 1, coord.getRow(), coord.getColumn()));
+                else if (walk[start.getLevel()][start.getRow()][start.getColumn()] == 'W'){
+                    start = new Coordinate(start.getLevel(), start.getRow(), start.getColumn() - 1);
                 }
-            }
-            if (dir.get(i) == 'B'){
-                if (coord.getLevel() + 1 < 6 && !visited[coord.getLevel() + 1][coord.getRow()][coord.getColumn()]){
-                    addConnections(coord, 'B');
-                    hard(new Coordinate(coord.getLevel() + 1, coord.getRow(), coord.getColumn()));
+                else if (walk[start.getLevel()][start.getRow()][start.getColumn()] == 'T'){
+                    start = new Coordinate(start.getLevel() - 1, start.getRow(), start.getColumn());
                 }
+                else{
+                    start = new Coordinate(start.getLevel() + 1, start.getRow(), start.getColumn());
+                }
+                unvisited--;
             }
         }
     }
@@ -428,12 +417,12 @@ public class MazeGenerator {
         for (int i = 0; i < size; i++) {
             for (int k = 0; k < size; k++) {
                 for (int c = 0; c < size; c++) {
-                	chambers[i][k][c].setWallColor(ColorUtils.randomChamberColor());
-                	boolean hasArt = Math.random() > 0.5;
-                	int artAmount = (int)(Math.random() * 2) +  1;
-                	if (hasArt) {
-                		chambers[i][k][c].setWallArt(ImageWallArt.generateWallArtFor(chambers[i][k][c], artAmount));
-                	}
+                    chambers[i][k][c].setWallColor(ColorUtils.randomChamberColor());
+                    boolean hasArt = Math.random() > 0.5;
+                    int artAmount = (int)(Math.random() * 2) +  1;
+                    if (hasArt) {
+                        chambers[i][k][c].setWallArt(ImageWallArt.generateWallArtFor(chambers[i][k][c], artAmount));
+                    }
                     Coordinate loc = new Coordinate(i,k,c);
                     generatedMaze.setChamber(loc, chambers[i][k][c]);
                 }
