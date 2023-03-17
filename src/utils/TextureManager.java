@@ -25,9 +25,6 @@ public class TextureManager {
     public BufferedImage nextArt() {
         BufferedImage image = getTexture("art"+artCounter);
         artCounter++;
-
-        if(image == null) System.err.println("TextureManager: Ran out of unique wall art at #" + artCounter);
-
         return image;
     }
 
