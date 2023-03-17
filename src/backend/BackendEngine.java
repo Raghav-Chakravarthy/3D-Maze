@@ -60,9 +60,6 @@ public class BackendEngine {
         this.gameMaze = m.getMaze();
         this.currentChamber = this.gameMaze.getChamberAt(new Coordinate(0,0,0));
         currentChamber.setVisited(true);
-        OptimalSolver solver = new OptimalSolver(gameMaze);
-        System.out.println(solver.getSolution());
-        System.out.println(solver.getMoves());
     }
 
     public void setDirection(int direction){
